@@ -1,0 +1,128 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { Star, ShoppingCart } from "lucide-react";
+
+const ProductCard = ({ product }) => {
+  if (!product) return null;
+
+  const image =
+    product.image_url ||
+    (Array.isArray(product.images) && product.images.length > 0
+      ? product.images[0]
+      : "");
+
+  const stock = product.stock ?? 0;
+  const isOutOfStock = stock <= 0;
+
+  return (
+    <div className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+      {/* Product Image */}
+      <Link to={`/products/${product.id}`}>
+        <div className="relative h-64 overflow-hidden bg-[#F7F8FA]">
+          <img
+            src={image}
+            alt={product.title}
+            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+          />
+
+          {/* Category */}
+          {product.category && (
+            <span className="absolute left-3 top-3 rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-600 shadow-sm">
+              {product.category}
+            </span>
+          )}
+
+          {/* Stock */}
+          {isOutOfStock ? (
+            <span className="absolute right-3 top-3 rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600">
+              Out of stock
+            </span>
+          ) : (
+            <span className="absolute right-3 top-3 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-600">
+              In stock
+            </span>
+          )}
+        </div>
+      </Link>
+
+      {/* Product Information */}
+      <div className="p-5">
+        {/* Brand */}
+        {product.brand && (
+          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[#255DD0]">
+            {product.brand}
+          </p>
+        )}
+
+        {/* Title */}
+        <Link to={`/products/${product.id}`}>
+          <h2 className="line-clamp-2 min-h-[48px] text-lg font-semibold text-gray-900 transition hover:text-[#255DD0]">
+            {product.title}
+          </h2>
+        </Link>
+
+        {/* Rating */}
+        <div className="mt-3 flex items-center gap-2">
+          <div className="flex items-center">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <Star
+                key={index}
+                size={16}
+                className={
+                  index + 1 <= Math.round(Number(product.rating || 0))
+                    ? "fill-yellow-400 text-yellow-400"
+                    : "fill-gray-200 text-gray-200"
+                }
+              />
+            ))}
+          </div>
+
+          <span className="text-sm font-medium text-gray-600">
+            {Number(product.rating || 0).toFixed(1)}
+          </span>
+        </div>
+
+        {/* Description */}
+        {product.description && (
+          <p className="mt-3 line-clamp-2 text-sm leading-6 text-gray-500">
+            {product.description}
+          </p>
+        )}
+
+        {/* Price + Cart */}
+        <div className="mt-5 flex items-center justify-between gap-3">
+          <div>
+            <p className="text-2xl font-bold text-[#255DD0]">
+              ${Number(product.price).toLocaleString()}
+            </p>
+
+            {product.sku && (
+              <p className="mt-1 text-xs text-gray-400">
+                SKU: {product.sku}
+              </p>
+            )}
+          </div>
+
+          <Link
+            to={`/products/${product.id}`}
+            className={`flex h-11 items-center gap-2 rounded-xl px-4 text-sm font-semibold transition ${
+              isOutOfStock
+                ? "cursor-not-allowed bg-gray-200 text-gray-400"
+                : "bg-[#255DD0] text-white hover:bg-blue-700"
+            }`}
+            onClick={(e) => {
+              if (isOutOfStock) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <ShoppingCart size={17} />
+            {isOutOfStock ? "Unavailable" : "View Product"}
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;
