@@ -1,0 +1,13 @@
+#Backend
+fastapi
+uvicorn
+sqlalchemy
+pymysql
+python-dotenv
+groq
+flask
+pydantic
+email-validator
+python-multipart
+#Frontend:
+npm i
