@@ -8,45 +8,66 @@ import React, {
 const AuthContext = createContext(null);
 
 const STORAGE_KEY = "electra_user";
+const ADMIN_STORAGE_KEY = "electra_admin";
 
 export const AuthProvider = ({ children }) => {
-  // Load the user IMMEDIATELY when AuthProvider is created.
-  // This prevents the refresh -> user=null -> /login problem.
   const [user, setUserState] = useState(() => {
     try {
+      // First check normal user
       const savedUser = localStorage.getItem(STORAGE_KEY);
 
-      if (!savedUser) {
-        return null;
+      if (savedUser) {
+        const parsedUser = JSON.parse(savedUser);
+
+        if (parsedUser?.email) {
+          return parsedUser;
+        }
       }
 
-      const parsedUser = JSON.parse(savedUser);
+      // If no normal user, check admin
+      const savedAdmin = localStorage.getItem(ADMIN_STORAGE_KEY);
 
-      if (!parsedUser || !parsedUser.email) {
-        localStorage.removeItem(STORAGE_KEY);
-        return null;
+      if (savedAdmin) {
+        const admin = JSON.parse(savedAdmin);
+
+        if (admin?.user_id && admin?.name) {
+          return {
+            user_id: admin.user_id,
+            name: admin.name,
+            email: admin.email ?? "",
+            password: "",
+            picture: admin.picture ?? null,
+            theme: admin.theme ?? "system",
+            isAdmin: true,
+          };
+        }
       }
 
-      return parsedUser;
+      return null;
     } catch (error) {
-      console.error("Failed to restore user:", error);
-      localStorage.removeItem(STORAGE_KEY);
+      console.error("Failed to restore authentication:", error);
       return null;
     }
   });
 
   const [loading, setLoading] = useState(false);
 
-  // Keep localStorage synchronized with the current user
   useEffect(() => {
+    // Don't overwrite admin authentication
+    if (user?.isAdmin) {
+      return;
+    }
+
     if (user) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+      localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(user)
+      );
     } else {
       localStorage.removeItem(STORAGE_KEY);
     }
   }, [user]);
 
-  // Login / update user
   const setUser = (userData) => {
     if (!userData) {
       setUserState(null);
@@ -61,32 +82,33 @@ export const AuthProvider = ({ children }) => {
       password: userData.password ?? "",
       picture: userData.picture ?? null,
       theme: userData.theme ?? "system",
+      isAdmin: false,
     };
 
     setUserState(normalizedUser);
+
     localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(normalizedUser)
+        STORAGE_KEY,
+        JSON.stringify(normalizedUser)
     );
   };
 
-  // Logout
   const logout = () => {
     setUserState(null);
     localStorage.removeItem(STORAGE_KEY);
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        setUser,
-        logout,
-        loading,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+      <AuthContext.Provider
+          value={{
+            user,
+            setUser,
+            logout,
+            loading,
+          }}
+      >
+        {children}
+      </AuthContext.Provider>
   );
 };
 
@@ -95,7 +117,7 @@ export const useAuth = () => {
 
   if (!context) {
     throw new Error(
-      "useAuth must be used inside AuthProvider"
+        "useAuth must be used inside AuthProvider"
     );
   }
 

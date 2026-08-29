@@ -1,14 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
+
+from Model import Signup_Model, Profile_Model, Login_Model
 from Database import get_db
-from Model import Login_Model
 
 router = APIRouter()
+
 
 class LoginSchema(BaseModel):
     email: str
     password: str
+
 
 # ---------------------------------------------------------
 # LOGIN
@@ -19,9 +22,10 @@ def login(
     login: LoginSchema,
     db: Session = Depends(get_db)
 ):
-    user = db.query(Login_Model.Login).filter(
-        Login_Model.Login.email == login.email,
-        Login_Model.Login.password == login.password
+    # Check credentials from Signup table
+    user = db.query(Signup_Model.Signup).filter(
+        Signup_Model.Signup.email == login.email,
+        Signup_Model.Signup.password == login.password
     ).first()
 
     if not user:
@@ -30,8 +34,31 @@ def login(
             detail="Invalid email or password"
         )
 
-    profile = db.query(Login_Model.Profile).filter(
-        Login_Model.Profile.email == login.email
+    # -----------------------------------------------------
+    # SAVE USER INTO LOGIN TABLE
+    # -----------------------------------------------------
+
+    existing_login = db.query(Login_Model.Login).filter(
+        Login_Model.Login.email == user.email
+    ).first()
+
+    if not existing_login:
+        new_login = Login_Model.Login(
+            email=user.email,
+            password=user.password,
+            role=user.role
+        )
+
+        db.add(new_login)
+        db.commit()
+        db.refresh(new_login)
+
+    # -----------------------------------------------------
+    # GET PROFILE
+    # -----------------------------------------------------
+
+    profile = db.query(Profile_Model.Profile).filter(
+        Profile_Model.Profile.email == user.email
     ).first()
 
     picture = profile.picture if profile else None
@@ -39,12 +66,15 @@ def login(
     if picture and picture.startswith("/profile-images/"):
         picture = f"http://localhost:8000{picture}"
 
+    # -----------------------------------------------------
+    # RETURN USER
+    # -----------------------------------------------------
+
     return {
         "message": "Login successful",
         "user_id": user.id,
         "name": user.name,
         "email": user.email,
-        "password": user.password,
         "role": user.role,
         "picture": picture,
     }

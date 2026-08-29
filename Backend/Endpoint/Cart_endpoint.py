@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from flask import app
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
+from Model import Product_Model
 from Database import get_db
 from Model import Cart_Model
 
@@ -9,6 +9,7 @@ from Model import Cart_Model
 router = APIRouter()
 
 class CartSchema(BaseModel):
+    user_id: int
     product_id: int
     quantity: int
 
@@ -23,6 +24,7 @@ def add_to_cart(
     db: Session = Depends(get_db)
 ):
     existing_cart = db.query(Cart_Model.Cart).filter(
+        Cart_Model.Cart.user_id == cart.user_id,
         Cart_Model.Cart.product_id == cart.product_id
     ).first()
 
@@ -35,6 +37,7 @@ def add_to_cart(
         return existing_cart
 
     new_cart = Cart_Model.Cart(
+        user_id=cart.user_id,
         product_id=cart.product_id,
         quantity=cart.quantity
     )
@@ -48,16 +51,19 @@ def add_to_cart(
 
 @router.get("/cart")
 def get_cart(
+    user_id: int,
     db: Session = Depends(get_db)
 ):
-    cart_items = db.query(Cart_Model.Cart).all()
+    cart_items = db.query(Cart_Model.Cart).filter(
+        Cart_Model.Cart.user_id == user_id
+    ).all()
 
     result = []
 
     for cart_item in cart_items:
 
-        product = db.query(Cart_Model.Product).filter(
-            Cart_Model.Product.id == cart_item.product_id
+        product = db.query(Product_Model.product).filter(
+            Product_Model.product.id == cart_item.product_id
         ).first()
 
         if product:
@@ -77,11 +83,13 @@ def get_cart(
 @router.patch("/cart/{cart_id}")
 def update_cart_quantity(
     cart_id: int,
+    user_id: int,
     quantity: int,
     db: Session = Depends(get_db)
 ):
     cart_item = db.query(Cart_Model.Cart).filter(
-        Cart_Model.Cart.id == cart_id
+        Cart_Model.Cart.id == cart_id,
+        Cart_Model.Cart.user_id == user_id
     ).first()
 
     if not cart_item:
@@ -107,10 +115,12 @@ def update_cart_quantity(
 @router.delete("/cart/{cart_id}")
 def delete_cart_item(
     cart_id: int,
+    user_id: int,
     db: Session = Depends(get_db)
 ):
     cart_item = db.query(Cart_Model.Cart).filter(
-        Cart_Model.Cart.id == cart_id
+        Cart_Model.Cart.id == cart_id,
+        Cart_Model.Cart.user_id == user_id
     ).first()
 
     if not cart_item:

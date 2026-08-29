@@ -1,32 +1,45 @@
 import json
-import model
+from Model import Product_Model
 from Database import session_local
 
 
 db = session_local()
 
-with open("products.json", "r", encoding="utf-8") as file:
-    products = json.load(file)
+try:
+    # Load products.json
+    with open("products.json", "r", encoding="utf-8") as file:
+        data = json.load(file)
 
-for product in products:
-    new_product = model.product(
-        id=product["id"],
-        title=product["title"],
-        description=product["description"],
-        price=float(product["price"].replace("$", "").replace(",", "")),
-        category=product["category"],
-        image_url=product["image_url"],
-        rating=float(product["rating"]),
-        images=product["images"],
-        brand=product["brand"],
-        sku=product["sku"],
-        stock=int(product["stock"]),
-        specifications=product["specifications"]
-    )
+    # Get products from the new JSON structure
+    products = data["products"]
 
-    db.add(new_product)
+    # Insert products
+    for product in products:
+        new_product = Product_Model.product(
+            id=product["id"],
+            category=product["category"],
+            title=product["title"],
+            price=float(str(product["price"]).replace("$", "").replace(",", "")),
+            rating=float(product["rating"]),
+            description=product["description"],
+            image_url=product["image_url"],
+            images=product.get("images", []),
+            video_url=product.get("video_url", ""),
+            sku=product["sku"],
+            brand=product["brand"],
+            stock=int(product["stock"]),
+            specifications=product.get("specifications", {})
+        )
 
-db.commit()
-db.close()
+        db.add(new_product)
 
-print(f"{len(products)} products inserted successfully.")
+    db.commit()
+
+    print(f"{len(products)} products inserted successfully.")
+
+except Exception as e:
+    db.rollback()
+    print(f"Error inserting products: {e}")
+
+finally:
+    db.close()

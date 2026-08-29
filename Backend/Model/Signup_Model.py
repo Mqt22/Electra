@@ -1,4 +1,4 @@
-from sqlalchemy import JSON, Column, Integer, String, Text,JSON, Float
+from sqlalchemy import Column, Integer, String
 from Database import base
 
 class Signup(base):

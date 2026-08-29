@@ -25,22 +25,27 @@ import {
 const categories = [
   {
     name: "Mobiles",
+    category: "Phones",
     icon: Smartphone,
   },
   {
     name: "Laptops",
+    category: "Laptops",
     icon: Laptop,
   },
   {
     name: "Audio",
+    category: "Headphones",
     icon: Headphones,
   },
   {
     name: "Wearables",
+    category: "Wearables",
     icon: Watch,
   },
   {
     name: "Cameras",
+    category: "Cameras",
     icon: Camera,
   },
 ];
@@ -211,22 +216,23 @@ const Home = () => {
           </h2>
 
           <div className="grid grid-cols-1 gap-4 xs:grid-cols-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">
-            {categories.map(({ name, icon: Icon }, index) => (
-              <button
-                key={index}
-                className="group flex flex-col items-center justify-center gap-3 rounded-xl bg-gray-100 px-4 py-8 transition hover:bg-blue-50 sm:py-10"
-              >
-                <Icon
-                  size={28}
-                  className="text-gray-900 transition group-hover:text-[#255DD0]"
-                  strokeWidth={1.75}
-                />
+              {categories.map(({ name, category, icon: Icon }, index) => (
+                <Link
+                  key={index}
+                  to={`/shop/${encodeURIComponent(category)}`}
+                  className="group flex flex-col items-center justify-center gap-3 rounded-xl bg-gray-100 px-4 py-8 transition hover:bg-blue-50 sm:py-10"
+                >
+                  <Icon
+                    size={28}
+                    className="text-gray-900 transition group-hover:text-[#255DD0]"
+                    strokeWidth={1.75}
+                  />
 
-                <span className="text-sm font-medium text-gray-900 transition group-hover:text-[#255DD0] sm:text-base">
-                  {name}
-                </span>
-              </button>
-            ))}
+                  <span className="text-sm font-medium text-gray-900 transition group-hover:text-[#255DD0] sm:text-base">
+                    {name}
+                  </span>
+                </Link>
+              ))}
           </div>
         </div>
       </section>

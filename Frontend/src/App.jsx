@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./components/Header";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Router } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
@@ -20,6 +20,12 @@ import AdminRoute from "./components/AdminRoute.jsx";
 
 import CartProvider from "./context/Cartcontext.jsx";
 import AdminProfile from "./components/AdminProfile.jsx";
+import Order from "./pages/Order.jsx";
+import Products_page from "./pages/Product_page.jsx";
+import Category from "./pages/Category_Page.jsx";
+import Sales_Page from "./pages/Sales_Page.jsx";
+import Customers from "./pages/Customer_Page.jsx";
+import Analytics_Page from "./pages/Analytics_page.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -81,6 +87,7 @@ const App = () => {
         />
 
 
+
         {/* ========================================= */}
         {/* ADMIN LOGIN */}
         {/* ========================================= */}
@@ -105,9 +112,40 @@ const App = () => {
             />
 
             <Route
+              path="/admin/products"
+              element={<Products_page />}
+            />
+
+            <Route
+              path="/admin/categories"
+              element={<Category />}
+            />
+
+            <Route
+              path="/admin/orders"
+              element={<Order />}
+            />
+
+            <Route
+              path="/admin/sales"
+              element={<Sales_Page />}
+            />
+
+            <Route
+              path="/admin/customers"
+              element={<Customers />}
+            />
+
+            <Route
+              path="/admin/analytics"
+              element={<Analytics_Page />}
+            />
+
+            <Route
               path="/admin/settings/profile"
               element={<AdminProfile />}
             />
+
 
           </Route>
 

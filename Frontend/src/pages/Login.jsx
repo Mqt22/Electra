@@ -44,7 +44,7 @@ const Login = () => {
       console.log("Logged in user:", data);
 
       localStorage.removeItem("electra_admin");
-      
+
       window.dispatchEvent(new Event("adminAuthChanged"));
 
       // Save complete user
@@ -139,7 +139,7 @@ const Login = () => {
             </div>
           )}
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} autoComplete="on">
 
             <div>
 
@@ -149,11 +149,11 @@ const Login = () => {
 
               <input
                 type="email"
+                name="email"
                 value={email}
-                onChange={(e) =>
-                  setEmail(e.target.value)
-                }
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
+                autoComplete="email"
                 required
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-purple-600 focus:ring-2 focus:ring-purple-100"
               />
@@ -173,6 +173,7 @@ const Login = () => {
                   setPassword(e.target.value)
                 }
                 placeholder="Enter your password"
+                autoComplete="current-password"
                 required
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-purple-600 focus:ring-2 focus:ring-purple-100"
               />

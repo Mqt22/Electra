@@ -8,7 +8,10 @@ from Endpoint.Signup_endpoint import router as signup_router
 from Endpoint.Chatbot_endpoint import router as chatbot_router
 from Endpoint.Profile_endpoint import router as profile_router
 from Endpoint.Admin_endpoint import router as admin_router
+from Endpoint.Order_endpoint import router as order_router
+from Endpoint.Dashboard_endpoint import router as dashboard_router
 from fastapi.middleware.cors import CORSMiddleware
+from Endpoint.Category_endpoint import router as category_router
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -50,7 +53,9 @@ app.include_router(signup_router)
 app.include_router(login_router)
 app.include_router(profile_router)
 app.include_router(admin_router)
-
+app.include_router(order_router)
+app.include_router(dashboard_router)
+app.include_router(category_router)
 
 if __name__ == "__main__":
     uvicorn.run(

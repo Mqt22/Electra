@@ -1,1617 +1,1631 @@
-[
-  {
-    "id": 1,
-    "category": "Phones",
-    "title": "Electra Phone X15 Pro",
-    "price": "$999.00",
-    "rating": 4.5,
-    "description": "A premium smartphone featuring a powerful processor, high-resolution OLED display, advanced cameras and all-day battery life.",
-    "image_url": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ahmed",
-        "rating": 5,
-        "comment": "Excellent phone with a beautiful display and great camera."
-      },
-      {
-        "name": "Hamza",
-        "rating": 4,
-        "comment": "Very fast and premium. Battery could be slightly better."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "PHO-001",
-    "brand": "Electra",
-    "stock": 15,
-    "specifications": {
-      "display": "High-resolution OLED display",
-      "connectivity": "5G, Wi-Fi, Bluetooth",
-      "camera": "Advanced multi-camera system",
-      "battery": "All-day battery",
-      "charging": "Fast charging"
-    }
-  },
-  {
-    "id": 2,
-    "category": "Phones",
-    "title": "Electra Phone A12",
-    "price": "$599.00",
-    "rating": 4,
-    "description": "A reliable everyday smartphone with a bright display, capable camera system and long-lasting battery.",
-    "image_url": "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ali",
-        "rating": 4,
-        "comment": "Great phone for the price."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "PHO-002",
-    "brand": "Electra",
-    "stock": 18,
-    "specifications": {
-      "display": "High-resolution OLED display",
-      "connectivity": "5G, Wi-Fi, Bluetooth",
-      "camera": "Advanced multi-camera system",
-      "battery": "All-day battery",
-      "charging": "Fast charging"
-    }
-  },
-  {
-    "id": 3,
-    "category": "Phones",
-    "title": "Electra Phone Ultra",
-    "price": "$1,199.00",
-    "rating": 5,
-    "description": "Our flagship smartphone built for users who want maximum performance, a premium camera system and a stunning display.",
-    "image_url": "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Usman",
-        "rating": 5,
-        "comment": "Absolutely fantastic flagship phone."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "PHO-003",
-    "brand": "Electra",
-    "stock": 21,
-    "specifications": {
-      "display": "High-resolution OLED display",
-      "connectivity": "5G, Wi-Fi, Bluetooth",
-      "camera": "Advanced multi-camera system",
-      "battery": "All-day battery",
-      "charging": "Fast charging"
-    }
-  },
-  {
-    "id": 4,
-    "category": "Phones",
-    "title": "Electra Phone Lite",
-    "price": "$399.00",
-    "rating": 4,
-    "description": "A lightweight smartphone designed for everyday communication, entertainment and social media.",
-    "image_url": "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Saad",
-        "rating": 4,
-        "comment": "Simple and reliable phone."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "PHO-004",
-    "brand": "Electra",
-    "stock": 24,
-    "specifications": {
-      "display": "High-resolution OLED display",
-      "connectivity": "5G, Wi-Fi, Bluetooth",
-      "camera": "Advanced multi-camera system",
-      "battery": "All-day battery",
-      "charging": "Fast charging"
-    }
-  },
-  {
-    "id": 5,
-    "category": "Phones",
-    "title": "Electra Phone Z20",
-    "price": "$749.00",
-    "rating": 4.5,
-    "description": "A powerful mid-range smartphone with fast charging, a smooth high-refresh-rate display and a versatile camera.",
-    "image_url": "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Bilal",
-        "rating": 5,
-        "comment": "Performance is excellent for the price."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "PHO-005",
-    "brand": "Electra",
-    "stock": 27,
-    "specifications": {
-      "display": "High-resolution OLED display",
-      "connectivity": "5G, Wi-Fi, Bluetooth",
-      "camera": "Advanced multi-camera system",
-      "battery": "All-day battery",
-      "charging": "Fast charging"
-    }
-  },
-  {
-    "id": 6,
-    "category": "Phones",
-    "title": "Electra Phone Max",
-    "price": "$899.00",
-    "rating": 4.5,
-    "description": "A large-screen smartphone with a powerful chipset, high-capacity battery and premium build.",
-    "image_url": "https://images.unsplash.com/photo-1533228100845-08145b01de14?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Omer",
-        "rating": 4,
-        "comment": "Large display and excellent battery."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1533228100845-08145b01de14?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "PHO-006",
-    "brand": "Electra",
-    "stock": 30,
-    "specifications": {
-      "display": "High-resolution OLED display",
-      "connectivity": "5G, Wi-Fi, Bluetooth",
-      "camera": "Advanced multi-camera system",
-      "battery": "All-day battery",
-      "charging": "Fast charging"
-    }
-  },
-  {
-    "id": 7,
-    "category": "Phones",
-    "title": "Electra Phone S10",
-    "price": "$549.00",
-    "rating": 4,
-    "description": "A balanced smartphone offering smooth performance, a sharp display and dependable battery life.",
-    "image_url": "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Rayan",
-        "rating": 4,
-        "comment": "Good overall smartphone."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "PHO-007",
-    "brand": "Electra",
-    "stock": 33,
-    "specifications": {
-      "display": "High-resolution OLED display",
-      "connectivity": "5G, Wi-Fi, Bluetooth",
-      "camera": "Advanced multi-camera system",
-      "battery": "All-day battery",
-      "charging": "Fast charging"
-    }
-  },
-  {
-    "id": 8,
-    "category": "Phones",
-    "title": "Electra Phone Edge",
-    "price": "$849.00",
-    "rating": 4.5,
-    "description": "A stylish smartphone with a curved display, fast processor and advanced photography features.",
-    "image_url": "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Danish",
-        "rating": 5,
-        "comment": "Beautiful design and excellent screen."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "PHO-008",
-    "brand": "Electra",
-    "stock": 36,
-    "specifications": {
-      "display": "High-resolution OLED display",
-      "connectivity": "5G, Wi-Fi, Bluetooth",
-      "camera": "Advanced multi-camera system",
-      "battery": "All-day battery",
-      "charging": "Fast charging"
-    }
-  },
-  {
-    "id": 9,
-    "category": "Phones",
-    "title": "Electra Phone Mini",
-    "price": "$499.00",
-    "rating": 4,
-    "description": "A compact smartphone designed for users who prefer a smaller device without sacrificing performance.",
-    "image_url": "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Fahad",
-        "rating": 4,
-        "comment": "Compact and easy to use."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "PHO-009",
-    "brand": "Electra",
-    "stock": 39,
-    "specifications": {
-      "display": "High-resolution OLED display",
-      "connectivity": "5G, Wi-Fi, Bluetooth",
-      "camera": "Advanced multi-camera system",
-      "battery": "All-day battery",
-      "charging": "Fast charging"
-    }
-  },
-  {
-    "id": 10,
-    "category": "Phones",
-    "title": "Electra Phone Pro Max",
-    "price": "$1,399.00",
-    "rating": 5,
-    "description": "The ultimate Electra smartphone with flagship performance, professional cameras and a premium titanium-inspired design.",
-    "image_url": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ayan",
-        "rating": 5,
-        "comment": "The performance is incredible."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "PHO-010",
-    "brand": "Electra",
-    "stock": 42,
-    "specifications": {
-      "display": "High-resolution OLED display",
-      "connectivity": "5G, Wi-Fi, Bluetooth",
-      "camera": "Advanced multi-camera system",
-      "battery": "All-day battery",
-      "charging": "Fast charging"
-    }
-  },
-  {
-    "id": 11,
-    "category": "Laptops",
-    "title": "Titan Pro X1",
-    "price": "$1,899.00",
-    "rating": 5,
-    "description": "A high-performance creator laptop with a stunning OLED display, powerful processor and premium aluminum chassis.",
-    "image_url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Bilal",
-        "rating": 5,
-        "comment": "One of the best laptops I have used."
-      },
-      {
-        "name": "Omer",
-        "rating": 5,
-        "comment": "Fantastic display and performance."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "LAP-011",
-    "brand": "Titan",
-    "stock": 45,
-    "specifications": {
-      "display": "High-resolution laptop display",
-      "processor": "High-performance processor",
-      "memory": "Fast system memory",
-      "storage": "Solid-state storage",
-      "build": "Premium aluminum-style chassis"
-    }
-  },
-  {
-    "id": 12,
-    "category": "Laptops",
-    "title": "Electra Book Air 14",
-    "price": "$1,299.00",
-    "rating": 4.5,
-    "description": "A lightweight laptop designed for university, business and everyday productivity with excellent battery life.",
-    "image_url": "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Hassan",
-        "rating": 5,
-        "comment": "Perfect laptop for university."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "LAP-012",
-    "brand": "Electra",
-    "stock": 48,
-    "specifications": {
-      "display": "High-resolution laptop display",
-      "processor": "High-performance processor",
-      "memory": "Fast system memory",
-      "storage": "Solid-state storage",
-      "build": "Premium aluminum-style chassis"
-    }
-  },
-  {
-    "id": 13,
-    "category": "Laptops",
-    "title": "Electra Studio 16",
-    "price": "$2,199.00",
-    "rating": 5,
-    "description": "A professional 16-inch laptop built for demanding creative workloads, development and content production.",
-    "image_url": "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ahmed",
-        "rating": 5,
-        "comment": "Extremely powerful machine."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "LAP-013",
-    "brand": "Electra",
-    "stock": 12,
-    "specifications": {
-      "display": "High-resolution laptop display",
-      "processor": "High-performance processor",
-      "memory": "Fast system memory",
-      "storage": "Solid-state storage",
-      "build": "Premium aluminum-style chassis"
-    }
-  },
-  {
-    "id": 14,
-    "category": "Laptops",
-    "title": "Titan Gaming G15",
-    "price": "$1,599.00",
-    "rating": 4.5,
-    "description": "A gaming-focused laptop with high-performance hardware, fast display and advanced cooling.",
-    "image_url": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Hamza",
-        "rating": 5,
-        "comment": "Great gaming performance."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "LAP-014",
-    "brand": "Titan",
-    "stock": 15,
-    "specifications": {
-      "display": "High-resolution laptop display",
-      "processor": "High-performance processor",
-      "memory": "Fast system memory",
-      "storage": "Solid-state storage",
-      "build": "Premium aluminum-style chassis"
-    }
-  },
-  {
-    "id": 15,
-    "category": "Laptops",
-    "title": "Electra Flex 13",
-    "price": "$999.00",
-    "rating": 4,
-    "description": "A compact 13-inch laptop designed for portability, productivity and everyday computing.",
-    "image_url": "https://images.unsplash.com/photo-1504707748692-419802cf939d?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ali",
-        "rating": 4,
-        "comment": "Small, light and convenient."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1504707748692-419802cf939d?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "LAP-015",
-    "brand": "Electra",
-    "stock": 18,
-    "specifications": {
-      "display": "High-resolution laptop display",
-      "processor": "High-performance processor",
-      "memory": "Fast system memory",
-      "storage": "Solid-state storage",
-      "build": "Premium aluminum-style chassis"
-    }
-  },
-  {
-    "id": 16,
-    "category": "Laptops",
-    "title": "Titan Business 15",
-    "price": "$1,199.00",
-    "rating": 4.5,
-    "description": "A business laptop focused on productivity, security and dependable everyday performance.",
-    "image_url": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Usman",
-        "rating": 4,
-        "comment": "Solid business laptop."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "LAP-016",
-    "brand": "Titan",
-    "stock": 21,
-    "specifications": {
-      "display": "High-resolution laptop display",
-      "processor": "High-performance processor",
-      "memory": "Fast system memory",
-      "storage": "Solid-state storage",
-      "build": "Premium aluminum-style chassis"
-    }
-  },
-  {
-    "id": 17,
-    "category": "Laptops",
-    "title": "Electra Creator 14",
-    "price": "$1,749.00",
-    "rating": 4.5,
-    "description": "A creator-focused laptop with a color-accurate display and powerful hardware for design and video editing.",
-    "image_url": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Saad",
-        "rating": 5,
-        "comment": "Excellent for creative work."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "LAP-017",
-    "brand": "Electra",
-    "stock": 24,
-    "specifications": {
-      "display": "High-resolution laptop display",
-      "processor": "High-performance processor",
-      "memory": "Fast system memory",
-      "storage": "Solid-state storage",
-      "build": "Premium aluminum-style chassis"
-    }
-  },
-  {
-    "id": 18,
-    "category": "Laptops",
-    "title": "Electra Note 15",
-    "price": "$899.00",
-    "rating": 4,
-    "description": "An affordable everyday laptop with a large display, comfortable keyboard and reliable performance.",
-    "image_url": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Rayan",
-        "rating": 4,
-        "comment": "Good laptop for everyday work."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "LAP-018",
-    "brand": "Electra",
-    "stock": 27,
-    "specifications": {
-      "display": "High-resolution laptop display",
-      "processor": "High-performance processor",
-      "memory": "Fast system memory",
-      "storage": "Solid-state storage",
-      "build": "Premium aluminum-style chassis"
-    }
-  },
-  {
-    "id": 19,
-    "category": "Laptops",
-    "title": "Titan Ultra 17",
-    "price": "$2,399.00",
-    "rating": 5,
-    "description": "A large premium performance laptop built for demanding professional workloads and gaming.",
-    "image_url": "https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Danish",
-        "rating": 5,
-        "comment": "Massive performance and beautiful screen."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "LAP-019",
-    "brand": "Titan",
-    "stock": 30,
-    "specifications": {
-      "display": "High-resolution laptop display",
-      "processor": "High-performance processor",
-      "memory": "Fast system memory",
-      "storage": "Solid-state storage",
-      "build": "Premium aluminum-style chassis"
-    }
-  },
-  {
-    "id": 20,
-    "category": "Laptops",
-    "title": "Electra Chromebook 14",
-    "price": "$499.00",
-    "rating": 4,
-    "description": "A simple and affordable laptop designed for browsing, documents, education and everyday tasks.",
-    "image_url": "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Fahad",
-        "rating": 4,
-        "comment": "Good affordable laptop."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "LAP-020",
-    "brand": "Electra",
-    "stock": 33,
-    "specifications": {
-      "display": "High-resolution laptop display",
-      "processor": "High-performance processor",
-      "memory": "Fast system memory",
-      "storage": "Solid-state storage",
-      "build": "Premium aluminum-style chassis"
-    }
-  },
-  {
-    "id": 21,
-    "category": "Headphones",
-    "title": "Sonic Pro Wireless",
-    "price": "$349.00",
-    "rating": 4.5,
-    "description": "Premium wireless headphones featuring active noise cancellation, rich audio and a comfortable over-ear design.",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ayan",
-        "rating": 5,
-        "comment": "The noise cancellation is excellent."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "HEA-021",
-    "brand": "Sonic",
-    "stock": 36,
-    "specifications": {
-      "connection": "Wireless / Bluetooth",
-      "audio": "High-quality stereo audio",
-      "microphone": "Built-in microphone",
-      "battery": "Long battery life",
-      "design": "Comfort-focused design"
-    }
-  },
-  {
-    "id": 22,
-    "category": "Headphones",
-    "title": "Electra Bass 500",
-    "price": "$199.00",
-    "rating": 4,
-    "description": "Wireless headphones focused on powerful bass, comfortable ear cushions and long battery life.",
-    "image_url": "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Fahad",
-        "rating": 4,
-        "comment": "The bass sounds really good."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "HEA-022",
-    "brand": "Electra",
-    "stock": 39,
-    "specifications": {
-      "connection": "Wireless / Bluetooth",
-      "audio": "High-quality stereo audio",
-      "microphone": "Built-in microphone",
-      "battery": "Long battery life",
-      "design": "Comfort-focused design"
-    }
-  },
-  {
-    "id": 23,
-    "category": "Headphones",
-    "title": "Sonic Air ANC",
-    "price": "$279.00",
-    "rating": 4.5,
-    "description": "Lightweight wireless headphones with active noise cancellation and a comfortable design for travel.",
-    "image_url": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ali",
-        "rating": 5,
-        "comment": "Very comfortable for long flights."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "HEA-023",
-    "brand": "Sonic",
-    "stock": 42,
-    "specifications": {
-      "connection": "Wireless / Bluetooth",
-      "audio": "High-quality stereo audio",
-      "microphone": "Built-in microphone",
-      "battery": "Long battery life",
-      "design": "Comfort-focused design"
-    }
-  },
-  {
-    "id": 24,
-    "category": "Headphones",
-    "title": "Electra Studio H7",
-    "price": "$399.00",
-    "rating": 5,
-    "description": "Studio-inspired headphones designed for detailed sound reproduction and professional listening.",
-    "image_url": "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Usman",
-        "rating": 5,
-        "comment": "Fantastic sound quality."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "HEA-024",
-    "brand": "Electra",
-    "stock": 45,
-    "specifications": {
-      "connection": "Wireless / Bluetooth",
-      "audio": "High-quality stereo audio",
-      "microphone": "Built-in microphone",
-      "battery": "Long battery life",
-      "design": "Comfort-focused design"
-    }
-  },
-  {
-    "id": 25,
-    "category": "Headphones",
-    "title": "Sonic Lite",
-    "price": "$129.00",
-    "rating": 4,
-    "description": "Affordable wireless headphones offering clear sound, comfortable ear cushions and dependable battery life.",
-    "image_url": "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Saad",
-        "rating": 4,
-        "comment": "Great headphones for the price."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "HEA-025",
-    "brand": "Sonic",
-    "stock": 48,
-    "specifications": {
-      "connection": "Wireless / Bluetooth",
-      "audio": "High-quality stereo audio",
-      "microphone": "Built-in microphone",
-      "battery": "Long battery life",
-      "design": "Comfort-focused design"
-    }
-  },
-  {
-    "id": 26,
-    "category": "Headphones",
-    "title": "Electra Max ANC",
-    "price": "$329.00",
-    "rating": 4.5,
-    "description": "Premium over-ear headphones with powerful active noise cancellation and immersive audio.",
-    "image_url": "https://images.unsplash.com/photo-1578319439584-104c94d37305?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Hamza",
-        "rating": 5,
-        "comment": "Noise cancellation works really well."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1578319439584-104c94d37305?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "HEA-026",
-    "brand": "Electra",
-    "stock": 12,
-    "specifications": {
-      "connection": "Wireless / Bluetooth",
-      "audio": "High-quality stereo audio",
-      "microphone": "Built-in microphone",
-      "battery": "Long battery life",
-      "design": "Comfort-focused design"
-    }
-  },
-  {
-    "id": 27,
-    "category": "Headphones",
-    "title": "Sonic Gaming H5",
-    "price": "$179.00",
-    "rating": 4.5,
-    "description": "Gaming headphones with low-latency wireless audio, a clear microphone and immersive sound.",
-    "image_url": "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Bilal",
-        "rating": 4,
-        "comment": "Great headset for gaming."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "HEA-027",
-    "brand": "Sonic",
-    "stock": 15,
-    "specifications": {
-      "connection": "Wireless / Bluetooth",
-      "audio": "High-quality stereo audio",
-      "microphone": "Built-in microphone",
-      "battery": "Long battery life",
-      "design": "Comfort-focused design"
-    }
-  },
-  {
-    "id": 28,
-    "category": "Headphones",
-    "title": "Electra Sport Buds",
-    "price": "$149.00",
-    "rating": 4,
-    "description": "Compact wireless earbuds designed for workouts with a secure fit and water resistance.",
-    "image_url": "https://images.unsplash.com/photo-1585298723682-7115561c51b7?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Omer",
-        "rating": 4,
-        "comment": "They stay in place during workouts."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1585298723682-7115561c51b7?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "HEA-028",
-    "brand": "Electra",
-    "stock": 18,
-    "specifications": {
-      "connection": "Wireless / Bluetooth",
-      "audio": "High-quality stereo audio",
-      "microphone": "Built-in microphone",
-      "battery": "Long battery life",
-      "design": "Comfort-focused design"
-    }
-  },
-  {
-    "id": 29,
-    "category": "Headphones",
-    "title": "Sonic Travel Pro",
-    "price": "$299.00",
-    "rating": 4.5,
-    "description": "Travel-focused wireless headphones with excellent battery life and adaptive noise cancellation.",
-    "image_url": "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Hassan",
-        "rating": 5,
-        "comment": "Perfect travel headphones."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "HEA-029",
-    "brand": "Sonic",
-    "stock": 21,
-    "specifications": {
-      "connection": "Wireless / Bluetooth",
-      "audio": "High-quality stereo audio",
-      "microphone": "Built-in microphone",
-      "battery": "Long battery life",
-      "design": "Comfort-focused design"
-    }
-  },
-  {
-    "id": 30,
-    "category": "Headphones",
-    "title": "Electra Classic H2",
-    "price": "$99.00",
-    "rating": 4,
-    "description": "Simple wired headphones delivering clear audio and comfortable everyday listening.",
-    "image_url": "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Rayan",
-        "rating": 4,
-        "comment": "Simple but sounds good."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "HEA-030",
-    "brand": "Electra",
-    "stock": 24,
-    "specifications": {
-      "connection": "Wireless / Bluetooth",
-      "audio": "High-quality stereo audio",
-      "microphone": "Built-in microphone",
-      "battery": "Long battery life",
-      "design": "Comfort-focused design"
-    }
-  },
-  {
-    "id": 31,
-    "category": "Cameras",
-    "title": "Lumix GX-90",
-    "price": "$1,249.00",
-    "rating": 4.5,
-    "description": "A compact mirrorless camera designed for photography and video with fast autofocus and excellent portability.",
-    "image_url": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Danish",
-        "rating": 5,
-        "comment": "Amazing image quality."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "CAM-031",
-    "brand": "Lumix",
-    "stock": 27,
-    "specifications": {
-      "type": "Digital camera",
-      "video": "High-resolution video recording",
-      "autofocus": "Fast autofocus",
-      "connectivity": "Digital connectivity",
-      "use": "Photography and video"
-    }
-  },
-  {
-    "id": 32,
-    "category": "Cameras",
-    "title": "Electra Vision C5",
-    "price": "$899.00",
-    "rating": 4,
-    "description": "A versatile digital camera with fast autofocus, high-quality image capture and an intuitive interface.",
-    "image_url": "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Rayan",
-        "rating": 4,
-        "comment": "Easy to use and takes good photos."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "CAM-032",
-    "brand": "Electra",
-    "stock": 30,
-    "specifications": {
-      "type": "Digital camera",
-      "video": "High-resolution video recording",
-      "autofocus": "Fast autofocus",
-      "connectivity": "Digital connectivity",
-      "use": "Photography and video"
-    }
-  },
-  {
-    "id": 33,
-    "category": "Cameras",
-    "title": "Lumix Pro X2",
-    "price": "$1,799.00",
-    "rating": 5,
-    "description": "A professional mirrorless camera designed for photographers who need high resolution and advanced autofocus.",
-    "image_url": "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ahmed",
-        "rating": 5,
-        "comment": "Fantastic professional camera."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "CAM-033",
-    "brand": "Lumix",
-    "stock": 33,
-    "specifications": {
-      "type": "Digital camera",
-      "video": "High-resolution video recording",
-      "autofocus": "Fast autofocus",
-      "connectivity": "Digital connectivity",
-      "use": "Photography and video"
-    }
-  },
-  {
-    "id": 34,
-    "category": "Cameras",
-    "title": "Electra Snap 200",
-    "price": "$499.00",
-    "rating": 4,
-    "description": "A compact digital camera designed for everyday photography, travel and family moments.",
-    "image_url": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ali",
-        "rating": 4,
-        "comment": "Small and easy to carry."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "CAM-034",
-    "brand": "Electra",
-    "stock": 36,
-    "specifications": {
-      "type": "Digital camera",
-      "video": "High-resolution video recording",
-      "autofocus": "Fast autofocus",
-      "connectivity": "Digital connectivity",
-      "use": "Photography and video"
-    }
-  },
-  {
-    "id": 35,
-    "category": "Cameras",
-    "title": "Lumix Creator C7",
-    "price": "$1,499.00",
-    "rating": 4.5,
-    "description": "A hybrid camera built for creators with high-quality video recording, fast autofocus and excellent image quality.",
-    "image_url": "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Hamza",
-        "rating": 5,
-        "comment": "Excellent for both photos and video."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "CAM-035",
-    "brand": "Lumix",
-    "stock": 39,
-    "specifications": {
-      "type": "Digital camera",
-      "video": "High-resolution video recording",
-      "autofocus": "Fast autofocus",
-      "connectivity": "Digital connectivity",
-      "use": "Photography and video"
-    }
-  },
-  {
-    "id": 36,
-    "category": "Cameras",
-    "title": "Electra Action Cam 4K",
-    "price": "$299.00",
-    "rating": 4.5,
-    "description": "A compact action camera capable of recording high-resolution video for sports, travel and outdoor adventures.",
-    "image_url": "https://images.unsplash.com/photo-1495121605193-b116b5b09a30?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Usman",
-        "rating": 4,
-        "comment": "Great little action camera."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1495121605193-b116b5b09a30?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "CAM-036",
-    "brand": "Electra",
-    "stock": 42,
-    "specifications": {
-      "type": "Digital camera",
-      "video": "High-resolution video recording",
-      "autofocus": "Fast autofocus",
-      "connectivity": "Digital connectivity",
-      "use": "Photography and video"
-    }
-  },
-  {
-    "id": 37,
-    "category": "Cameras",
-    "title": "Vision Mirrorless M3",
-    "price": "$1,099.00",
-    "rating": 4,
-    "description": "A lightweight mirrorless camera offering excellent image quality and flexible interchangeable lenses.",
-    "image_url": "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Bilal",
-        "rating": 4,
-        "comment": "Great camera for beginners."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "CAM-037",
-    "brand": "Vision",
-    "stock": 45,
-    "specifications": {
-      "type": "Digital camera",
-      "video": "High-resolution video recording",
-      "autofocus": "Fast autofocus",
-      "connectivity": "Digital connectivity",
-      "use": "Photography and video"
-    }
-  },
-  {
-    "id": 38,
-    "category": "Cameras",
-    "title": "Electra Zoom Z10",
-    "price": "$699.00",
-    "rating": 4,
-    "description": "A versatile camera with a powerful zoom lens designed for travel, wildlife and everyday photography.",
-    "image_url": "https://images.unsplash.com/photo-1516724562728-afc824a36e84?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Saad",
-        "rating": 4,
-        "comment": "The zoom range is excellent."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1516724562728-afc824a36e84?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "CAM-038",
-    "brand": "Electra",
-    "stock": 48,
-    "specifications": {
-      "type": "Digital camera",
-      "video": "High-resolution video recording",
-      "autofocus": "Fast autofocus",
-      "connectivity": "Digital connectivity",
-      "use": "Photography and video"
-    }
-  },
-  {
-    "id": 39,
-    "category": "Cameras",
-    "title": "Lumix Cinema C1",
-    "price": "$2,499.00",
-    "rating": 5,
-    "description": "A professional cinema camera designed for filmmakers with advanced video controls and high-quality recording.",
-    "image_url": "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Omer",
-        "rating": 5,
-        "comment": "Excellent camera for professional video."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "CAM-039",
-    "brand": "Lumix",
-    "stock": 12,
-    "specifications": {
-      "type": "Digital camera",
-      "video": "High-resolution video recording",
-      "autofocus": "Fast autofocus",
-      "connectivity": "Digital connectivity",
-      "use": "Photography and video"
-    }
-  },
-  {
-    "id": 40,
-    "category": "Cameras",
-    "title": "Electra Pocket Cam",
-    "price": "$349.00",
-    "rating": 4,
-    "description": "A small portable camera designed for quick photos and videos while traveling or documenting everyday life.",
-    "image_url": "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Fahad",
-        "rating": 4,
-        "comment": "Very convenient for travel."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "CAM-040",
-    "brand": "Electra",
-    "stock": 15,
-    "specifications": {
-      "type": "Digital camera",
-      "video": "High-resolution video recording",
-      "autofocus": "Fast autofocus",
-      "connectivity": "Digital connectivity",
-      "use": "Photography and video"
-    }
-  },
-  {
-    "id": 41,
-    "category": "Wearable",
-    "title": "Electra Watch Pro 3",
-    "price": "$399.00",
-    "rating": 4.5,
-    "description": "A premium smartwatch with a bright always-on display, advanced health tracking and all-day battery life.",
-    "image_url": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ahmed",
-        "rating": 5,
-        "comment": "Tracks everything I need and the display is gorgeous."
-      },
-      {
-        "name": "Hamza",
-        "rating": 4,
-        "comment": "Great watch, battery lasts about two days."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "WEA-041",
-    "brand": "Electra",
-    "stock": 20,
-    "specifications": {
-      "display": "Always-on AMOLED display",
-      "connectivity": "Bluetooth, Wi-Fi",
-      "health": "Heart rate, SpO2 and sleep tracking",
-      "battery": "Up to 2 days battery life",
-      "water_resistance": "Water resistant up to 50m"
-    }
-  },
-  {
-    "id": 42,
-    "category": "Wearable",
-    "title": "Electra Fit Band 2",
-    "price": "$79.00",
-    "rating": 4,
-    "description": "A lightweight fitness band for step counting, heart rate monitoring and sleep tracking with a long-lasting battery.",
-    "image_url": "https://images.unsplash.com/photo-1575311373937-8c0a67b6c3d3?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ali",
-        "rating": 4,
-        "comment": "Simple, light and the battery lasts forever."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1575311373937-8c0a67b6c3d3?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "WEA-042",
-    "brand": "Electra",
-    "stock": 35,
-    "specifications": {
-      "display": "Always-on AMOLED display",
-      "connectivity": "Bluetooth, Wi-Fi",
-      "health": "Heart rate, SpO2 and sleep tracking",
-      "battery": "Up to 2 days battery life",
-      "water_resistance": "Water resistant up to 50m"
-    }
-  },
-  {
-    "id": 43,
-    "category": "Wearable",
-    "title": "Titan Sport Watch GPS",
-    "price": "$249.00",
-    "rating": 4.5,
-    "description": "A rugged sports watch with built-in GPS, workout modes and a tough scratch-resistant case for outdoor training.",
-    "image_url": "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Usman",
-        "rating": 5,
-        "comment": "GPS tracking is accurate and it survives every run."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "WEA-043",
-    "brand": "Titan",
-    "stock": 18,
-    "specifications": {
-      "display": "Always-on AMOLED display",
-      "connectivity": "Bluetooth, Wi-Fi",
-      "health": "Heart rate, SpO2 and sleep tracking",
-      "battery": "Up to 2 days battery life",
-      "water_resistance": "Water resistant up to 50m"
-    }
-  },
-  {
-    "id": 44,
-    "category": "Wearable",
-    "title": "Electra Watch Lite",
-    "price": "$149.00",
-    "rating": 4,
-    "description": "An affordable everyday smartwatch with notifications, activity tracking and a comfortable lightweight strap.",
-    "image_url": "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Saad",
-        "rating": 4,
-        "comment": "Good value smartwatch for daily notifications."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "WEA-044",
-    "brand": "Electra",
-    "stock": 40,
-    "specifications": {
-      "display": "Always-on AMOLED display",
-      "connectivity": "Bluetooth, Wi-Fi",
-      "health": "Heart rate, SpO2 and sleep tracking",
-      "battery": "Up to 2 days battery life",
-      "water_resistance": "Water resistant up to 50m"
-    }
-  },
-  {
-    "id": 45,
-    "category": "Wearable",
-    "title": "Titan Pulse ECG",
-    "price": "$449.00",
-    "rating": 5,
-    "description": "An advanced health-focused smartwatch with ECG monitoring, blood oxygen tracking and a premium titanium-style finish.",
-    "image_url": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Danish",
-        "rating": 5,
-        "comment": "The health tracking features are top notch."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "WEA-045",
-    "brand": "Titan",
-    "stock": 14,
-    "specifications": {
-      "display": "Always-on AMOLED display",
-      "connectivity": "Bluetooth, Wi-Fi",
-      "health": "Heart rate, SpO2 and sleep tracking",
-      "battery": "Up to 2 days battery life",
-      "water_resistance": "Water resistant up to 50m"
-    }
-  },
-  {
-    "id": 46,
-    "category": "Wearable",
-    "title": "Electra Kids Watch",
-    "price": "$99.00",
-    "rating": 4,
-    "description": "A durable, easy-to-use smartwatch designed for kids with activity tracking and parental notifications.",
-    "image_url": "https://images.unsplash.com/photo-1617043786394-f977fa12eddf?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Rayan",
-        "rating": 4,
-        "comment": "My kid loves wearing it and it's tough enough for school."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1617043786394-f977fa12eddf?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "WEA-046",
-    "brand": "Electra",
-    "stock": 25,
-    "specifications": {
-      "display": "Always-on AMOLED display",
-      "connectivity": "Bluetooth, Wi-Fi",
-      "health": "Heart rate, SpO2 and sleep tracking",
-      "battery": "Up to 2 days battery life",
-      "water_resistance": "Water resistant up to 50m"
-    }
-  },
-  {
-    "id": 47,
-    "category": "Wearable",
-    "title": "Electra Ring Track",
-    "price": "$299.00",
-    "rating": 4.5,
-    "description": "A minimalist smart ring that tracks sleep, recovery and activity without a screen, worn comfortably day and night.",
-    "image_url": "https://images.unsplash.com/photo-1620625515032-6ed0c1790c75?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Bilal",
-        "rating": 5,
-        "comment": "Barely notice I'm wearing it and the sleep data is accurate."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1620625515032-6ed0c1790c75?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "WEA-047",
-    "brand": "Electra",
-    "stock": 22,
-    "specifications": {
-      "display": "Always-on AMOLED display",
-      "connectivity": "Bluetooth, Wi-Fi",
-      "health": "Heart rate, SpO2 and sleep tracking",
-      "battery": "Up to 2 days battery life",
-      "water_resistance": "Water resistant up to 50m"
-    }
-  },
-  {
-    "id": 48,
-    "category": "Wearable",
-    "title": "Titan Explorer GPS Watch",
-    "price": "$599.00",
-    "rating": 5,
-    "description": "A premium outdoor GPS watch built for hiking and expeditions, with a rugged case and multi-day battery life.",
-    "image_url": "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Omer",
-        "rating": 5,
-        "comment": "Perfect companion for multi-day hikes."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "WEA-048",
-    "brand": "Titan",
-    "stock": 10,
-    "specifications": {
-      "display": "Always-on AMOLED display",
-      "connectivity": "Bluetooth, Wi-Fi",
-      "health": "Heart rate, SpO2 and sleep tracking",
-      "battery": "Up to 2 days battery life",
-      "water_resistance": "Water resistant up to 50m"
-    }
-  },
-  {
-    "id": 49,
-    "category": "Wearable",
-    "title": "Electra Watch SE",
-    "price": "$199.00",
-    "rating": 4,
-    "description": "A well-rounded smartwatch balancing style, fitness tracking and smart notifications for everyday use.",
-    "image_url": "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Fahad",
-        "rating": 4,
-        "comment": "Good all-round smartwatch for the price."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "WEA-049",
-    "brand": "Electra",
-    "stock": 28,
-    "specifications": {
-      "display": "Always-on AMOLED display",
-      "connectivity": "Bluetooth, Wi-Fi",
-      "health": "Heart rate, SpO2 and sleep tracking",
-      "battery": "Up to 2 days battery life",
-      "water_resistance": "Water resistant up to 50m"
-    }
-  },
-  {
-    "id": 50,
-    "category": "Wearable",
-    "title": "Titan Active Band",
-    "price": "$59.00",
-    "rating": 4,
-    "description": "A budget-friendly fitness tracker with step counting, heart rate monitoring and week-long battery life.",
-    "image_url": "https://images.unsplash.com/photo-1594576722512-582bcf20d6c6?auto=format&fit=crop&w=900&q=80",
-    "reviews": [
-      {
-        "name": "Ayan",
-        "rating": 4,
-        "comment": "Does exactly what I need for a great price."
-      }
-    ],
-    "images": [
-      "https://images.unsplash.com/photo-1594576722512-582bcf20d6c6?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
-    ],
-    "sku": "WEA-050",
-    "brand": "Titan",
-    "stock": 32,
-    "specifications": {
-      "display": "Always-on AMOLED display",
-      "connectivity": "Bluetooth, Wi-Fi",
-      "health": "Heart rate, SpO2 and sleep tracking",
-      "battery": "Up to 2 days battery life",
-      "water_resistance": "Water resistant up to 50m"
-    }
-  }
-]
+{
+    "categories": [
+        {
+            "id": 1,
+            "name": "Phones",
+            "color": "#2563eb",
+            "size": "Medium",
+            "category_type": "Electronics"
+        },
+        {
+            "id": 2,
+            "name": "Laptops",
+            "color": "#7c3aed",
+            "size": "Large",
+            "category_type": "Electronics"
+        },
+        {
+            "id": 3,
+            "name": "Headphones",
+            "color": "#059669",
+            "size": "Medium",
+            "category_type": "Accessories"
+        },
+        {
+            "id": 4,
+            "name": "Cameras",
+            "color": "#dc2626",
+            "size": "Medium",
+            "category_type": "Electronics"
+        },
+        {
+            "id": 5,
+            "name": "Wearable",
+            "color": "#ea580c",
+            "size": "Small",
+            "category_type": "Accessories"
+        },
+        {
+            "id": 6,
+            "name": "Embedded Systems",
+            "color": "#5c677f",
+            "size": "Medium",
+            "category_type": "Electronics"
+        }
+    ],
+    "products": [
+        {
+            "id": 1,
+            "category": "Phones",
+            "title": "Electra Phone X15 Pro",
+            "price": "$999.00",
+            "rating": 4.5,
+            "description": "A premium smartphone featuring a powerful processor, high-resolution OLED display, advanced cameras and all-day battery life.",
+            "image_url": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ahmed",
+                    "rating": 5,
+                    "comment": "Excellent phone with a beautiful display and great camera."
+                },
+                {
+                    "name": "Hamza",
+                    "rating": 4,
+                    "comment": "Very fast and premium. Battery could be slightly better."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "PHO-001",
+            "brand": "Electra",
+            "stock": 15,
+            "specifications": {
+                "display": "High-resolution OLED display",
+                "connectivity": "5G, Wi-Fi, Bluetooth",
+                "camera": "Advanced multi-camera system",
+                "battery": "All-day battery",
+                "charging": "Fast charging"
+            }
+        },
+        {
+            "id": 2,
+            "category": "Phones",
+            "title": "Electra Phone A12",
+            "price": "$599.00",
+            "rating": 4,
+            "description": "A reliable everyday smartphone with a bright display, capable camera system and long-lasting battery.",
+            "image_url": "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ali",
+                    "rating": 4,
+                    "comment": "Great phone for the price."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "PHO-002",
+            "brand": "Electra",
+            "stock": 18,
+            "specifications": {
+                "display": "High-resolution OLED display",
+                "connectivity": "5G, Wi-Fi, Bluetooth",
+                "camera": "Advanced multi-camera system",
+                "battery": "All-day battery",
+                "charging": "Fast charging"
+            }
+        },
+        {
+            "id": 3,
+            "category": "Phones",
+            "title": "Electra Phone Ultra",
+            "price": "$1,199.00",
+            "rating": 5,
+            "description": "Our flagship smartphone built for users who want maximum performance, a premium camera system and a stunning display.",
+            "image_url": "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Usman",
+                    "rating": 5,
+                    "comment": "Absolutely fantastic flagship phone."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "PHO-003",
+            "brand": "Electra",
+            "stock": 21,
+            "specifications": {
+                "display": "High-resolution OLED display",
+                "connectivity": "5G, Wi-Fi, Bluetooth",
+                "camera": "Advanced multi-camera system",
+                "battery": "All-day battery",
+                "charging": "Fast charging"
+            }
+        },
+        {
+            "id": 4,
+            "category": "Phones",
+            "title": "Electra Phone Lite",
+            "price": "$399.00",
+            "rating": 4,
+            "description": "A lightweight smartphone designed for everyday communication, entertainment and social media.",
+            "image_url": "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Saad",
+                    "rating": 4,
+                    "comment": "Simple and reliable phone."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "PHO-004",
+            "brand": "Electra",
+            "stock": 24,
+            "specifications": {
+                "display": "High-resolution OLED display",
+                "connectivity": "5G, Wi-Fi, Bluetooth",
+                "camera": "Advanced multi-camera system",
+                "battery": "All-day battery",
+                "charging": "Fast charging"
+            }
+        },
+        {
+            "id": 5,
+            "category": "Phones",
+            "title": "Electra Phone Z20",
+            "price": "$749.00",
+            "rating": 4.5,
+            "description": "A powerful mid-range smartphone with fast charging, a smooth high-refresh-rate display and a versatile camera.",
+            "image_url": "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Bilal",
+                    "rating": 5,
+                    "comment": "Performance is excellent for the price."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "PHO-005",
+            "brand": "Electra",
+            "stock": 27,
+            "specifications": {
+                "display": "High-resolution OLED display",
+                "connectivity": "5G, Wi-Fi, Bluetooth",
+                "camera": "Advanced multi-camera system",
+                "battery": "All-day battery",
+                "charging": "Fast charging"
+            }
+        },
+        {
+            "id": 6,
+            "category": "Phones",
+            "title": "Electra Phone Max",
+            "price": "$899.00",
+            "rating": 4.5,
+            "description": "A large-screen smartphone with a powerful chipset, high-capacity battery and premium build.",
+            "image_url": "https://images.unsplash.com/photo-1533228100845-08145b01de14?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Omer",
+                    "rating": 4,
+                    "comment": "Large display and excellent battery."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1533228100845-08145b01de14?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "PHO-006",
+            "brand": "Electra",
+            "stock": 30,
+            "specifications": {
+                "display": "High-resolution OLED display",
+                "connectivity": "5G, Wi-Fi, Bluetooth",
+                "camera": "Advanced multi-camera system",
+                "battery": "All-day battery",
+                "charging": "Fast charging"
+            }
+        },
+        {
+            "id": 7,
+            "category": "Phones",
+            "title": "Electra Phone S10",
+            "price": "$549.00",
+            "rating": 4,
+            "description": "A balanced smartphone offering smooth performance, a sharp display and dependable battery life.",
+            "image_url": "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Rayan",
+                    "rating": 4,
+                    "comment": "Good overall smartphone."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "PHO-007",
+            "brand": "Electra",
+            "stock": 33,
+            "specifications": {
+                "display": "High-resolution OLED display",
+                "connectivity": "5G, Wi-Fi, Bluetooth",
+                "camera": "Advanced multi-camera system",
+                "battery": "All-day battery",
+                "charging": "Fast charging"
+            }
+        },
+        {
+            "id": 8,
+            "category": "Phones",
+            "title": "Electra Phone Edge",
+            "price": "$849.00",
+            "rating": 4.5,
+            "description": "A stylish smartphone with a curved display, fast processor and advanced photography features.",
+            "image_url": "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Danish",
+                    "rating": 5,
+                    "comment": "Beautiful design and excellent screen."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "PHO-008",
+            "brand": "Electra",
+            "stock": 36,
+            "specifications": {
+                "display": "High-resolution OLED display",
+                "connectivity": "5G, Wi-Fi, Bluetooth",
+                "camera": "Advanced multi-camera system",
+                "battery": "All-day battery",
+                "charging": "Fast charging"
+            }
+        },
+        {
+            "id": 9,
+            "category": "Phones",
+            "title": "Electra Phone Mini",
+            "price": "$499.00",
+            "rating": 4,
+            "description": "A compact smartphone designed for users who prefer a smaller device without sacrificing performance.",
+            "image_url": "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Fahad",
+                    "rating": 4,
+                    "comment": "Compact and easy to use."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "PHO-009",
+            "brand": "Electra",
+            "stock": 39,
+            "specifications": {
+                "display": "High-resolution OLED display",
+                "connectivity": "5G, Wi-Fi, Bluetooth",
+                "camera": "Advanced multi-camera system",
+                "battery": "All-day battery",
+                "charging": "Fast charging"
+            }
+        },
+        {
+            "id": 10,
+            "category": "Phones",
+            "title": "Electra Phone Pro Max",
+            "price": "$1,399.00",
+            "rating": 5,
+            "description": "The ultimate Electra smartphone with flagship performance, professional cameras and a premium titanium-inspired design.",
+            "image_url": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ayan",
+                    "rating": 5,
+                    "comment": "The performance is incredible."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "PHO-010",
+            "brand": "Electra",
+            "stock": 42,
+            "specifications": {
+                "display": "High-resolution OLED display",
+                "connectivity": "5G, Wi-Fi, Bluetooth",
+                "camera": "Advanced multi-camera system",
+                "battery": "All-day battery",
+                "charging": "Fast charging"
+            }
+        },
+        {
+            "id": 11,
+            "category": "Laptops",
+            "title": "Titan Pro X1",
+            "price": "$1,899.00",
+            "rating": 5,
+            "description": "A high-performance creator laptop with a stunning OLED display, powerful processor and premium aluminum chassis.",
+            "image_url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Bilal",
+                    "rating": 5,
+                    "comment": "One of the best laptops I have used."
+                },
+                {
+                    "name": "Omer",
+                    "rating": 5,
+                    "comment": "Fantastic display and performance."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "LAP-011",
+            "brand": "Titan",
+            "stock": 45,
+            "specifications": {
+                "display": "High-resolution laptop display",
+                "processor": "High-performance processor",
+                "memory": "Fast system memory",
+                "storage": "Solid-state storage",
+                "build": "Premium aluminum-style chassis"
+            }
+        },
+        {
+            "id": 12,
+            "category": "Laptops",
+            "title": "Electra Book Air 14",
+            "price": "$1,299.00",
+            "rating": 4.5,
+            "description": "A lightweight laptop designed for university, business and everyday productivity with excellent battery life.",
+            "image_url": "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Hassan",
+                    "rating": 5,
+                    "comment": "Perfect laptop for university."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "LAP-012",
+            "brand": "Electra",
+            "stock": 48,
+            "specifications": {
+                "display": "High-resolution laptop display",
+                "processor": "High-performance processor",
+                "memory": "Fast system memory",
+                "storage": "Solid-state storage",
+                "build": "Premium aluminum-style chassis"
+            }
+        },
+        {
+            "id": 13,
+            "category": "Laptops",
+            "title": "Electra Studio 16",
+            "price": "$2,199.00",
+            "rating": 5,
+            "description": "A professional 16-inch laptop built for demanding creative workloads, development and content production.",
+            "image_url": "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ahmed",
+                    "rating": 5,
+                    "comment": "Extremely powerful machine."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "LAP-013",
+            "brand": "Electra",
+            "stock": 12,
+            "specifications": {
+                "display": "High-resolution laptop display",
+                "processor": "High-performance processor",
+                "memory": "Fast system memory",
+                "storage": "Solid-state storage",
+                "build": "Premium aluminum-style chassis"
+            }
+        },
+        {
+            "id": 14,
+            "category": "Laptops",
+            "title": "Titan Gaming G15",
+            "price": "$1,599.00",
+            "rating": 4.5,
+            "description": "A gaming-focused laptop with high-performance hardware, fast display and advanced cooling.",
+            "image_url": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Hamza",
+                    "rating": 5,
+                    "comment": "Great gaming performance."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "LAP-014",
+            "brand": "Titan",
+            "stock": 15,
+            "specifications": {
+                "display": "High-resolution laptop display",
+                "processor": "High-performance processor",
+                "memory": "Fast system memory",
+                "storage": "Solid-state storage",
+                "build": "Premium aluminum-style chassis"
+            }
+        },
+        {
+            "id": 15,
+            "category": "Laptops",
+            "title": "Electra Flex 13",
+            "price": "$999.00",
+            "rating": 4,
+            "description": "A compact 13-inch laptop designed for portability, productivity and everyday computing.",
+            "image_url": "https://images.unsplash.com/photo-1504707748692-419802cf939d?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ali",
+                    "rating": 4,
+                    "comment": "Small, light and convenient."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1504707748692-419802cf939d?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "LAP-015",
+            "brand": "Electra",
+            "stock": 18,
+            "specifications": {
+                "display": "High-resolution laptop display",
+                "processor": "High-performance processor",
+                "memory": "Fast system memory",
+                "storage": "Solid-state storage",
+                "build": "Premium aluminum-style chassis"
+            }
+        },
+        {
+            "id": 16,
+            "category": "Laptops",
+            "title": "Titan Business 15",
+            "price": "$1,199.00",
+            "rating": 4.5,
+            "description": "A business laptop focused on productivity, security and dependable everyday performance.",
+            "image_url": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Usman",
+                    "rating": 4,
+                    "comment": "Solid business laptop."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "LAP-016",
+            "brand": "Titan",
+            "stock": 21,
+            "specifications": {
+                "display": "High-resolution laptop display",
+                "processor": "High-performance processor",
+                "memory": "Fast system memory",
+                "storage": "Solid-state storage",
+                "build": "Premium aluminum-style chassis"
+            }
+        },
+        {
+            "id": 17,
+            "category": "Laptops",
+            "title": "Electra Creator 14",
+            "price": "$1,749.00",
+            "rating": 4.5,
+            "description": "A creator-focused laptop with a color-accurate display and powerful hardware for design and video editing.",
+            "image_url": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Saad",
+                    "rating": 5,
+                    "comment": "Excellent for creative work."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "LAP-017",
+            "brand": "Electra",
+            "stock": 24,
+            "specifications": {
+                "display": "High-resolution laptop display",
+                "processor": "High-performance processor",
+                "memory": "Fast system memory",
+                "storage": "Solid-state storage",
+                "build": "Premium aluminum-style chassis"
+            }
+        },
+        {
+            "id": 18,
+            "category": "Laptops",
+            "title": "Electra Note 15",
+            "price": "$899.00",
+            "rating": 4,
+            "description": "An affordable everyday laptop with a large display, comfortable keyboard and reliable performance.",
+            "image_url": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Rayan",
+                    "rating": 4,
+                    "comment": "Good laptop for everyday work."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "LAP-018",
+            "brand": "Electra",
+            "stock": 27,
+            "specifications": {
+                "display": "High-resolution laptop display",
+                "processor": "High-performance processor",
+                "memory": "Fast system memory",
+                "storage": "Solid-state storage",
+                "build": "Premium aluminum-style chassis"
+            }
+        },
+        {
+            "id": 19,
+            "category": "Laptops",
+            "title": "Titan Ultra 17",
+            "price": "$2,399.00",
+            "rating": 5,
+            "description": "A large premium performance laptop built for demanding professional workloads and gaming.",
+            "image_url": "https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Danish",
+                    "rating": 5,
+                    "comment": "Massive performance and beautiful screen."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "LAP-019",
+            "brand": "Titan",
+            "stock": 30,
+            "specifications": {
+                "display": "High-resolution laptop display",
+                "processor": "High-performance processor",
+                "memory": "Fast system memory",
+                "storage": "Solid-state storage",
+                "build": "Premium aluminum-style chassis"
+            }
+        },
+        {
+            "id": 20,
+            "category": "Laptops",
+            "title": "Electra Chromebook 14",
+            "price": "$499.00",
+            "rating": 4,
+            "description": "A simple and affordable laptop designed for browsing, documents, education and everyday tasks.",
+            "image_url": "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Fahad",
+                    "rating": 4,
+                    "comment": "Good affordable laptop."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1496180727794-817822f65950?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "LAP-020",
+            "brand": "Electra",
+            "stock": 33,
+            "specifications": {
+                "display": "High-resolution laptop display",
+                "processor": "High-performance processor",
+                "memory": "Fast system memory",
+                "storage": "Solid-state storage",
+                "build": "Premium aluminum-style chassis"
+            }
+        },
+        {
+            "id": 21,
+            "category": "Headphones",
+            "title": "Sonic Pro Wireless",
+            "price": "$349.00",
+            "rating": 4.5,
+            "description": "Premium wireless headphones featuring active noise cancellation, rich audio and a comfortable over-ear design.",
+            "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ayan",
+                    "rating": 5,
+                    "comment": "The noise cancellation is excellent."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "HEA-021",
+            "brand": "Sonic",
+            "stock": 36,
+            "specifications": {
+                "connection": "Wireless / Bluetooth",
+                "audio": "High-quality stereo audio",
+                "microphone": "Built-in microphone",
+                "battery": "Long battery life",
+                "design": "Comfort-focused design"
+            }
+        },
+        {
+            "id": 22,
+            "category": "Headphones",
+            "title": "Electra Bass 500",
+            "price": "$199.00",
+            "rating": 4,
+            "description": "Wireless headphones focused on powerful bass, comfortable ear cushions and long battery life.",
+            "image_url": "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Fahad",
+                    "rating": 4,
+                    "comment": "The bass sounds really good."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "HEA-022",
+            "brand": "Electra",
+            "stock": 39,
+            "specifications": {
+                "connection": "Wireless / Bluetooth",
+                "audio": "High-quality stereo audio",
+                "microphone": "Built-in microphone",
+                "battery": "Long battery life",
+                "design": "Comfort-focused design"
+            }
+        },
+        {
+            "id": 23,
+            "category": "Headphones",
+            "title": "Sonic Air ANC",
+            "price": "$279.00",
+            "rating": 4.5,
+            "description": "Lightweight wireless headphones with active noise cancellation and a comfortable design for travel.",
+            "image_url": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ali",
+                    "rating": 5,
+                    "comment": "Very comfortable for long flights."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "HEA-023",
+            "brand": "Sonic",
+            "stock": 42,
+            "specifications": {
+                "connection": "Wireless / Bluetooth",
+                "audio": "High-quality stereo audio",
+                "microphone": "Built-in microphone",
+                "battery": "Long battery life",
+                "design": "Comfort-focused design"
+            }
+        },
+        {
+            "id": 24,
+            "category": "Headphones",
+            "title": "Electra Studio H7",
+            "price": "$399.00",
+            "rating": 5,
+            "description": "Studio-inspired headphones designed for detailed sound reproduction and professional listening.",
+            "image_url": "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Usman",
+                    "rating": 5,
+                    "comment": "Fantastic sound quality."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "HEA-024",
+            "brand": "Electra",
+            "stock": 45,
+            "specifications": {
+                "connection": "Wireless / Bluetooth",
+                "audio": "High-quality stereo audio",
+                "microphone": "Built-in microphone",
+                "battery": "Long battery life",
+                "design": "Comfort-focused design"
+            }
+        },
+        {
+            "id": 25,
+            "category": "Headphones",
+            "title": "Sonic Lite",
+            "price": "$129.00",
+            "rating": 4,
+            "description": "Affordable wireless headphones offering clear sound, comfortable ear cushions and dependable battery life.",
+            "image_url": "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Saad",
+                    "rating": 4,
+                    "comment": "Great headphones for the price."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "HEA-025",
+            "brand": "Sonic",
+            "stock": 48,
+            "specifications": {
+                "connection": "Wireless / Bluetooth",
+                "audio": "High-quality stereo audio",
+                "microphone": "Built-in microphone",
+                "battery": "Long battery life",
+                "design": "Comfort-focused design"
+            }
+        },
+        {
+            "id": 26,
+            "category": "Headphones",
+            "title": "Electra Max ANC",
+            "price": "$329.00",
+            "rating": 4.5,
+            "description": "Premium over-ear headphones with powerful active noise cancellation and immersive audio.",
+            "image_url": "https://images.unsplash.com/photo-1578319439584-104c94d37305?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Hamza",
+                    "rating": 5,
+                    "comment": "Noise cancellation works really well."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1578319439584-104c94d37305?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "HEA-026",
+            "brand": "Electra",
+            "stock": 12,
+            "specifications": {
+                "connection": "Wireless / Bluetooth",
+                "audio": "High-quality stereo audio",
+                "microphone": "Built-in microphone",
+                "battery": "Long battery life",
+                "design": "Comfort-focused design"
+            }
+        },
+        {
+            "id": 27,
+            "category": "Headphones",
+            "title": "Sonic Gaming H5",
+            "price": "$179.00",
+            "rating": 4.5,
+            "description": "Gaming headphones with low-latency wireless audio, a clear microphone and immersive sound.",
+            "image_url": "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Bilal",
+                    "rating": 4,
+                    "comment": "Great headset for gaming."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "HEA-027",
+            "brand": "Sonic",
+            "stock": 15,
+            "specifications": {
+                "connection": "Wireless / Bluetooth",
+                "audio": "High-quality stereo audio",
+                "microphone": "Built-in microphone",
+                "battery": "Long battery life",
+                "design": "Comfort-focused design"
+            }
+        },
+        {
+            "id": 28,
+            "category": "Headphones",
+            "title": "Electra Sport Buds",
+            "price": "$149.00",
+            "rating": 4,
+            "description": "Compact wireless earbuds designed for workouts with a secure fit and water resistance.",
+            "image_url": "https://images.unsplash.com/photo-1585298723682-7115561c51b7?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Omer",
+                    "rating": 4,
+                    "comment": "They stay in place during workouts."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1585298723682-7115561c51b7?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "HEA-028",
+            "brand": "Electra",
+            "stock": 18,
+            "specifications": {
+                "connection": "Wireless / Bluetooth",
+                "audio": "High-quality stereo audio",
+                "microphone": "Built-in microphone",
+                "battery": "Long battery life",
+                "design": "Comfort-focused design"
+            }
+        },
+        {
+            "id": 29,
+            "category": "Headphones",
+            "title": "Sonic Travel Pro",
+            "price": "$299.00",
+            "rating": 4.5,
+            "description": "Travel-focused wireless headphones with excellent battery life and adaptive noise cancellation.",
+            "image_url": "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Hassan",
+                    "rating": 5,
+                    "comment": "Perfect travel headphones."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "HEA-029",
+            "brand": "Sonic",
+            "stock": 21,
+            "specifications": {
+                "connection": "Wireless / Bluetooth",
+                "audio": "High-quality stereo audio",
+                "microphone": "Built-in microphone",
+                "battery": "Long battery life",
+                "design": "Comfort-focused design"
+            }
+        },
+        {
+            "id": 30,
+            "category": "Headphones",
+            "title": "Electra Classic H2",
+            "price": "$99.00",
+            "rating": 4,
+            "description": "Simple wired headphones delivering clear audio and comfortable everyday listening.",
+            "image_url": "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Rayan",
+                    "rating": 4,
+                    "comment": "Simple but sounds good."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "HEA-030",
+            "brand": "Electra",
+            "stock": 24,
+            "specifications": {
+                "connection": "Wireless / Bluetooth",
+                "audio": "High-quality stereo audio",
+                "microphone": "Built-in microphone",
+                "battery": "Long battery life",
+                "design": "Comfort-focused design"
+            }
+        },
+        {
+            "id": 31,
+            "category": "Cameras",
+            "title": "Lumix GX-90",
+            "price": "$1,249.00",
+            "rating": 4.5,
+            "description": "A compact mirrorless camera designed for photography and video with fast autofocus and excellent portability.",
+            "image_url": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Danish",
+                    "rating": 5,
+                    "comment": "Amazing image quality."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "CAM-031",
+            "brand": "Lumix",
+            "stock": 27,
+            "specifications": {
+                "type": "Digital camera",
+                "video": "High-resolution video recording",
+                "autofocus": "Fast autofocus",
+                "connectivity": "Digital connectivity",
+                "use": "Photography and video"
+            }
+        },
+        {
+            "id": 32,
+            "category": "Cameras",
+            "title": "Electra Vision C5",
+            "price": "$899.00",
+            "rating": 4,
+            "description": "A versatile digital camera with fast autofocus, high-quality image capture and an intuitive interface.",
+            "image_url": "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Rayan",
+                    "rating": 4,
+                    "comment": "Easy to use and takes good photos."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "CAM-032",
+            "brand": "Electra",
+            "stock": 30,
+            "specifications": {
+                "type": "Digital camera",
+                "video": "High-resolution video recording",
+                "autofocus": "Fast autofocus",
+                "connectivity": "Digital connectivity",
+                "use": "Photography and video"
+            }
+        },
+        {
+            "id": 33,
+            "category": "Cameras",
+            "title": "Lumix Pro X2",
+            "price": "$1,799.00",
+            "rating": 5,
+            "description": "A professional mirrorless camera designed for photographers who need high resolution and advanced autofocus.",
+            "image_url": "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ahmed",
+                    "rating": 5,
+                    "comment": "Fantastic professional camera."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "CAM-033",
+            "brand": "Lumix",
+            "stock": 33,
+            "specifications": {
+                "type": "Digital camera",
+                "video": "High-resolution video recording",
+                "autofocus": "Fast autofocus",
+                "connectivity": "Digital connectivity",
+                "use": "Photography and video"
+            }
+        },
+        {
+            "id": 34,
+            "category": "Cameras",
+            "title": "Electra Snap 200",
+            "price": "$499.00",
+            "rating": 4,
+            "description": "A compact digital camera designed for everyday photography, travel and family moments.",
+            "image_url": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ali",
+                    "rating": 4,
+                    "comment": "Small and easy to carry."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "CAM-034",
+            "brand": "Electra",
+            "stock": 36,
+            "specifications": {
+                "type": "Digital camera",
+                "video": "High-resolution video recording",
+                "autofocus": "Fast autofocus",
+                "connectivity": "Digital connectivity",
+                "use": "Photography and video"
+            }
+        },
+        {
+            "id": 35,
+            "category": "Cameras",
+            "title": "Lumix Creator C7",
+            "price": "$1,499.00",
+            "rating": 4.5,
+            "description": "A hybrid camera built for creators with high-quality video recording, fast autofocus and excellent image quality.",
+            "image_url": "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Hamza",
+                    "rating": 5,
+                    "comment": "Excellent for both photos and video."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "CAM-035",
+            "brand": "Lumix",
+            "stock": 39,
+            "specifications": {
+                "type": "Digital camera",
+                "video": "High-resolution video recording",
+                "autofocus": "Fast autofocus",
+                "connectivity": "Digital connectivity",
+                "use": "Photography and video"
+            }
+        },
+        {
+            "id": 36,
+            "category": "Cameras",
+            "title": "Electra Action Cam 4K",
+            "price": "$299.00",
+            "rating": 4.5,
+            "description": "A compact action camera capable of recording high-resolution video for sports, travel and outdoor adventures.",
+            "image_url": "https://images.unsplash.com/photo-1495121605193-b116b5b09a30?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Usman",
+                    "rating": 4,
+                    "comment": "Great little action camera."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1495121605193-b116b5b09a30?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "CAM-036",
+            "brand": "Electra",
+            "stock": 42,
+            "specifications": {
+                "type": "Digital camera",
+                "video": "High-resolution video recording",
+                "autofocus": "Fast autofocus",
+                "connectivity": "Digital connectivity",
+                "use": "Photography and video"
+            }
+        },
+        {
+            "id": 37,
+            "category": "Cameras",
+            "title": "Vision Mirrorless M3",
+            "price": "$1,099.00",
+            "rating": 4,
+            "description": "A lightweight mirrorless camera offering excellent image quality and flexible interchangeable lenses.",
+            "image_url": "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Bilal",
+                    "rating": 4,
+                    "comment": "Great camera for beginners."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "CAM-037",
+            "brand": "Vision",
+            "stock": 45,
+            "specifications": {
+                "type": "Digital camera",
+                "video": "High-resolution video recording",
+                "autofocus": "Fast autofocus",
+                "connectivity": "Digital connectivity",
+                "use": "Photography and video"
+            }
+        },
+        {
+            "id": 38,
+            "category": "Cameras",
+            "title": "Electra Zoom Z10",
+            "price": "$699.00",
+            "rating": 4,
+            "description": "A versatile camera with a powerful zoom lens designed for travel, wildlife and everyday photography.",
+            "image_url": "https://images.unsplash.com/photo-1516724562728-afc824a36e84?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Saad",
+                    "rating": 4,
+                    "comment": "The zoom range is excellent."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1516724562728-afc824a36e84?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "CAM-038",
+            "brand": "Electra",
+            "stock": 48,
+            "specifications": {
+                "type": "Digital camera",
+                "video": "High-resolution video recording",
+                "autofocus": "Fast autofocus",
+                "connectivity": "Digital connectivity",
+                "use": "Photography and video"
+            }
+        },
+        {
+            "id": 39,
+            "category": "Cameras",
+            "title": "Lumix Cinema C1",
+            "price": "$2,499.00",
+            "rating": 5,
+            "description": "A professional cinema camera designed for filmmakers with advanced video controls and high-quality recording.",
+            "image_url": "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Omer",
+                    "rating": 5,
+                    "comment": "Excellent camera for professional video."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "CAM-039",
+            "brand": "Lumix",
+            "stock": 12,
+            "specifications": {
+                "type": "Digital camera",
+                "video": "High-resolution video recording",
+                "autofocus": "Fast autofocus",
+                "connectivity": "Digital connectivity",
+                "use": "Photography and video"
+            }
+        },
+        {
+            "id": 40,
+            "category": "Cameras",
+            "title": "Electra Pocket Cam",
+            "price": "$349.00",
+            "rating": 4,
+            "description": "A small portable camera designed for quick photos and videos while traveling or documenting everyday life.",
+            "image_url": "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Fahad",
+                    "rating": 4,
+                    "comment": "Very convenient for travel."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "CAM-040",
+            "brand": "Electra",
+            "stock": 15,
+            "specifications": {
+                "type": "Digital camera",
+                "video": "High-resolution video recording",
+                "autofocus": "Fast autofocus",
+                "connectivity": "Digital connectivity",
+                "use": "Photography and video"
+            }
+        },
+        {
+            "id": 41,
+            "category": "Wearable",
+            "title": "Electra Watch Pro 3",
+            "price": "$399.00",
+            "rating": 4.5,
+            "description": "A premium smartwatch with a bright always-on display, advanced health tracking and all-day battery life.",
+            "image_url": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ahmed",
+                    "rating": 5,
+                    "comment": "Tracks everything I need and the display is gorgeous."
+                },
+                {
+                    "name": "Hamza",
+                    "rating": 4,
+                    "comment": "Great watch, battery lasts about two days."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "WEA-041",
+            "brand": "Electra",
+            "stock": 20,
+            "specifications": {
+                "display": "Always-on AMOLED display",
+                "connectivity": "Bluetooth, Wi-Fi",
+                "health": "Heart rate, SpO2 and sleep tracking",
+                "battery": "Up to 2 days battery life",
+                "water_resistance": "Water resistant up to 50m"
+            }
+        },
+        {
+            "id": 42,
+            "category": "Wearable",
+            "title": "Electra Fit Band 2",
+            "price": "$79.00",
+            "rating": 4,
+            "description": "A lightweight fitness band for step counting, heart rate monitoring and sleep tracking with a long-lasting battery.",
+            "image_url": "https://images.unsplash.com/photo-1575311373937-8c0a67b6c3d3?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Ali",
+                    "rating": 4,
+                    "comment": "Simple, light and the battery lasts forever."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1575311373937-8c0a67b6c3d3?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "WEA-042",
+            "brand": "Electra",
+            "stock": 35,
+            "specifications": {
+                "display": "Always-on AMOLED display",
+                "connectivity": "Bluetooth, Wi-Fi",
+                "health": "Heart rate, SpO2 and sleep tracking",
+                "battery": "Up to 2 days battery life",
+                "water_resistance": "Water resistant up to 50m"
+            }
+        },
+        {
+            "id": 43,
+            "category": "Wearable",
+            "title": "Titan Sport Watch GPS",
+            "price": "$249.00",
+            "rating": 4.5,
+            "description": "A rugged sports watch with built-in GPS, workout modes and a tough scratch-resistant case for outdoor training.",
+            "image_url": "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Usman",
+                    "rating": 5,
+                    "comment": "GPS tracking is accurate and it survives every run."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "WEA-043",
+            "brand": "Titan",
+            "stock": 18,
+            "specifications": {
+                "display": "Always-on AMOLED display",
+                "connectivity": "Bluetooth, Wi-Fi",
+                "health": "Heart rate, SpO2 and sleep tracking",
+                "battery": "Up to 2 days battery life",
+                "water_resistance": "Water resistant up to 50m"
+            }
+        },
+        {
+            "id": 44,
+            "category": "Wearable",
+            "title": "Electra Watch Lite",
+            "price": "$149.00",
+            "rating": 4,
+            "description": "An affordable everyday smartwatch with notifications, activity tracking and a comfortable lightweight strap.",
+            "image_url": "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Saad",
+                    "rating": 4,
+                    "comment": "Good value smartwatch for daily notifications."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "WEA-044",
+            "brand": "Electra",
+            "stock": 40,
+            "specifications": {
+                "display": "Always-on AMOLED display",
+                "connectivity": "Bluetooth, Wi-Fi",
+                "health": "Heart rate, SpO2 and sleep tracking",
+                "battery": "Up to 2 days battery life",
+                "water_resistance": "Water resistant up to 50m"
+            }
+        },
+        {
+            "id": 45,
+            "category": "Wearable",
+            "title": "Titan Pulse ECG",
+            "price": "$449.00",
+            "rating": 5,
+            "description": "An advanced health-focused smartwatch with ECG monitoring, blood oxygen tracking and a premium titanium-style finish.",
+            "image_url": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Danish",
+                    "rating": 5,
+                    "comment": "The health tracking features are top notch."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "WEA-045",
+            "brand": "Titan",
+            "stock": 14,
+            "specifications": {
+                "display": "Always-on AMOLED display",
+                "connectivity": "Bluetooth, Wi-Fi",
+                "health": "Heart rate, SpO2 and sleep tracking",
+                "battery": "Up to 2 days battery life",
+                "water_resistance": "Water resistant up to 50m"
+            }
+        },
+        {
+            "id": 46,
+            "category": "Wearable",
+            "title": "Electra Kids Watch",
+            "price": "$99.00",
+            "rating": 4,
+            "description": "A durable, easy-to-use smartwatch designed for kids with activity tracking and parental notifications.",
+            "image_url": "https://images.unsplash.com/photo-1617043786394-f977fa12eddf?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Rayan",
+                    "rating": 4,
+                    "comment": "My kid loves wearing it and it's tough enough for school."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1617043786394-f977fa12eddf?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "WEA-046",
+            "brand": "Electra",
+            "stock": 25,
+            "specifications": {
+                "display": "Always-on AMOLED display",
+                "connectivity": "Bluetooth, Wi-Fi",
+                "health": "Heart rate, SpO2 and sleep tracking",
+                "battery": "Up to 2 days battery life",
+                "water_resistance": "Water resistant up to 50m"
+            }
+        },
+        {
+            "id": 47,
+            "category": "Wearable",
+            "title": "Electra Ring Track",
+            "price": "$299.00",
+            "rating": 4.5,
+            "description": "A minimalist smart ring that tracks sleep, recovery and activity without a screen, worn comfortably day and night.",
+            "image_url": "https://images.unsplash.com/photo-1620625515032-6ed0c1790c75?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Bilal",
+                    "rating": 5,
+                    "comment": "Barely notice I'm wearing it and the sleep data is accurate."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1620625515032-6ed0c1790c75?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "WEA-047",
+            "brand": "Electra",
+            "stock": 22,
+            "specifications": {
+                "display": "Always-on AMOLED display",
+                "connectivity": "Bluetooth, Wi-Fi",
+                "health": "Heart rate, SpO2 and sleep tracking",
+                "battery": "Up to 2 days battery life",
+                "water_resistance": "Water resistant up to 50m"
+            }
+        },
+        {
+            "id": 48,
+            "category": "Wearable",
+            "title": "Titan Explorer GPS Watch",
+            "price": "$599.00",
+            "rating": 5,
+            "description": "A premium outdoor GPS watch built for hiking and expeditions, with a rugged case and multi-day battery life.",
+            "image_url": "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Omer",
+                    "rating": 5,
+                    "comment": "Perfect companion for multi-day hikes."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "WEA-048",
+            "brand": "Titan",
+            "stock": 10,
+            "specifications": {
+                "display": "Always-on AMOLED display",
+                "connectivity": "Bluetooth, Wi-Fi",
+                "health": "Heart rate, SpO2 and sleep tracking",
+                "battery": "Up to 2 days battery life",
+                "water_resistance": "Water resistant up to 50m"
+            }
+        },
+        {
+            "id": 49,
+            "category": "Wearable",
+            "title": "Electra Watch SE",
+            "price": "$199.00",
+            "rating": 4,
+            "description": "A well-rounded smartwatch balancing style, fitness tracking and smart notifications for everyday use.",
+            "image_url": "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=900&q=80",
+            "reviews": [
+                {
+                    "name": "Fahad",
+                    "rating": 4,
+                    "comment": "Good all-round smartwatch for the price."
+                }
+            ],
+            "images": [
+                "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=900&q=80",
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=1200&q=85"
+            ],
+            "sku": "WEA-049",
+            "brand": "Electra",
+            "stock": 28,
+            "specifications": {
+                "display": "Always-on AMOLED display",
+                "connectivity": "Bluetooth, Wi-Fi",
+                "health": "Heart rate, SpO2 and sleep tracking",
+                "battery": "Up to 2 days battery life",
+                "water_resistance": "Water resistant up to 50m"
+            }
+        }
+    ]
+}

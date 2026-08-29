@@ -13,6 +13,7 @@ import {
     X,
     ChevronDown,
     ChevronRight,
+    ListOrdered 
 } from "lucide-react";
 
 const Sidebar = ({
@@ -48,6 +49,11 @@ const Sidebar = ({
             ],
         },
         {
+            name: "Orders",
+            path: "/admin/orders",
+            icon: ListOrdered,
+        },
+        {
             name: "Sales",
             path: "/admin/sales",
             icon: ShoppingCart,
@@ -62,22 +68,15 @@ const Sidebar = ({
             path: "/admin/analytics",
             icon: BarChart3,
         },
-        {
-            name: "Notifications",
-            path: "/admin/notifications",
-            icon: Bell,
-        },
     ];
 
     const navLinkClasses = ({ isActive }) =>
-        `flex items-center rounded-xl py-3 text-sm font-medium transition-all duration-300 ${
-            sidebarCollapsed
-                ? "justify-center px-3"
-                : "gap-3 px-4"
-        } ${
-            isActive
-                ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
-                : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+        `flex items-center rounded-xl py-3 text-sm font-medium transition-all duration-300 ${sidebarCollapsed
+            ? "justify-center px-3"
+            : "gap-3 px-4"
+        } ${isActive
+            ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
+            : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
         }`;
 
     /*
@@ -113,15 +112,13 @@ const Sidebar = ({
                     fixed left-0 top-0 z-50 h-screen
                     border-r border-gray-200 bg-white
                     transition-all duration-300 ease-in-out
-                    ${
-                        sidebarCollapsed
-                            ? "w-20"
-                            : "w-64"
+                    ${sidebarCollapsed
+                        ? "w-20"
+                        : "w-64"
                     }
-                    ${
-                        sidebarOpen
-                            ? "translate-x-0"
-                            : "-translate-x-full lg:translate-x-0"
+                    ${sidebarOpen
+                        ? "translate-x-0"
+                        : "-translate-x-full lg:translate-x-0"
                     }
                 `}
             >
@@ -133,10 +130,9 @@ const Sidebar = ({
                             flex h-20 shrink-0 items-center
                             border-b border-gray-100
                             transition-all duration-300
-                            ${
-                                sidebarCollapsed
-                                    ? "justify-center px-3"
-                                    : "justify-between px-6"
+                            ${sidebarCollapsed
+                                ? "justify-center px-3"
+                                : "justify-between px-6"
                             }
                         `}
                     >
@@ -155,10 +151,9 @@ const Sidebar = ({
                                 className={`
                                     overflow-hidden whitespace-nowrap
                                     transition-all duration-300
-                                    ${
-                                        sidebarCollapsed
-                                            ? "w-0 opacity-0"
-                                            : "w-auto opacity-100"
+                                    ${sidebarCollapsed
+                                        ? "w-0 opacity-0"
+                                        : "w-auto opacity-100"
                                     }
                                 `}
                             >
@@ -188,10 +183,9 @@ const Sidebar = ({
                         className={`
                             flex flex-1 flex-col justify-center
                             transition-all duration-300
-                            ${
-                                sidebarCollapsed
-                                    ? "px-3"
-                                    : "px-4"
+                            ${sidebarCollapsed
+                                ? "px-3"
+                                : "px-4"
                             }
                         `}
                     >
@@ -203,10 +197,9 @@ const Sidebar = ({
                                 className={`
                                     overflow-hidden whitespace-nowrap
                                     transition-all duration-300
-                                    ${
-                                        sidebarCollapsed
-                                            ? "mb-0 h-0 opacity-0"
-                                            : "mb-3 h-auto opacity-100"
+                                    ${sidebarCollapsed
+                                        ? "mb-0 h-0 opacity-0"
+                                        : "mb-3 h-auto opacity-100"
                                     }
                                 `}
                             >
@@ -241,10 +234,9 @@ const Sidebar = ({
                                                         flex w-full items-center rounded-xl py-3
                                                         text-sm font-medium transition-all duration-300
                                                         text-gray-600 hover:bg-blue-50 hover:text-blue-600
-                                                        ${
-                                                            sidebarCollapsed
-                                                                ? "justify-center px-3"
-                                                                : "justify-between px-4"
+                                                        ${sidebarCollapsed
+                                                            ? "justify-center px-3"
+                                                            : "justify-between px-4"
                                                         }
                                                     `}
                                                     title={
@@ -257,10 +249,9 @@ const Sidebar = ({
                                                     <div
                                                         className={`
                                                             flex items-center
-                                                            ${
-                                                                sidebarCollapsed
-                                                                    ? "justify-center"
-                                                                    : "gap-3"
+                                                            ${sidebarCollapsed
+                                                                ? "justify-center"
+                                                                : "gap-3"
                                                             }
                                                         `}
                                                     >
@@ -276,10 +267,9 @@ const Sidebar = ({
                                                                 whitespace-nowrap
                                                                 overflow-hidden
                                                                 transition-all duration-300
-                                                                ${
-                                                                    sidebarCollapsed
-                                                                        ? "w-0 opacity-0"
-                                                                        : "w-auto opacity-100"
+                                                                ${sidebarCollapsed
+                                                                    ? "w-0 opacity-0"
+                                                                    : "w-auto opacity-100"
                                                                 }
                                                             `}
                                                         >
@@ -308,10 +298,9 @@ const Sidebar = ({
                                                         className={`
                                                             overflow-hidden
                                                             transition-all duration-300 ease-in-out
-                                                            ${
-                                                                productsOpen
-                                                                    ? "max-h-48 opacity-100 translate-y-0 mt-2"
-                                                                    : "max-h-0 opacity-0 -translate-y-2 mt-0"
+                                                            ${productsOpen
+                                                                ? "max-h-48 opacity-100 translate-y-0 mt-2"
+                                                                : "max-h-0 opacity-0 -translate-y-2 mt-0"
                                                             }
                                                         `}
                                                     >
@@ -341,10 +330,9 @@ const Sidebar = ({
                                                                             className={({
                                                                                 isActive,
                                                                             }) =>
-                                                                                `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
-                                                                                    isActive
-                                                                                        ? "bg-blue-50 font-medium text-blue-600"
-                                                                                        : "text-gray-500 hover:bg-gray-50 hover:text-blue-600"
+                                                                                `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${isActive
+                                                                                    ? "bg-blue-50 font-medium text-blue-600"
+                                                                                    : "text-gray-500 hover:bg-gray-50 hover:text-blue-600"
                                                                                 }`
                                                                             }
                                                                         >
@@ -409,10 +397,9 @@ const Sidebar = ({
                                                     whitespace-nowrap
                                                     overflow-hidden
                                                     transition-all duration-300
-                                                    ${
-                                                        sidebarCollapsed
-                                                            ? "w-0 opacity-0"
-                                                            : "w-auto opacity-100"
+                                                    ${sidebarCollapsed
+                                                        ? "w-0 opacity-0"
+                                                        : "w-auto opacity-100"
                                                     }
                                                 `}
                                             >
@@ -435,10 +422,9 @@ const Sidebar = ({
                         className={`
                             shrink-0 pb-[10px]
                             transition-all duration-300
-                            ${
-                                sidebarCollapsed
-                                    ? "px-3"
-                                    : "px-4"
+                            ${sidebarCollapsed
+                                ? "px-3"
+                                : "px-4"
                             }
                         `}
                     >
@@ -454,10 +440,9 @@ const Sidebar = ({
                                 text-sm font-medium text-gray-600
                                 transition-all duration-200
                                 hover:bg-blue-50 hover:text-blue-600
-                                ${
-                                    sidebarCollapsed
-                                        ? "justify-center px-3"
-                                        : "justify-between px-4"
+                                ${sidebarCollapsed
+                                    ? "justify-center px-3"
+                                    : "justify-between px-4"
                                 }
                             `}
                             title={
@@ -470,10 +455,9 @@ const Sidebar = ({
                             <div
                                 className={`
                                     flex items-center
-                                    ${
-                                        sidebarCollapsed
-                                            ? "justify-center"
-                                            : "gap-3"
+                                    ${sidebarCollapsed
+                                        ? "justify-center"
+                                        : "gap-3"
                                     }
                                 `}
                             >
@@ -487,10 +471,9 @@ const Sidebar = ({
                                     className={`
                                         whitespace-nowrap overflow-hidden
                                         transition-all duration-300
-                                        ${
-                                            sidebarCollapsed
-                                                ? "w-0 opacity-0"
-                                                : "w-auto opacity-100"
+                                        ${sidebarCollapsed
+                                            ? "w-0 opacity-0"
+                                            : "w-auto opacity-100"
                                         }
                                     `}
                                 >
@@ -519,10 +502,9 @@ const Sidebar = ({
                                 className={`
                                     overflow-hidden
                                     transition-all duration-300 ease-in-out
-                                    ${
-                                        settingsOpen
-                                            ? "max-h-48 opacity-100 translate-y-0 mt-2"
-                                            : "max-h-0 opacity-0 -translate-y-2 mt-0"
+                                    ${settingsOpen
+                                        ? "max-h-48 opacity-100 translate-y-0 mt-2"
+                                        : "max-h-0 opacity-0 -translate-y-2 mt-0"
                                     }
                                 `}
                             >
@@ -541,10 +523,9 @@ const Sidebar = ({
                                         className={({
                                             isActive,
                                         }) =>
-                                            `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
-                                                isActive
-                                                    ? "bg-blue-50 font-medium text-blue-600"
-                                                    : "text-gray-500 hover:bg-gray-50 hover:text-blue-600"
+                                            `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${isActive
+                                                ? "bg-blue-50 font-medium text-blue-600"
+                                                : "text-gray-500 hover:bg-gray-50 hover:text-blue-600"
                                             }`
                                         }
                                     >
