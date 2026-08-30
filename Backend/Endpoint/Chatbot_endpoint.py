@@ -1,10 +1,11 @@
 from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, HTTPException
-from flask import json
+import json
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from Database import get_db
 from Model import Chatbot_Model
+from Model import Product_Model
 from groq import Groq
 import os
 
@@ -52,7 +53,7 @@ def create_chatbot_message(
             "cleared": True
         }
 
-    products = db.query(Chatbot_Model.Product).all()
+    products = db.query(Product_Model.product).all()
 
     products_data = [
         {
@@ -62,10 +63,7 @@ def create_chatbot_message(
             "price": product.price,
             "rating": product.rating,
             "description": product.description,
-            "image_url": product.image_url,
-            "images": product.images,
             "brand": product.brand,
-            "sku": product.sku,
             "stock": product.stock,
             "specifications": product.specifications
         }
@@ -83,6 +81,8 @@ def create_chatbot_message(
         .order_by(Chatbot_Model.AiChatbot.id)
         .all()
     )
+    
+    previous_messages.reverse()  # Reverse the order to have the most recent messages first
 
     conversation_history = []
 

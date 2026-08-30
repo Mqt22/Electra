@@ -212,7 +212,7 @@ const Home = () => {
       <section className="w-full bg-[#F7F9FB] py-10 sm:py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="mb-6 text-xl font-bold text-gray-900 sm:mb-8 sm:text-2xl md:text-3xl">
-            Explore Categories
+            Explore Popular Categories
           </h2>
 
           <div className="grid grid-cols-1 gap-4 xs:grid-cols-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">

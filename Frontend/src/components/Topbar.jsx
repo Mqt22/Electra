@@ -4,19 +4,44 @@ import {
   Search,
   Bell,
   User,
+  X,
+  Package,
+  ShoppingCart,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { BiCategory } from "react-icons/bi";
 
 const Topbar = ({
-                  setSidebarOpen,
-                  sidebarCollapsed,
-                  setSidebarCollapsed,
-                }) => {
+  setSidebarOpen,
+  sidebarCollapsed,
+  setSidebarCollapsed,
+}) => {
   const [admin, setAdmin] = React.useState(null);
+
+  // Backend data
+  const [products, setProducts] = React.useState([]);
+  const [categories, setCategories] = React.useState([]);
+  const [orders, setOrders] = React.useState([]);
+
+  // Search
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [showSearchResults, setShowSearchResults] =
+    React.useState(false);
+
+  const searchRef = React.useRef(null);
+
+  const navigate = useNavigate();
+
+  /*
+   * ============================
+   * LOAD ADMIN
+   * ============================
+   */
 
   const loadAdmin = React.useCallback(async () => {
     try {
-      const storedAdmin = localStorage.getItem("electra_admin");
+      const storedAdmin =
+        localStorage.getItem("electra_admin");
 
       if (!storedAdmin) {
         setAdmin(null);
@@ -25,9 +50,8 @@ const Topbar = ({
 
       const parsedAdmin = JSON.parse(storedAdmin);
 
-      // Get admin ID from either possible field
       const adminId =
-          parsedAdmin?.user_id ?? parsedAdmin?.id;
+        parsedAdmin?.user_id ?? parsedAdmin?.id;
 
       if (!adminId) {
         console.error("Admin ID not found");
@@ -35,105 +59,392 @@ const Topbar = ({
         return;
       }
 
-      // Fetch the latest admin profile from backend
       const response = await fetch(
-          `http://localhost:8000/admin/profile/${adminId}`
+        `http://localhost:8000/admin/profile/${adminId}`
       );
 
       if (!response.ok) {
         throw new Error(
-            `Failed to fetch admin profile: ${response.status}`
+          `Failed to fetch admin profile: ${response.status}`
         );
       }
 
       const latestAdmin = await response.json();
 
-      console.log("Latest admin profile:", latestAdmin);
-
-      // Keep ID consistent
       const updatedAdmin = {
         ...parsedAdmin,
         ...latestAdmin,
         user_id:
-            latestAdmin?.user_id ??
-            latestAdmin?.id ??
-            parsedAdmin?.user_id ??
-            parsedAdmin?.id,
+          latestAdmin?.user_id ??
+          latestAdmin?.id ??
+          parsedAdmin?.user_id ??
+          parsedAdmin?.id,
       };
 
-      // Update state
       setAdmin(updatedAdmin);
 
-      // Keep localStorage synchronized
       localStorage.setItem(
-          "electra_admin",
-          JSON.stringify(updatedAdmin)
+        "electra_admin",
+        JSON.stringify(updatedAdmin)
       );
     } catch (error) {
       console.error(
-          "Failed to load admin profile:",
-          error
+        "Failed to load admin profile:",
+        error
       );
 
-      // If backend request fails, still use stored data
       try {
         const storedAdmin =
-            localStorage.getItem("electra_admin");
+          localStorage.getItem("electra_admin");
 
         if (storedAdmin) {
           setAdmin(JSON.parse(storedAdmin));
         }
       } catch (storageError) {
         console.error(
-            "Failed to read stored admin:",
-            storageError
+          "Failed to read stored admin:",
+          storageError
         );
       }
     }
   }, []);
 
-  React.useEffect(() => {
-    // Load latest admin profile when Topbar mounts
-    loadAdmin();
+  /*
+   * ============================
+   * LOAD SEARCH DATA
+   * ============================
+   */
 
-    // Listen for profile updates from Settings/Profile
+  const loadSearchData = React.useCallback(async () => {
+    try {
+      const [
+        productsResponse,
+        categoriesResponse,
+        ordersResponse,
+      ] = await Promise.all([
+        fetch("http://localhost:8000/products"),
+        fetch("http://localhost:8000/categories"),
+        fetch("http://localhost:8000/orders"),
+      ]);
+
+      /*
+       * PRODUCTS
+       */
+      if (productsResponse.ok) {
+        const productsData =
+          await productsResponse.json();
+
+        /*
+         * Handles both:
+         *
+         * [
+         *   {...},
+         *   {...}
+         * ]
+         *
+         * and:
+         *
+         * {
+         *   products: [...]
+         * }
+         */
+        setProducts(
+          Array.isArray(productsData)
+            ? productsData
+            : productsData?.products || []
+        );
+      }
+
+      /*
+       * CATEGORIES
+       */
+      if (categoriesResponse.ok) {
+        const categoriesData =
+          await categoriesResponse.json();
+
+        setCategories(
+          Array.isArray(categoriesData)
+            ? categoriesData
+            : categoriesData?.categories || []
+        );
+      }
+
+      /*
+       * ORDERS
+       */
+      if (ordersResponse.ok) {
+        const ordersData =
+          await ordersResponse.json();
+
+        setOrders(
+          Array.isArray(ordersData)
+            ? ordersData
+            : ordersData?.orders || []
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Failed to load search data:",
+        error
+      );
+    }
+  }, []);
+
+  /*
+   * ============================
+   * INITIAL LOAD
+   * ============================
+   */
+
+  React.useEffect(() => {
+    loadAdmin();
+    loadSearchData();
+
     window.addEventListener(
-        "adminProfileUpdated",
-        loadAdmin
+      "adminProfileUpdated",
+      loadAdmin
     );
 
-    // Also listen for localStorage changes
     window.addEventListener(
-        "storage",
-        loadAdmin
+      "storage",
+      loadAdmin
     );
 
     return () => {
       window.removeEventListener(
-          "adminProfileUpdated",
-          loadAdmin
+        "adminProfileUpdated",
+        loadAdmin
       );
 
       window.removeEventListener(
-          "storage",
-          loadAdmin
+        "storage",
+        loadAdmin
       );
     };
-  }, [loadAdmin]);
+  }, [loadAdmin, loadSearchData]);
+
+  /*
+   * ============================
+   * CLOSE SEARCH WHEN CLICKING
+   * OUTSIDE
+   * ============================
+   */
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target)
+      ) {
+        setShowSearchResults(false);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
+  }, []);
+
+  /*
+   * ============================
+   * SIDEBAR
+   * ============================
+   */
 
   const handleMenuClick = () => {
     if (window.innerWidth >= 1024) {
-      // Desktop: collapse / expand sidebar
       setSidebarCollapsed((prev) => !prev);
     } else {
-      // Mobile: open / close sidebar
       setSidebarOpen((prev) => !prev);
     }
   };
 
+  /*
+   * ============================
+   * SEARCH RESULTS
+   * ============================
+   */
+
+  const searchResults = React.useMemo(() => {
+    if (!searchQuery.trim()) {
+      return [];
+    }
+
+    const query = searchQuery.trim().toLowerCase();
+
+    const results = [];
+
+    // ============================
+    // PRODUCTS
+    // ============================
+
+    products.forEach((product) => {
+      const title =
+        product.Product_title ??
+        product.product_title ??
+        product.title ??
+        "";
+
+      const category =
+        product.Category ??
+        product.category ??
+        "";
+
+      const description =
+        product.Product_des ??
+        product.product_des ??
+        product.description ??
+        "";
+
+      const productId =
+        product.Product_ID ??
+        product.product_id ??
+        product.id;
+
+      if (
+        title.toString().toLowerCase().includes(query) ||
+        category.toString().toLowerCase().includes(query) ||
+        description.toString().toLowerCase().includes(query)
+      ) {
+        results.push({
+          id: `product-${productId}`,
+          type: "Product",
+          title: title || `Product #${productId}`,
+          description: category
+            ? `Product • ${category}`
+            : "Product",
+          icon: Package,
+
+          // Highlight the selected product
+          path: `/admin/products?highlight=${productId}`,
+        });
+      }
+    });
+
+
+    // ============================
+    // CATEGORIES
+    // ============================
+
+    categories.forEach((category) => {
+      const categoryName =
+        category.name ??
+        category.Category ??
+        category.category ??
+        "";
+
+      const categoryId =
+        category.id ??
+        category.Category_ID ??
+        category.category_id;
+
+      if (
+        categoryName
+          .toString()
+          .toLowerCase()
+          .includes(query)
+      ) {
+        results.push({
+          id: `category-${categoryId}`,
+          type: "Category",
+          title: categoryName,
+          description: "Product Category",
+          icon: BiCategory,
+
+          // Highlight the selected category
+          path: `/admin/categories?highlight=${categoryId}`,
+        });
+      }
+    });
+
+
+    // ============================
+    // ORDERS
+    // ============================
+
+    orders.forEach((order) => {
+      const orderId =
+        order.order_id ??
+        order.Order_ID ??
+        order.id;
+
+      const customerName =
+        order.customer_name ??
+        order.Customer_Name ??
+        order.customer ??
+        order.name ??
+        "";
+
+      const status =
+        order.status ??
+        order.Status ??
+        "";
+
+      const searchableText = `
+    ${orderId ?? ""}
+    ${customerName}
+    ${status}
+  `.toLowerCase();
+
+      if (searchableText.includes(query)) {
+        results.push({
+          id: `order-${orderId}`,
+          type: "Order",
+          title: `Order #${orderId}`,
+          description: customerName
+            ? `${customerName}${status ? ` • ${status}` : ""}`
+            : status || "Customer Order",
+          icon: ShoppingCart,
+
+          // Highlight the selected order
+          path: `/admin/orders?highlight=${orderId}`,
+        });
+      }
+    });
+
+    return results.slice(0, 10);
+  }, [
+    searchQuery,
+    products,
+    categories,
+    orders,
+  ]);
+
+  /*
+   * ============================
+   * RESULT CLICK
+   * ============================
+   */
+
+  const handleSearchResultClick = (result) => {
+    setSearchQuery("");
+    setShowSearchResults(false);
+
+    navigate(result.path);
+  };
+
+  /*
+   * ============================
+   * CLEAR SEARCH
+   * ============================
+   */
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    setShowSearchResults(false);
+  };
+
   return (
-      <header
-          className={`
+    <header
+      className={`
         fixed
         top-0
         right-0
@@ -146,22 +457,24 @@ const Topbar = ({
         transition-all
         duration-300
         ease-in-out
-        ${
-              sidebarCollapsed
-                  ? "lg:left-20"
-                  : "lg:left-64"
-          }
+        ${sidebarCollapsed
+          ? "lg:left-20"
+          : "lg:left-64"
+        }
       `}
-      >
-        <div className="h-full px-4 sm:px-6 flex items-center justify-between gap-4">
+    >
+      <div className="h-full px-4 sm:px-6 flex items-center justify-between gap-4">
 
-          {/* Left Section */}
-          <div className="flex items-center gap-3">
+        {/* ========================= */}
+        {/* LEFT SECTION */}
+        {/* ========================= */}
 
-            {/* Hamburger */}
-            <button
-                onClick={handleMenuClick}
-                className="
+        <div className="flex items-center gap-3">
+
+          {/* Hamburger */}
+          <button
+            onClick={handleMenuClick}
+            className="
               p-2
               rounded-lg
               text-gray-600
@@ -169,38 +482,69 @@ const Topbar = ({
               hover:text-[#2563eb]
               transition
             "
-                title={
-                  sidebarCollapsed
-                      ? "Expand sidebar"
-                      : "Collapse sidebar"
-                }
-            >
-              <Menu size={24} />
-            </button>
+            title={
+              sidebarCollapsed
+                ? "Expand sidebar"
+                : "Collapse sidebar"
+            }
+          >
+            <Menu size={24} />
+          </button>
 
-            {/* Search */}
-            <div className="relative hidden sm:block w-48 md:w-64 lg:w-72 xl:w-96">
-              <Search
-                  size={19}
-                  className="
+          {/* ========================= */}
+          {/* SEARCH */}
+          {/* ========================= */}
+
+          <div
+            ref={searchRef}
+            className="
+              relative
+              hidden
+              sm:block
+              w-48
+              md:w-64
+              lg:w-72
+              xl:w-96
+            "
+          >
+            <Search
+              size={19}
+              className="
                 absolute
                 left-3
                 top-1/2
                 -translate-y-1/2
                 text-gray-400
+                pointer-events-none
               "
-              />
+            />
 
-              <input
-                  type="text"
-                  placeholder="Search..."
-                  className="
+            <input
+              type="text"
+              value={searchQuery}
+              placeholder="Search products, orders..."
+              onChange={(e) => {
+                const value = e.target.value;
+
+                setSearchQuery(value);
+
+                setShowSearchResults(
+                  value.trim().length > 0
+                );
+              }}
+              onFocus={() => {
+                if (searchQuery.trim()) {
+                  setShowSearchResults(true);
+                }
+              }}
+              className="
                 w-full
                 h-10
                 pl-10
-                pr-4
+                pr-10
                 rounded-lg
-                border border-gray-400
+                border
+                border-gray-400
                 bg-gray-50
                 text-sm
                 text-gray-700
@@ -211,16 +555,193 @@ const Topbar = ({
                 focus:ring-blue-100
                 focus:bg-white
               "
-              />
-            </div>
-          </div>
+            />
 
-          {/* Right Section */}
-          <div className="flex items-center gap-2 sm:gap-4">
-
-            {/* Mobile Search */}
-            <button
+            {/* Clear */}
+            {searchQuery && (
+              <button
+                onClick={clearSearch}
                 className="
+                  absolute
+                  right-3
+                  top-1/2
+                  -translate-y-1/2
+                  text-gray-400
+                  hover:text-gray-700
+                "
+              >
+                <X size={17} />
+              </button>
+            )}
+
+            {/* ========================= */}
+            {/* LIVE RESULTS */}
+            {/* ========================= */}
+
+            {showSearchResults && (
+              <div
+                className="
+                  absolute
+                  top-12
+                  left-0
+                  right-0
+                  bg-white
+                  border
+                  border-gray-200
+                  rounded-xl
+                  shadow-xl
+                  overflow-hidden
+                  z-50
+                "
+              >
+
+                {searchResults.length > 0 ? (
+                  <div className="py-2">
+
+                    <div className="
+                      px-4
+                      py-2
+                      text-xs
+                      font-semibold
+                      text-gray-400
+                      uppercase
+                      tracking-wide
+                    ">
+                      Search Results
+                    </div>
+
+                    {searchResults.map((result) => {
+                      const Icon = result.icon;
+
+                      return (
+                        <button
+                          key={result.id}
+                          onClick={() =>
+                            handleSearchResultClick(
+                              result
+                            )
+                          }
+                          className="
+                            w-full
+                            flex
+                            items-center
+                            gap-3
+                            px-4
+                            py-3
+                            text-left
+                            hover:bg-blue-50
+                            transition
+                          "
+                        >
+
+                          {/* Icon */}
+                          <div
+                            className="
+                              w-9
+                              h-9
+                              rounded-lg
+                              bg-blue-50
+                              text-[#2563eb]
+                              flex
+                              items-center
+                              justify-center
+                              shrink-0
+                            "
+                          >
+                            <Icon size={18} />
+                          </div>
+
+                          {/* Result Information */}
+                          <div className="min-w-0 flex-1">
+
+                            <div className="
+                              flex
+                              items-center
+                              justify-between
+                              gap-2
+                            ">
+                              <p className="
+                                text-sm
+                                font-semibold
+                                text-gray-800
+                                truncate
+                              ">
+                                {result.title}
+                              </p>
+
+                              <span className="
+                                text-[10px]
+                                font-medium
+                                text-gray-400
+                                shrink-0
+                              ">
+                                {result.type}
+                              </span>
+                            </div>
+
+                            <p className="
+                              text-xs
+                              text-gray-400
+                              truncate
+                              mt-0.5
+                            ">
+                              {result.description}
+                            </p>
+
+                          </div>
+
+                        </button>
+                      );
+                    })}
+
+                  </div>
+                ) : (
+                  <div className="
+                    px-4
+                    py-7
+                    text-center
+                  ">
+                    <Search
+                      size={22}
+                      className="
+                        mx-auto
+                        mb-2
+                        text-gray-300
+                      "
+                    />
+
+                    <p className="
+                      text-sm
+                      font-medium
+                      text-gray-600
+                    ">
+                      No results found
+                    </p>
+
+                    <p className="
+                      text-xs
+                      text-gray-400
+                      mt-1
+                    ">
+                      Try another search
+                    </p>
+                  </div>
+                )}
+
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ========================= */}
+        {/* RIGHT SECTION */}
+        {/* ========================= */}
+
+        <div className="flex items-center gap-2 sm:gap-4">
+
+          {/* Mobile Search */}
+          <button
+            className="
               sm:hidden
               p-2
               rounded-lg
@@ -229,13 +750,13 @@ const Topbar = ({
               hover:text-[#2563eb]
               transition
             "
-            >
-              <Search size={21} />
-            </button>
+          >
+            <Search size={21} />
+          </button>
 
-            {/* Go Back */}
-            <button
-                className="
+          {/* Go Back */}
+          <button
+            className="
               hidden
               rounded-lg
               bg-[#255DD0]
@@ -248,13 +769,15 @@ const Topbar = ({
               hover:bg-blue-700
               sm:block
             "
-            >
-              <Link to="/">Go Back</Link>
-            </button>
+          >
+            <Link to="/">
+              Go Back
+            </Link>
+          </button>
 
-            {/* Notifications */}
-            <button
-                className="
+          {/* Notifications */}
+          <button
+            className="
               relative
               p-2
               rounded-lg
@@ -263,11 +786,11 @@ const Topbar = ({
               hover:text-[#2563eb]
               transition
             "
-            >
-              <Bell size={21} />
+          >
+            <Bell size={21} />
 
-              <span
-                  className="
+            <span
+              className="
                 absolute
                 top-1
                 right-1
@@ -278,15 +801,21 @@ const Topbar = ({
                 border-2
                 border-white
               "
-              ></span>
-            </button>
+            ></span>
+          </button>
 
-            {/* Divider */}
-            <div className="hidden sm:block h-8 w-px bg-gray-200"></div>
+          {/* Divider */}
+          <div className="
+            hidden
+            sm:block
+            h-8
+            w-px
+            bg-gray-200
+          "></div>
 
-            {/* Profile */}
-            <button
-                className="
+          {/* Profile */}
+          <button
+            className="
               flex
               items-center
               gap-2
@@ -297,11 +826,11 @@ const Topbar = ({
               hover:bg-gray-50
               transition
             "
-            >
+          >
 
-              {/* Profile Picture */}
-              <div
-                  className="
+            {/* Profile Picture */}
+            <div
+              className="
                 w-9
                 h-9
                 rounded-full
@@ -313,36 +842,52 @@ const Topbar = ({
                 justify-center
                 overflow-hidden
               "
-              >
-                {admin?.picture ? (
-                    <img
-                        src={admin.picture}
-                        alt={admin.name || "Admin"}
-                        className="h-full w-full object-cover"
-                    />
-                ) : (
-                    <User
-                        size={19}
-                        className="text-gray-400"
-                    />
-                )}
-              </div>
+            >
+              {admin?.picture ? (
+                <img
+                  src={admin.picture}
+                  alt={admin.name || "Admin"}
+                  className="
+                    h-full
+                    w-full
+                    object-cover
+                  "
+                />
+              ) : (
+                <User
+                  size={19}
+                  className="text-gray-400"
+                />
+              )}
+            </div>
 
-              {/* Profile Name */}
-              <div className="hidden md:block text-left">
-                <p className="text-sm font-medium text-gray-800">
-                  {admin?.name || "Admin"}
-                </p>
+            {/* Profile Name */}
+            <div className="
+              hidden
+              md:block
+              text-left
+            ">
+              <p className="
+                text-sm
+                font-medium
+                text-gray-800
+              ">
+                {admin?.name || "Admin"}
+              </p>
 
-                <p className="text-xs text-gray-400">
-                  Administrator
-                </p>
-              </div>
+              <p className="
+                text-xs
+                text-gray-400
+              ">
+                Administrator
+              </p>
+            </div>
 
-            </button>
-          </div>
+          </button>
+
         </div>
-      </header>
+      </div>
+    </header>
   );
 };
 

@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { X, Pencil, Trash2, Save, Package } from "lucide-react";
 import Order_bar from "../components/Order_bar";
+import { useSearchParams } from "react-router-dom";
 
 const Order = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const highlightId = searchParams.get("highlight");
+  const [highlightedOrder, setHighlightedOrder] = useState(null);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -43,6 +48,53 @@ const Order = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  useEffect(() => {
+    if (!highlightId || orders.length === 0) {
+      return;
+    }
+
+    const orderExists = orders.some(
+      (order) =>
+        String(
+          order.order_id ??
+          order.Order_ID ??
+          order.id
+        ) === String(highlightId)
+    );
+
+    if (!orderExists) {
+      return;
+    }
+
+    setHighlightedOrder(Number(highlightId));
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const element = document.getElementById(
+          `order-${highlightId}`
+        );
+
+        if (element) {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      });
+    });
+
+    const timer = setTimeout(() => {
+      setHighlightedOrder(null);
+      setSearchParams({});
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [
+    highlightId,
+    orders,
+    setSearchParams,
+  ]);
 
   // ==========================================
   // FORMAT ITEMS
@@ -370,7 +422,7 @@ const Order = () => {
 
           <div className="overflow-x-auto">
 
-            <table className="min-w-[1200px] w-full">
+            <table className="min-w-300 w-full">
 
               <thead>
                 <tr className="border-b border-gray-200 bg-gray-50">
@@ -439,8 +491,20 @@ const Order = () => {
                 ) : (
                   orders.map((order) => (
                     <tr
+                      id={`order-${order.id}`}
                       key={order.id}
-                      className="border-b border-gray-100 transition hover:bg-gray-50 last:border-b-0"
+                      className={`
+                          border-b
+                        border-slate-100
+                          last:border-0
+                          transition-all
+                          duration-700
+                        hover:bg-slate-50
+                          ${highlightedOrder === order.id
+                          ? "bg-blue-100 ring-2 ring-blue-500 ring-inset"
+                          : ""
+                        }
+                        `}
                     >
 
                       {/* Order ID */}

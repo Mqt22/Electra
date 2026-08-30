@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Star, ShoppingCart } from "lucide-react";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, highlighted }) => {
   if (!product) return null;
 
   const image =
@@ -15,7 +15,17 @@ const ProductCard = ({ product }) => {
   const isOutOfStock = stock <= 0;
 
   return (
-    <div className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <div
+      className={`group overflow-hidden rounded-2xl bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg ${highlighted
+        ? "border-2 border-[#255DD0] ring-4 ring-[#255DD0]/10"
+        : "border border-gray-100"
+        }`}
+    >
+      {highlighted && (
+        <div className="absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded-full bg-[#255DD0] px-4 py-1.5 text-xs font-bold text-white shadow-md">
+          Matched Product
+        </div>
+      )}
       {/* Product Image */}
       <Link to={`/products/${product.id}`}>
         <div className="relative h-64 overflow-hidden bg-[#F7F8FA]">
@@ -56,7 +66,7 @@ const ProductCard = ({ product }) => {
 
         {/* Title */}
         <Link to={`/products/${product.id}`}>
-          <h2 className="line-clamp-2 min-h-[48px] text-lg font-semibold text-gray-900 transition hover:text-[#255DD0]">
+          <h2 className="line-clamp-2 min-h-12 text-lg font-semibold text-gray-900 transition hover:text-[#255DD0]">
             {product.title}
           </h2>
         </Link>
@@ -93,7 +103,7 @@ const ProductCard = ({ product }) => {
         <div className="mt-5 flex items-center justify-between gap-3">
           <div>
             <p className="text-2xl font-bold text-[#255DD0]">
-              ${Number(product.price).toLocaleString()}
+              PKR {Number(product.price).toLocaleString()}
             </p>
 
             {product.sku && (
@@ -105,11 +115,10 @@ const ProductCard = ({ product }) => {
 
           <Link
             to={`/products/${product.id}`}
-            className={`flex h-11 items-center gap-2 rounded-xl px-4 text-sm font-semibold transition ${
-              isOutOfStock
-                ? "cursor-not-allowed bg-gray-200 text-gray-400"
-                : "bg-[#255DD0] text-white hover:bg-blue-700"
-            }`}
+            className={`flex h-11 items-center gap-2 rounded-xl px-4 text-sm font-semibold transition ${isOutOfStock
+              ? "cursor-not-allowed bg-gray-200 text-gray-400"
+              : "bg-[#255DD0] text-white hover:bg-blue-700"
+              }`}
             onClick={(e) => {
               if (isOutOfStock) {
                 e.preventDefault();

@@ -9,7 +9,7 @@ const Box = ({
     const Icon = icon?.icon;
 
     return (
-        <div className="w-full min-w-0 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md">
+        <div className="w-full min-w-0 rounded-2xl border border-gray-300 bg-white p-5">
 
             <div className="flex items-start justify-between gap-4">
 

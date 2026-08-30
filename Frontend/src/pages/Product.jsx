@@ -72,6 +72,11 @@ const Product = () => {
   const [reviewComment, setReviewComment] = useState("");
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [products, setProducts] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+
   // =========================
   // Fetch Product
   // =========================
@@ -95,6 +100,100 @@ const Product = () => {
         setLoading(false);
       });
   }, [id]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setSearchLoading(true);
+
+        const response = await fetch(
+          "http://localhost:8000/products"
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+
+        const data = await response.json();
+
+        setProducts(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Search products error:", error);
+        setProducts([]);
+      } finally {
+        setSearchLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    if (!query) {
+      setSearchResults([]);
+      return;
+    }
+
+    const filtered = products
+      .filter((product) => {
+        const title = String(product.title || "").toLowerCase();
+        const category = String(product.category || "").toLowerCase();
+        const description = String(
+          product.description || ""
+        ).toLowerCase();
+        const brand = String(
+          product.brand || product.manufacturer || ""
+        ).toLowerCase();
+
+        return (
+          title.includes(query) ||
+          category.includes(query) ||
+          description.includes(query) ||
+          brand.includes(query)
+        );
+      })
+      .slice(0, 6);
+
+    setSearchResults(filtered);
+  }, [searchQuery, products]);
+
+  // Highlight matching search text
+  const highlightText = (text, query) => {
+    if (!text || !query.trim()) {
+      return text;
+    }
+
+    const escapedQuery = query.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+
+    const parts = String(text).split(
+      new RegExp(`(${escapedQuery})`, "gi")
+    );
+
+    return parts.map((part, index) =>
+      part.toLowerCase() === query.toLowerCase() ? (
+        <mark
+          key={index}
+          className="rounded bg-blue-100 px-0.5 font-semibold text-[#255DD0]"
+        >
+          {part}
+        </mark>
+      ) : (
+        part
+      )
+    );
+  };
+
+  const handleSearchResultClick = (productId) => {
+    setSearchQuery("");
+    setSearchResults([]);
+
+    navigate(`/products/${productId}`);
+  };
 
   // =========================
   // Images
@@ -127,9 +226,9 @@ const Product = () => {
   const averageReview =
     reviewCount > 0
       ? reviews.reduce(
-          (sum, review) => sum + Number(review.rating || 0),
-          0
-        ) / reviewCount
+        (sum, review) => sum + Number(review.rating || 0),
+        0
+      ) / reviewCount
       : Number(product?.rating || 0);
 
   // =========================
@@ -235,7 +334,7 @@ const Product = () => {
 
         throw new Error(
           errorData.detail ||
-            "Failed to add product to cart"
+          "Failed to add product to cart"
         );
       }
 
@@ -252,7 +351,7 @@ const Product = () => {
 
       alert(
         error.message ||
-          "Failed to add product to cart."
+        "Failed to add product to cart."
       );
     }
   };
@@ -334,7 +433,7 @@ const Product = () => {
 
       setOrderError(
         error.message ||
-          "Failed to place order."
+        "Failed to place order."
       );
     } finally {
       setOrderLoading(false);
@@ -492,10 +591,10 @@ const Product = () => {
 
   const specifications =
     product.specifications &&
-    typeof product.specifications === "object"
+      typeof product.specifications === "object"
       ? Object.entries(
-          product.specifications
-        )
+        product.specifications
+      )
       : [];
 
   // =========================
@@ -572,11 +671,10 @@ const Product = () => {
                     (value) => !value
                   )
                 }
-                className={`absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border bg-white shadow-sm transition ${
-                  isWishlisted
-                    ? "border-red-200 text-red-500"
-                    : "border-gray-200 text-gray-700 hover:text-red-500"
-                }`}
+                className={`absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border bg-white shadow-sm transition ${isWishlisted
+                  ? "border-red-200 text-red-500"
+                  : "border-gray-200 text-gray-700 hover:text-red-500"
+                  }`}
               >
                 <Heart
                   size={20}
@@ -623,17 +721,15 @@ const Product = () => {
                       onClick={() =>
                         setActiveImage(index)
                       }
-                      className={`flex h-20 items-center justify-center overflow-hidden rounded-xl border bg-gray-50 p-2 transition ${
-                        activeImage === index
-                          ? "border-[#255DD0] ring-2 ring-[#255DD0]/10"
-                          : "border-gray-200 hover:border-gray-400"
-                      }`}
+                      className={`flex h-20 items-center justify-center overflow-hidden rounded-xl border bg-gray-50 p-2 transition ${activeImage === index
+                        ? "border-[#255DD0] ring-2 ring-[#255DD0]/10"
+                        : "border-gray-200 hover:border-gray-400"
+                        }`}
                     >
                       <img
                         src={image}
-                        alt={`${product.title} ${
-                          index + 1
-                        }`}
+                        alt={`${product.title} ${index + 1
+                          }`}
                         className="h-full w-full object-contain"
                       />
                     </button>
@@ -712,9 +808,9 @@ const Product = () => {
                     size={18}
                     className={
                       index + 1 <=
-                      Math.round(
-                        averageReview
-                      )
+                        Math.round(
+                          averageReview
+                        )
                         ? "fill-yellow-400 text-yellow-400"
                         : "fill-gray-200 text-gray-200"
                     }
@@ -812,8 +908,8 @@ const Product = () => {
                 <p className="mt-1 text-sm font-semibold text-gray-900">
                   {averageReview
                     ? `${averageReview.toFixed(
-                        1
-                      )} / 5`
+                      1
+                    )} / 5`
                     : "Not rated"}
                 </p>
 
@@ -826,11 +922,10 @@ const Product = () => {
                 </p>
 
                 <p
-                  className={`mt-1 text-sm font-semibold ${
-                    isOutOfStock
-                      ? "text-red-600"
-                      : "text-green-600"
-                  }`}
+                  className={`mt-1 text-sm font-semibold ${isOutOfStock
+                    ? "text-red-600"
+                    : "text-green-600"
+                    }`}
                 >
                   {isOutOfStock
                     ? "Out of stock"
@@ -1035,7 +1130,7 @@ const Product = () => {
               </span>
 
               {openSection ===
-              "description" ? (
+                "description" ? (
                 <ChevronUp size={19} />
               ) : (
                 <ChevronDown size={19} />
@@ -1044,10 +1139,10 @@ const Product = () => {
 
             {openSection ===
               "description" && (
-              <div className="px-5 pb-6 text-sm leading-7 text-gray-600 sm:px-7">
-                {product.description}
-              </div>
-            )}
+                <div className="px-5 pb-6 text-sm leading-7 text-gray-600 sm:px-7">
+                  {product.description}
+                </div>
+              )}
 
           </div>
 
@@ -1069,7 +1164,7 @@ const Product = () => {
               </span>
 
               {openSection ===
-              "specifications" ? (
+                "specifications" ? (
                 <ChevronUp size={19} />
               ) : (
                 <ChevronDown size={19} />
@@ -1078,64 +1173,63 @@ const Product = () => {
 
             {openSection ===
               "specifications" && (
-              <div className="px-5 pb-6 sm:px-7">
+                <div className="px-5 pb-6 sm:px-7">
 
-                {specifications.length >
-                0 ? (
-                  <div className="overflow-hidden rounded-xl border border-gray-100">
+                  {specifications.length >
+                    0 ? (
+                    <div className="overflow-hidden rounded-xl border border-gray-100">
 
-                    {specifications.map(
-                      (
-                        [key, value],
-                        index
-                      ) => (
-                        <div
-                          key={key}
-                          className={`grid grid-cols-1 gap-1 px-4 py-3 text-sm sm:grid-cols-3 sm:gap-4 ${
-                            index % 2 === 0
+                      {specifications.map(
+                        (
+                          [key, value],
+                          index
+                        ) => (
+                          <div
+                            key={key}
+                            className={`grid grid-cols-1 gap-1 px-4 py-3 text-sm sm:grid-cols-3 sm:gap-4 ${index % 2 === 0
                               ? "bg-gray-50"
                               : "bg-white"
-                          }`}
-                        >
+                              }`}
+                          >
 
-                          <span className="font-medium capitalize text-gray-700">
-                            {String(
-                              key
-                            ).replace(
-                              /_/g,
-                              " "
-                            )}
-                          </span>
+                            <span className="font-medium capitalize text-gray-700">
+                              {String(
+                                key
+                              ).replace(
+                                /_/g,
+                                " "
+                              )}
+                            </span>
 
-                          <span className="sm:col-span-2 text-gray-600">
-                            {Array.isArray(
-                              value
-                            )
-                              ? value.join(
+                            <span className="sm:col-span-2 text-gray-600">
+                              {Array.isArray(
+                                value
+                              )
+                                ? value.join(
                                   ", "
                                 )
-                              : String(
+                                : String(
                                   value
                                 )}
-                          </span>
+                            </span>
 
-                        </div>
-                      )
-                    )}
+                          </div>
+                        )
+                      )}
 
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-3 rounded-xl bg-gray-50 p-4 text-sm text-gray-500">
-                    <Info size={18} />
-                    No additional
-                    specifications have
-                    been added for this
-                    product.
-                  </div>
-                )}
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-3 rounded-xl bg-gray-50 p-4 text-sm text-gray-500">
+                      <Info size={18} />
+                      No additional
+                      specifications have
+                      been added for this
+                      product.
+                    </div>
+                  )}
 
-              </div>
-            )}
+                </div>
+              )}
 
           </div>
 
@@ -1155,7 +1249,7 @@ const Product = () => {
               </span>
 
               {openSection ===
-              "shipping" ? (
+                "shipping" ? (
                 <ChevronUp size={19} />
               ) : (
                 <ChevronDown size={19} />
@@ -1164,44 +1258,44 @@ const Product = () => {
 
             {openSection ===
               "shipping" && (
-              <div className="grid gap-4 px-5 pb-6 sm:grid-cols-2 sm:px-7">
+                <div className="grid gap-4 px-5 pb-6 sm:grid-cols-2 sm:px-7">
 
-                <div className="rounded-xl border border-gray-100 p-4">
-                  <Truck
-                    className="text-[#255DD0]"
-                    size={20}
-                  />
+                  <div className="rounded-xl border border-gray-100 p-4">
+                    <Truck
+                      className="text-[#255DD0]"
+                      size={20}
+                    />
 
-                  <h3 className="mt-3 font-semibold">
-                    Delivery
-                  </h3>
+                    <h3 className="mt-3 font-semibold">
+                      Delivery
+                    </h3>
 
-                  <p className="mt-1 text-sm leading-6 text-gray-500">
-                    Delivery options, charges,
-                    and estimated arrival are
-                    confirmed at checkout.
-                  </p>
+                    <p className="mt-1 text-sm leading-6 text-gray-500">
+                      Delivery options, charges,
+                      and estimated arrival are
+                      confirmed at checkout.
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl border border-gray-100 p-4">
+                    <RotateCcw
+                      className="text-[#255DD0]"
+                      size={20}
+                    />
+
+                    <h3 className="mt-3 font-semibold">
+                      Returns
+                    </h3>
+
+                    <p className="mt-1 text-sm leading-6 text-gray-500">
+                      Return eligibility depends
+                      on the store's return policy
+                      and the condition of the item.
+                    </p>
+                  </div>
+
                 </div>
-
-                <div className="rounded-xl border border-gray-100 p-4">
-                  <RotateCcw
-                    className="text-[#255DD0]"
-                    size={20}
-                  />
-
-                  <h3 className="mt-3 font-semibold">
-                    Returns
-                  </h3>
-
-                  <p className="mt-1 text-sm leading-6 text-gray-500">
-                    Return eligibility depends
-                    on the store's return policy
-                    and the condition of the item.
-                  </p>
-                </div>
-
-              </div>
-            )}
+              )}
 
           </div>
 
@@ -1227,7 +1321,7 @@ const Product = () => {
                 </span>
 
                 {openSection ===
-                "reviews" ? (
+                  "reviews" ? (
                   <ChevronUp size={18} />
                 ) : (
                   <ChevronDown size={18} />
@@ -1252,269 +1346,269 @@ const Product = () => {
 
             {openSection ===
               "reviews" && (
-              <div className="border-t border-gray-100 px-5 py-6 sm:px-7">
+                <div className="border-t border-gray-100 px-5 py-6 sm:px-7">
 
-                <div className="grid gap-5 rounded-xl bg-gray-50 p-5 sm:grid-cols-[180px_1fr]">
+                  <div className="grid gap-5 rounded-xl bg-gray-50 p-5 sm:grid-cols-[180px_1fr]">
 
-                  <div className="text-center sm:border-r sm:border-gray-200 sm:pr-5">
+                    <div className="text-center sm:border-r sm:border-gray-200 sm:pr-5">
 
-                    <div className="text-4xl font-bold">
-                      {averageReview
-                        ? averageReview.toFixed(
+                      <div className="text-4xl font-bold">
+                        {averageReview
+                          ? averageReview.toFixed(
                             1
                           )
-                        : "0.0"}
-                    </div>
+                          : "0.0"}
+                      </div>
 
-                    <div className="mt-2 flex justify-center">
+                      <div className="mt-2 flex justify-center">
 
-                      {Array.from({
-                        length: 5,
-                      }).map(
-                        (_, index) => (
-                          <Star
-                            key={index}
-                            size={16}
-                            className={
-                              index + 1 <=
-                              Math.round(
-                                averageReview
-                              )
-                                ? "fill-yellow-400 text-yellow-400"
-                                : "fill-gray-200 text-gray-200"
-                            }
-                          />
-                        )
-                      )}
-
-                    </div>
-
-                    <p className="mt-2 text-xs text-gray-500">
-                      Based on{" "}
-                      {reviewCount}{" "}
-                      {reviewCount === 1
-                        ? "review"
-                        : "reviews"}
-                    </p>
-
-                  </div>
-
-                  <div className="flex items-center text-sm text-gray-500">
-                    Customers can leave a rating
-                    and written review after trying
-                    the product.
-                  </div>
-
-                </div>
-
-                <div className="mt-7">
-
-                  {reviews.length ===
-                  0 ? (
-                    <div className="rounded-xl border border-dashed border-gray-200 p-8 text-center">
-
-                      <p className="font-semibold text-gray-800">
-                        No reviews yet
-                      </p>
-
-                      <p className="mt-1 text-sm text-gray-500">
-                        Be the first customer to
-                        share your experience.
-                      </p>
-
-                    </div>
-                  ) : (
-                    <div className="space-y-6">
-
-                      {reviews.map(
-                        (
-                          review,
-                          index
-                        ) => (
-                          <article
-                            key={
-                              review.id ||
-                              index
-                            }
-                            className="border-b border-gray-100 pb-6 last:border-0 last:pb-0"
-                          >
-
-                            <div className="flex flex-wrap items-center justify-between gap-3">
-
-                              <div>
-
-                                <p className="font-semibold text-gray-900">
-                                  {review.name}
-                                </p>
-
-                                {review.date && (
-                                  <p className="mt-1 text-xs text-gray-400">
-                                    {review.date}
-                                  </p>
-                                )}
-
-                              </div>
-
-                              <div className="flex">
-
-                                {Array.from({
-                                  length: 5,
-                                }).map(
-                                  (_, i) => (
-                                    <Star
-                                      key={i}
-                                      size={15}
-                                      className={
-                                        i <
-                                        Number(
-                                          review.rating
-                                        )
-                                          ? "fill-yellow-400 text-yellow-400"
-                                          : "fill-gray-200 text-gray-200"
-                                      }
-                                    />
+                        {Array.from({
+                          length: 5,
+                        }).map(
+                          (_, index) => (
+                            <Star
+                              key={index}
+                              size={16}
+                              className={
+                                index + 1 <=
+                                  Math.round(
+                                    averageReview
                                   )
-                                )}
+                                  ? "fill-yellow-400 text-yellow-400"
+                                  : "fill-gray-200 text-gray-200"
+                              }
+                            />
+                          )
+                        )}
+
+                      </div>
+
+                      <p className="mt-2 text-xs text-gray-500">
+                        Based on{" "}
+                        {reviewCount}{" "}
+                        {reviewCount === 1
+                          ? "review"
+                          : "reviews"}
+                      </p>
+
+                    </div>
+
+                    <div className="flex items-center text-sm text-gray-500">
+                      Customers can leave a rating
+                      and written review after trying
+                      the product.
+                    </div>
+
+                  </div>
+
+                  <div className="mt-7">
+
+                    {reviews.length ===
+                      0 ? (
+                      <div className="rounded-xl border border-dashed border-gray-200 p-8 text-center">
+
+                        <p className="font-semibold text-gray-800">
+                          No reviews yet
+                        </p>
+
+                        <p className="mt-1 text-sm text-gray-500">
+                          Be the first customer to
+                          share your experience.
+                        </p>
+
+                      </div>
+                    ) : (
+                      <div className="space-y-6">
+
+                        {reviews.map(
+                          (
+                            review,
+                            index
+                          ) => (
+                            <article
+                              key={
+                                review.id ||
+                                index
+                              }
+                              className="border-b border-gray-100 pb-6 last:border-0 last:pb-0"
+                            >
+
+                              <div className="flex flex-wrap items-center justify-between gap-3">
+
+                                <div>
+
+                                  <p className="font-semibold text-gray-900">
+                                    {review.name}
+                                  </p>
+
+                                  {review.date && (
+                                    <p className="mt-1 text-xs text-gray-400">
+                                      {review.date}
+                                    </p>
+                                  )}
+
+                                </div>
+
+                                <div className="flex">
+
+                                  {Array.from({
+                                    length: 5,
+                                  }).map(
+                                    (_, i) => (
+                                      <Star
+                                        key={i}
+                                        size={15}
+                                        className={
+                                          i <
+                                            Number(
+                                              review.rating
+                                            )
+                                            ? "fill-yellow-400 text-yellow-400"
+                                            : "fill-gray-200 text-gray-200"
+                                        }
+                                      />
+                                    )
+                                  )}
+
+                                </div>
 
                               </div>
 
-                            </div>
+                              <p className="mt-3 text-sm leading-6 text-gray-600">
+                                {review.comment}
+                              </p>
 
-                            <p className="mt-3 text-sm leading-6 text-gray-600">
-                              {review.comment}
-                            </p>
+                            </article>
+                          )
+                        )}
 
-                          </article>
-                        )
-                      )}
+                      </div>
+                    )}
+
+                  </div>
+
+                  {/* Review Form */}
+
+                  {showReviewForm && (
+                    <div className="mt-7 rounded-xl border border-gray-200 bg-white p-5">
+
+                      <div className="flex items-center justify-between gap-4">
+
+                        <div>
+                          <h3 className="font-semibold">
+                            Write a review
+                          </h3>
+
+                          <p className="mt-1 text-xs text-gray-500">
+                            Tell other shoppers what
+                            you think.
+                          </p>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowReviewForm(
+                              false
+                            )
+                          }
+                          className="text-sm text-gray-500 hover:text-gray-900"
+                        >
+                          Cancel
+                        </button>
+
+                      </div>
+
+                      <input
+                        type="text"
+                        placeholder="Your name"
+                        value={reviewName}
+                        onChange={(e) =>
+                          setReviewName(
+                            e.target.value
+                          )
+                        }
+                        className="mt-5 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-[#255DD0] focus:ring-2 focus:ring-[#255DD0]/10"
+                      />
+
+                      <div className="mt-3">
+
+                        <label className="mb-2 block text-sm font-medium">
+                          Rating
+                        </label>
+
+                        <select
+                          value={
+                            reviewRating
+                          }
+                          onChange={(e) =>
+                            setReviewRating(
+                              Number(
+                                e.target
+                                  .value
+                              )
+                            )
+                          }
+                          className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
+                        >
+                          <option value="5">
+                            5 Stars
+                          </option>
+
+                          <option value="4">
+                            4 Stars
+                          </option>
+
+                          <option value="3">
+                            3 Stars
+                          </option>
+
+                          <option value="2">
+                            2 Stars
+                          </option>
+
+                          <option value="1">
+                            1 Star
+                          </option>
+
+                        </select>
+
+                      </div>
+
+                      <textarea
+                        rows="5"
+                        placeholder="Write your review..."
+                        value={
+                          reviewComment
+                        }
+                        onChange={(e) =>
+                          setReviewComment(
+                            e.target.value
+                          )
+                        }
+                        className="mt-3 w-full resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-[#255DD0] focus:ring-2 focus:ring-[#255DD0]/10"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={
+                          submitReview
+                        }
+                        disabled={
+                          reviewSubmitting
+                        }
+                        className="mt-4 rounded-xl bg-[#255DD0] px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
+                      >
+                        {reviewSubmitting
+                          ? "Submitting..."
+                          : "Submit Review"}
+                      </button>
 
                     </div>
                   )}
 
                 </div>
-
-                {/* Review Form */}
-
-                {showReviewForm && (
-                  <div className="mt-7 rounded-xl border border-gray-200 bg-white p-5">
-
-                    <div className="flex items-center justify-between gap-4">
-
-                      <div>
-                        <h3 className="font-semibold">
-                          Write a review
-                        </h3>
-
-                        <p className="mt-1 text-xs text-gray-500">
-                          Tell other shoppers what
-                          you think.
-                        </p>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setShowReviewForm(
-                            false
-                          )
-                        }
-                        className="text-sm text-gray-500 hover:text-gray-900"
-                      >
-                        Cancel
-                      </button>
-
-                    </div>
-
-                    <input
-                      type="text"
-                      placeholder="Your name"
-                      value={reviewName}
-                      onChange={(e) =>
-                        setReviewName(
-                          e.target.value
-                        )
-                      }
-                      className="mt-5 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-[#255DD0] focus:ring-2 focus:ring-[#255DD0]/10"
-                    />
-
-                    <div className="mt-3">
-
-                      <label className="mb-2 block text-sm font-medium">
-                        Rating
-                      </label>
-
-                      <select
-                        value={
-                          reviewRating
-                        }
-                        onChange={(e) =>
-                          setReviewRating(
-                            Number(
-                              e.target
-                                .value
-                            )
-                          )
-                        }
-                        className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
-                      >
-                        <option value="5">
-                          5 Stars
-                        </option>
-
-                        <option value="4">
-                          4 Stars
-                        </option>
-
-                        <option value="3">
-                          3 Stars
-                        </option>
-
-                        <option value="2">
-                          2 Stars
-                        </option>
-
-                        <option value="1">
-                          1 Star
-                        </option>
-
-                      </select>
-
-                    </div>
-
-                    <textarea
-                      rows="5"
-                      placeholder="Write your review..."
-                      value={
-                        reviewComment
-                      }
-                      onChange={(e) =>
-                        setReviewComment(
-                          e.target.value
-                        )
-                      }
-                      className="mt-3 w-full resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-[#255DD0] focus:ring-2 focus:ring-[#255DD0]/10"
-                    />
-
-                    <button
-                      type="button"
-                      onClick={
-                        submitReview
-                      }
-                      disabled={
-                        reviewSubmitting
-                      }
-                      className="mt-4 rounded-xl bg-[#255DD0] px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
-                    >
-                      {reviewSubmitting
-                        ? "Submitting..."
-                        : "Submit Review"}
-                    </button>
-
-                  </div>
-                )}
-
-              </div>
-            )}
+              )}
 
           </div>
 

@@ -10,8 +10,13 @@ import {
 } from "lucide-react";
 
 import Product_bar from "../components/Product_bar.jsx";
+import { useSearchParams } from "react-router-dom";
 
 const Product_Page = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const highlightId = searchParams.get("highlight");
+  const [highlightedProduct, setHighlightedProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -101,6 +106,54 @@ const Product_Page = () => {
     fetchProducts();
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    if (!highlightId || products.length === 0) {
+      return;
+    }
+
+    const productExists = products.some(
+      (product) =>
+        String(
+          product.Product_ID ??
+          product.product_id ??
+          product.id
+        ) === String(highlightId)
+    );
+
+    if (!productExists) {
+      return;
+    }
+
+    setHighlightedProduct(Number(highlightId));
+
+    // Wait for DOM rendering
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const element = document.getElementById(
+          `product-${highlightId}`
+        );
+
+        if (element) {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      });
+    });
+
+    const timer = setTimeout(() => {
+      setHighlightedProduct(null);
+      setSearchParams({});
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [
+    highlightId,
+    products,
+    setSearchParams,
+  ]);
 
   // =====================================================
   // OPEN EDIT POPUP
@@ -223,7 +276,7 @@ const Product_Page = () => {
       if (!response.ok) {
         throw new Error(
           data.detail ||
-            "Failed to create product"
+          "Failed to create product"
         );
       }
 
@@ -239,7 +292,7 @@ const Product_Page = () => {
 
       setError(
         err.message ||
-          "Failed to create product."
+        "Failed to create product."
       );
     } finally {
       setSaving(false);
@@ -294,7 +347,7 @@ const Product_Page = () => {
       if (!response.ok) {
         throw new Error(
           data.detail ||
-            "Failed to update product"
+          "Failed to update product"
         );
       }
 
@@ -302,22 +355,22 @@ const Product_Page = () => {
         prevProducts.map((product) =>
           product.id === editingProduct.id
             ? {
-                ...product,
-                category:
-                  editingProduct.category,
-                title:
-                  editingProduct.title,
-                price:
-                  Number(
-                    editingProduct.price
-                  ),
-                rating:
-                  Number(
-                    editingProduct.rating
-                  ),
-                description:
-                  editingProduct.description,
-              }
+              ...product,
+              category:
+                editingProduct.category,
+              title:
+                editingProduct.title,
+              price:
+                Number(
+                  editingProduct.price
+                ),
+              rating:
+                Number(
+                  editingProduct.rating
+                ),
+              description:
+                editingProduct.description,
+            }
             : product
         )
       );
@@ -331,7 +384,7 @@ const Product_Page = () => {
 
       setError(
         err.message ||
-          "Failed to update product."
+        "Failed to update product."
       );
     } finally {
       setSaving(false);
@@ -365,7 +418,7 @@ const Product_Page = () => {
       if (!response.ok) {
         throw new Error(
           data.detail ||
-            "Failed to delete product"
+          "Failed to delete product"
         );
       }
 
@@ -383,7 +436,7 @@ const Product_Page = () => {
 
       setError(
         err.message ||
-          "Failed to delete product."
+        "Failed to delete product."
       );
     }
   };
@@ -470,10 +523,10 @@ const Product_Page = () => {
 
           <div className="overflow-x-auto">
 
-            <table className="min-w-[1100px] w-full">
+            <table className="min-w-275 w-full">
 
               <thead>
-                <tr className="border-b border-gray-200 bg-gray-50">
+                <tr className="border-b border-slate-100">
 
                   <th className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                     Product ID
@@ -528,7 +581,19 @@ const Product_Page = () => {
                   products.map((product) => (
                     <tr
                       key={product.id}
-                      className="border-b border-gray-100 transition hover:bg-gray-50 last:border-b-0"
+                      id={`product-${product.id}`}
+                      className={`
+                        border-b
+                      border-gray-100
+                        last:border-b-0
+                        transition-all
+                        duration-500
+                        ease-in-out
+                        ${highlightedProduct === product.id
+                          ? "bg-blue-100 ring-2 ring-blue-500 ring-inset"
+                          : "hover:bg-gray-50"
+                        }
+                      `}
                     >
 
                       {/* ID */}
