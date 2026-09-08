@@ -34,16 +34,10 @@ const Cart = () => {
     country: "Pakistan",
   });
 
-  /*
-   * Selected cart items
-   */
   const selectedCartItems = cart.filter((item) =>
     selectedItems.includes(item.cart_id)
   );
 
-  /*
-   * Selected subtotal
-   */
   const selectedTotal = selectedCartItems.reduce(
     (total, item) =>
       total +
@@ -52,37 +46,18 @@ const Cart = () => {
     0
   );
 
-  /*
-   * Selected quantity
-   */
   const selectedQuantity = selectedCartItems.reduce(
     (total, item) =>
       total + Number(item.quantity || 0),
     0
   );
 
-  /*
-   * Delivery calculation
-   *
-   * Under PKR 10,000 -> PKR 250
-   * PKR 10,000+     -> PKR 150
-   * PKR 20,000+     -> FREE
-   */
   const calculateDeliveryCharge = (amount) => {
     const subtotal = Number(amount || 0);
 
-    if (subtotal <= 0) {
-      return 0;
-    }
-
-    if (subtotal >= 20000) {
-      return 0;
-    }
-
-    if (subtotal >= 10000) {
-      return 150;
-    }
-
+    if (subtotal <= 0) return 0;
+    if (subtotal >= 20000) return 0;
+    if (subtotal >= 10000) return 150;
     return 250;
   };
 
@@ -92,9 +67,6 @@ const Cart = () => {
   const grandTotal =
     selectedTotal + deliveryCharge;
 
-  /*
-   * Select / deselect item
-   */
   const toggleItem = (cartId) => {
     setSelectedItems((prev) =>
       prev.includes(cartId)
@@ -105,9 +77,6 @@ const Cart = () => {
     setError("");
   };
 
-  /*
-   * Select / deselect all
-   */
   const toggleAll = () => {
     if (selectedItems.length === cart.length) {
       setSelectedItems([]);
@@ -120,9 +89,6 @@ const Cart = () => {
     setError("");
   };
 
-  /*
-   * Shipping input change
-   */
   const handleShippingChange = (e) => {
     const { name, value } = e.target;
 
@@ -134,16 +100,11 @@ const Cart = () => {
     setError("");
   };
 
-  /*
-   * Update quantity
-   */
   const updateQuantity = async (
     cartId,
     newQuantity
   ) => {
-    if (newQuantity < 1) {
-      return;
-    }
+    if (newQuantity < 1) return;
 
     try {
       if (!userId) {
@@ -184,9 +145,6 @@ const Cart = () => {
     }
   };
 
-  /*
-   * Delete selected products
-   */
   const deleteSelected = async () => {
     if (!selectedItems.length) {
       setError(
@@ -230,23 +188,15 @@ const Cart = () => {
       setSelectedItems([]);
     } catch (err) {
       console.error(err);
-
       setError(
         "Unable to delete selected products."
       );
     }
   };
 
-  /*
-   * CHECKOUT
-   */
   const handleCheckout = async () => {
     setError("");
 
-    /*
-     * User must be logged in.
-     * Works for customer and admin.
-     */
     if (!userId) {
       setError(
         "Please login before placing an order."
@@ -254,9 +204,6 @@ const Cart = () => {
       return;
     }
 
-    /*
-     * Product selection
-     */
     if (selectedCartItems.length === 0) {
       setError(
         "Please select a product before checkout."
@@ -264,9 +211,6 @@ const Cart = () => {
       return;
     }
 
-    /*
-     * Only one product per checkout
-     */
     if (selectedCartItems.length !== 1) {
       setError(
         "Please select exactly one product to continue checkout."
@@ -274,9 +218,6 @@ const Cart = () => {
       return;
     }
 
-    /*
-     * Validate shipping information
-     */
     if (!shippingData.phone.trim()) {
       setError(
         "Please enter your phone number."
@@ -308,9 +249,6 @@ const Cart = () => {
     try {
       setCheckoutLoading(true);
 
-      /*
-       * Prepare order items
-       */
       const orderItems = {};
 
       selectedCartItems.forEach((item) => {
@@ -325,9 +263,6 @@ const Cart = () => {
         };
       });
 
-      /*
-       * Create order
-       */
       const orderResponse = await fetch(
         "http://localhost:8000/orders",
         {
@@ -375,9 +310,6 @@ const Cart = () => {
         orderData
       );
 
-      /*
-       * Get order ID
-       */
       const newOrderId =
         orderData.order?.id ||
         orderData.id ||
@@ -394,9 +326,6 @@ const Cart = () => {
         );
       }
 
-      /*
-       * Create shipping information
-       */
       const shippingResponse =
         await fetch(
           `http://localhost:8000/shipping/${newOrderId}`,
@@ -441,6 +370,113 @@ const Cart = () => {
       }
 
       /*
+       * =====================================================
+       * CREATE COMPLETE WHATSAPP ORDER MESSAGE
+       * =====================================================
+       */
+
+      let itemsText = "";
+
+      selectedCartItems.forEach((item) => {
+        itemsText +=
+          `• ${item.title}\n` +
+          `  Quantity: ${Number(
+            item.quantity || 0
+          )}\n` +
+          `  Price: Rs.${Number(
+            item.price || 0
+          ).toLocaleString()}\n` +
+          `  Subtotal: Rs.${(
+            Number(item.price || 0) *
+            Number(item.quantity || 0)
+          ).toLocaleString()}\n\n`;
+      });
+
+      const whatsappMessage =
+        `🛍️ ELECTRA - New Order\n\n` +
+
+        `━━━━━━━━━━━━━━━━━━\n` +
+        `📋 ORDER INFORMATION\n` +
+        `━━━━━━━━━━━━━━━━━━\n\n` +
+
+        `Order ID: #${newOrderId}\n\n` +
+
+        `👤 Customer: ${
+          user?.name ||
+          user?.username ||
+          "Customer"
+        }\n` +
+
+        `📧 Email: ${
+          user?.email || "N/A"
+        }\n\n` +
+
+        `📦 PRODUCTS\n\n` +
+        `${itemsText}` +
+
+        `💰 Subtotal: Rs.${selectedTotal.toLocaleString()}\n` +
+
+        `🚚 Delivery: ${
+          deliveryCharge === 0
+            ? "FREE"
+            : `Rs.${deliveryCharge.toLocaleString()}`
+        }\n` +
+
+        `💵 Total: Rs.${grandTotal.toLocaleString()}\n\n` +
+
+        `━━━━━━━━━━━━━━━━━━\n` +
+        `📍 SHIPPING INFORMATION\n` +
+        `━━━━━━━━━━━━━━━━━━\n\n` +
+
+        `📱 Phone: ${
+          shippingData.phone.trim()
+        }\n` +
+
+        `🏠 Address: ${
+          shippingData.address.trim()
+        }\n` +
+
+        `🏙️ City: ${
+          shippingData.city.trim()
+        }\n` +
+
+        `📮 Postal Code: ${
+          shippingData.postal_code.trim() ||
+          "N/A"
+        }\n` +
+
+        `🌍 Country: ${
+          shippingData.country.trim()
+        }\n\n` +
+
+        `Please process this order.`;
+
+      /*
+       * WhatsApp number
+       */
+      const whatsappPhone =
+        "923264243320";
+
+      /*
+       * Create WhatsApp Web URL
+       */
+      const whatsappLink =
+        `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+          whatsappMessage
+        )}`;
+
+      /*
+       * Open WhatsApp with the complete
+       * order + shipping information.
+       */
+      if (whatsappLink) {
+        window.open(
+          whatsappLink,
+          "_blank"
+        );
+      }
+
+      /*
        * Delete purchased cart item
        */
       for (const item of selectedCartItems) {
@@ -459,10 +495,6 @@ const Cart = () => {
         }
       }
 
-      /*
-       * Save order information BEFORE
-       * changing the cart.
-       */
       setOrderId(newOrderId);
 
       setSuccessfulOrder({
@@ -472,10 +504,6 @@ const Cart = () => {
         quantity: selectedQuantity,
       });
 
-      /*
-       * Remove purchased item from
-       * frontend cart.
-       */
       setCart((prev) =>
         prev.filter(
           (item) =>
@@ -487,13 +515,6 @@ const Cart = () => {
 
       setSelectedItems([]);
 
-      /*
-       * IMPORTANT:
-       * Show popup AFTER successful checkout.
-       *
-       * The popup is rendered outside the
-       * empty-cart condition below.
-       */
       setShowOrderPopup(true);
 
     } catch (err) {
@@ -513,20 +534,8 @@ const Cart = () => {
 
   return (
     <>
-      {/* =====================================================
-          CART CONTENT
-          ===================================================== */}
-
       {!cart || cart.length === 0 ? (
-        /*
-         * EMPTY CART
-         *
-         * This is now NOT a return statement.
-         * Therefore the success popup can still
-         * render when the last cart item was purchased.
-         */
         <main className="min-h-screen bg-white px-4 py-16">
-
           <div className="mx-auto flex max-w-3xl flex-col items-center justify-center text-center">
 
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-blue-50 text-[#255DD0]">
@@ -552,17 +561,12 @@ const Cart = () => {
             </button>
 
           </div>
-
         </main>
       ) : (
-        /*
-         * NORMAL CART
-         */
         <main className="min-h-screen bg-[#F7F8FA] px-4 py-8 sm:px-6 lg:px-8">
 
           <div className="mx-auto max-w-7xl">
 
-            {/* HEADER */}
             <div className="mb-8">
 
               <h1 className="text-3xl font-extrabold tracking-tight text-gray-950 sm:text-4xl">
@@ -576,7 +580,6 @@ const Cart = () => {
 
             </div>
 
-            {/* ERROR */}
             {error && (
               <div className="mb-6 flex items-center justify-between rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
 
@@ -596,10 +599,8 @@ const Cart = () => {
 
             <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
 
-              {/* LEFT SIDE */}
               <section>
 
-                {/* SELECT ALL */}
                 <div className="mb-4 flex items-center justify-between rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm">
 
                   <label className="flex cursor-pointer items-center gap-3">
@@ -633,7 +634,6 @@ const Cart = () => {
 
                 </div>
 
-                {/* PRODUCTS */}
                 <div className="space-y-4">
 
                   {cart.map((item) => {
@@ -659,7 +659,6 @@ const Cart = () => {
 
                         <div className="flex gap-4">
 
-                          {/* CHECKBOX */}
                           <div className="pt-2">
 
                             <input
@@ -675,7 +674,6 @@ const Cart = () => {
 
                           </div>
 
-                          {/* IMAGE */}
                           <div className="h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-[#F7F8FA] sm:h-36 sm:w-36">
 
                             <img
@@ -690,7 +688,6 @@ const Cart = () => {
 
                           </div>
 
-                          {/* PRODUCT INFORMATION */}
                           <div className="min-w-0 flex-1">
 
                             <p className="text-xs font-semibold uppercase tracking-wide text-[#255DD0]">
@@ -711,7 +708,6 @@ const Cart = () => {
 
                             <div className="mt-4 flex flex-wrap items-center gap-4">
 
-                              {/* QUANTITY */}
                               <div className="flex items-center overflow-hidden rounded-lg border border-gray-200">
 
                                 <button
@@ -753,7 +749,6 @@ const Cart = () => {
 
                               </div>
 
-                              {/* ITEM TOTAL */}
                               <p className="text-sm font-bold text-[#255DD0]">
                                 PKR{" "}
                                 {itemSubtotal.toLocaleString()}
@@ -771,7 +766,6 @@ const Cart = () => {
 
                 </div>
 
-                {/* SHIPPING FORM */}
                 {selectedCartItems.length === 1 && (
                   <div className="mt-6 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6">
 
@@ -798,7 +792,6 @@ const Cart = () => {
 
                     <div className="mt-6 grid gap-4 sm:grid-cols-2">
 
-                      {/* PHONE */}
                       <div>
 
                         <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -822,7 +815,6 @@ const Cart = () => {
 
                       </div>
 
-                      {/* CITY */}
                       <div>
 
                         <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -846,7 +838,6 @@ const Cart = () => {
 
                       </div>
 
-                      {/* ADDRESS */}
                       <div className="sm:col-span-2">
 
                         <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -870,7 +861,6 @@ const Cart = () => {
 
                       </div>
 
-                      {/* POSTAL CODE */}
                       <div>
 
                         <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -894,7 +884,6 @@ const Cart = () => {
 
                       </div>
 
-                      {/* COUNTRY */}
                       <div>
 
                         <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -923,7 +912,6 @@ const Cart = () => {
                   </div>
                 )}
 
-                {/* MULTIPLE SELECTION NOTICE */}
                 {selectedCartItems.length > 1 && (
                   <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5">
 
@@ -943,7 +931,6 @@ const Cart = () => {
 
               </section>
 
-              {/* CHECKOUT */}
               <aside className="h-fit">
 
                 <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
@@ -954,7 +941,6 @@ const Cart = () => {
 
                   <div className="mt-6 space-y-4">
 
-                    {/* PRODUCTS */}
                     <div className="flex items-center justify-between text-sm">
 
                       <span className="text-gray-500">
@@ -967,7 +953,6 @@ const Cart = () => {
 
                     </div>
 
-                    {/* SUBTOTAL */}
                     <div className="flex items-center justify-between text-sm">
 
                       <span className="text-gray-500">
@@ -981,7 +966,6 @@ const Cart = () => {
 
                     </div>
 
-                    {/* DELIVERY */}
                     <div className="flex items-center justify-between text-sm">
 
                       <span className="text-gray-500">
@@ -996,7 +980,6 @@ const Cart = () => {
 
                     </div>
 
-                    {/* TOTAL */}
                     <div className="border-t border-gray-100 pt-4">
 
                       <div className="flex items-center justify-between">
@@ -1016,7 +999,6 @@ const Cart = () => {
 
                   </div>
 
-                  {/* DELIVERY INFO */}
                   <div className="mt-5 rounded-xl bg-[#F7F8FA] p-4">
 
                     <p className="text-xs leading-5 text-gray-500">
@@ -1027,7 +1009,6 @@ const Cart = () => {
 
                   </div>
 
-                  {/* PLACE ORDER */}
                   <button
                     onClick={handleCheckout}
                     disabled={
@@ -1048,7 +1029,6 @@ const Cart = () => {
 
                   </button>
 
-                  {/* CONTINUE SHOPPING */}
                   <button
                     onClick={() =>
                       navigate("/shop")
@@ -1067,22 +1047,16 @@ const Cart = () => {
         </main>
       )}
 
-      {/* =====================================================
-          ORDER SUCCESS POPUP
-          ===================================================== */}
-
       {showOrderPopup &&
         successfulOrder && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4">
 
             <div className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl">
 
-              {/* SUCCESS ICON */}
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-50 text-green-600">
                 <Check size={32} />
               </div>
 
-              {/* TITLE */}
               <h2 className="mt-5 text-center text-2xl font-extrabold text-gray-950">
                 Order Placed Successfully!
               </h2>
@@ -1091,10 +1065,8 @@ const Cart = () => {
                 Thank you for shopping with ELECTRA.
               </p>
 
-              {/* ORDER DETAILS */}
               <div className="mt-6 rounded-2xl bg-[#F7F8FA] p-5">
 
-                {/* ORDER ID */}
                 <div className="flex justify-between text-sm">
 
                   <span className="text-gray-500">
@@ -1107,7 +1079,6 @@ const Cart = () => {
 
                 </div>
 
-                {/* SUBTOTAL */}
                 <div className="mt-3 flex justify-between text-sm">
 
                   <span className="text-gray-500">
@@ -1121,7 +1092,6 @@ const Cart = () => {
 
                 </div>
 
-                {/* DELIVERY */}
                 <div className="mt-3 flex justify-between text-sm">
 
                   <span className="text-gray-500">
@@ -1137,7 +1107,6 @@ const Cart = () => {
 
                 </div>
 
-                {/* TOTAL */}
                 <div className="mt-4 border-t border-gray-200 pt-4">
 
                   <div className="flex items-center justify-between">
@@ -1157,7 +1126,6 @@ const Cart = () => {
 
               </div>
 
-              {/* CONTINUE SHOPPING */}
               <button
                 onClick={() => {
                   setShowOrderPopup(false);
