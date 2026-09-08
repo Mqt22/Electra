@@ -12,6 +12,7 @@ from Endpoint.Order_endpoint import router as order_router
 from Endpoint.Dashboard_endpoint import router as dashboard_router
 from fastapi.middleware.cors import CORSMiddleware
 from Endpoint.Category_endpoint import router as category_router
+from Endpoint.Shipping_endpoint import router as shipping_router
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -56,6 +57,7 @@ app.include_router(admin_router)
 app.include_router(order_router)
 app.include_router(dashboard_router)
 app.include_router(category_router)
+app.include_router(shipping_router)
 
 if __name__ == "__main__":
     uvicorn.run(

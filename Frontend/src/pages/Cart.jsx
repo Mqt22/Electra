@@ -5,112 +5,138 @@ import {
   X,
   ShoppingBag,
   Trash2,
+  Truck,
 } from "lucide-react";
-
 import { useCart } from "../context/Cartcontext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const Cart = () => {
   const navigate = useNavigate();
 
-  const {
-    cart,
-    setCart,
-    refreshCart,
-    userId,
-  } = useCart();
-
+  const { cart, setCart } = useCart();
   const { user } = useAuth();
 
-  const [selectedItems, setSelectedItems] =
-    useState([]);
+  const userId = user?.id ?? user?.user_id;
 
+  const [selectedItems, setSelectedItems] = useState([]);
   const [error, setError] = useState("");
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
-  const [checkoutLoading, setCheckoutLoading] =
-    useState(false);
-
-  const [showOrderPopup, setShowOrderPopup] =
-    useState(false);
-
+  const [showOrderPopup, setShowOrderPopup] = useState(false);
   const [successfulOrder, setSuccessfulOrder] = useState(null);
-
   const [orderId, setOrderId] = useState(null);
 
-  // =========================
-  // Selected Cart Items
-  // =========================
+  const [shippingData, setShippingData] = useState({
+    phone: "",
+    address: "",
+    city: "",
+    postal_code: "",
+    country: "Pakistan",
+  });
 
-  const selectedCartItems = cart.filter(
-    (item) =>
-      selectedItems.includes(item.cart_id)
+  /*
+   * Selected cart items
+   */
+  const selectedCartItems = cart.filter((item) =>
+    selectedItems.includes(item.cart_id)
   );
 
-  // =========================
-  // Selected Total
-  // =========================
-
-  const selectedTotal =
-    selectedCartItems.reduce(
-      (total, item) =>
-        total +
-        Number(item.price || 0) *
+  /*
+   * Selected subtotal
+   */
+  const selectedTotal = selectedCartItems.reduce(
+    (total, item) =>
+      total +
+      Number(item.price || 0) *
         Number(item.quantity || 0),
-      0
-    );
+    0
+  );
 
-  // =========================
-  // Selected Quantity
-  // =========================
+  /*
+   * Selected quantity
+   */
+  const selectedQuantity = selectedCartItems.reduce(
+    (total, item) =>
+      total + Number(item.quantity || 0),
+    0
+  );
 
-  const selectedQuantity =
-    selectedCartItems.reduce(
-      (total, item) =>
-        total + Number(item.quantity || 0),
-      0
-    );
+  /*
+   * Delivery calculation
+   *
+   * Under PKR 10,000 -> PKR 250
+   * PKR 10,000+     -> PKR 150
+   * PKR 20,000+     -> FREE
+   */
+  const calculateDeliveryCharge = (amount) => {
+    const subtotal = Number(amount || 0);
 
-  // =========================
-  // Toggle Item
-  // =========================
+    if (subtotal <= 0) {
+      return 0;
+    }
 
-  const toggleItem = (cartId) => {
-    setError("");
+    if (subtotal >= 20000) {
+      return 0;
+    }
 
-    setSelectedItems((prev) =>
-      prev.includes(cartId)
-        ? prev.filter(
-          (id) => id !== cartId
-        )
-        : [...prev, cartId]
-    );
+    if (subtotal >= 10000) {
+      return 150;
+    }
+
+    return 250;
   };
 
-  // =========================
-  // Toggle All
-  // =========================
+  const deliveryCharge =
+    calculateDeliveryCharge(selectedTotal);
 
-  const toggleAll = () => {
+  const grandTotal =
+    selectedTotal + deliveryCharge;
+
+  /*
+   * Select / deselect item
+   */
+  const toggleItem = (cartId) => {
+    setSelectedItems((prev) =>
+      prev.includes(cartId)
+        ? prev.filter((id) => id !== cartId)
+        : [...prev, cartId]
+    );
+
     setError("");
+  };
 
-    if (
-      selectedItems.length ===
-      cart.length
-    ) {
+  /*
+   * Select / deselect all
+   */
+  const toggleAll = () => {
+    if (selectedItems.length === cart.length) {
       setSelectedItems([]);
     } else {
       setSelectedItems(
-        cart.map(
-          (item) => item.cart_id
-        )
+        cart.map((item) => item.cart_id)
       );
     }
+
+    setError("");
   };
 
-  // =========================
-  // Update Quantity
-  // =========================
+  /*
+   * Shipping input change
+   */
+  const handleShippingChange = (e) => {
+    const { name, value } = e.target;
 
+    setShippingData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setError("");
+  };
+
+  /*
+   * Update quantity
+   */
   const updateQuantity = async (
     cartId,
     newQuantity
@@ -120,7 +146,12 @@ const Cart = () => {
     }
 
     try {
-      setError("");
+      if (!userId) {
+        setError(
+          "Please login to update your cart."
+        );
+        return;
+      }
 
       const response = await fetch(
         `http://localhost:8000/cart/${cartId}?user_id=${userId}&quantity=${newQuantity}`,
@@ -130,100 +161,65 @@ const Cart = () => {
       );
 
       if (!response.ok) {
-        const errorData =
-          await response.json();
-
-        console.error(
-          "Quantity update error:",
-          errorData
-        );
-
         throw new Error(
           "Failed to update quantity"
         );
       }
 
-      const updatedItem =
-        await response.json();
-
-      setCart((prevCart) =>
-        prevCart.map((item) =>
+      setCart((prev) =>
+        prev.map((item) =>
           item.cart_id === cartId
             ? {
-              ...item,
-              quantity:
-                updatedItem.quantity,
-            }
+                ...item,
+                quantity: newQuantity,
+              }
             : item
         )
       );
-
-    } catch (error) {
-      console.error(
-        "Quantity update error:",
-        error
-      );
-
+    } catch (err) {
+      console.error(err);
       setError(
-        "Failed to update quantity."
+        "Unable to update quantity."
       );
     }
   };
 
-  // =========================
-  // Delete Selected
-  // =========================
-
+  /*
+   * Delete selected products
+   */
   const deleteSelected = async () => {
-    if (selectedItems.length === 0) {
+    if (!selectedItems.length) {
       setError(
-        "Please select an item to delete."
+        "Please select at least one product."
       );
-
-      return;
-    }
-
-    if (!userId) {
-      setError(
-        "User not found. Please log in again."
-      );
-
       return;
     }
 
     try {
-      setError("");
+      if (!userId) {
+        setError(
+          "Please login to manage your cart."
+        );
+        return;
+      }
 
-      await Promise.all(
-        selectedItems.map(
-          async (cartId) => {
-            const response =
-              await fetch(
-                `http://localhost:8000/cart/${cartId}?user_id=${userId}`,
-                {
-                  method: "DELETE",
-                }
-              );
-
-            if (!response.ok) {
-              const errorData =
-                await response.json();
-
-              console.error(
-                "Delete API error:",
-                errorData
-              );
-
-              throw new Error(
-                "Failed to delete item"
-              );
-            }
+      for (const cartId of selectedItems) {
+        const response = await fetch(
+          `http://localhost:8000/cart/${cartId}?user_id=${userId}`,
+          {
+            method: "DELETE",
           }
-        )
-      );
+        );
 
-      setCart((prevCart) =>
-        prevCart.filter(
+        if (!response.ok) {
+          throw new Error(
+            "Failed to delete cart item"
+          );
+        }
+      }
+
+      setCart((prev) =>
+        prev.filter(
           (item) =>
             !selectedItems.includes(
               item.cart_id
@@ -232,171 +228,256 @@ const Cart = () => {
       );
 
       setSelectedItems([]);
-
-    } catch (error) {
-      console.error(
-        "Delete error:",
-        error
-      );
+    } catch (err) {
+      console.error(err);
 
       setError(
-        "Failed to delete selected items."
+        "Unable to delete selected products."
       );
-
-      refreshCart();
     }
   };
 
-  // =====================================================
-  // CHECKOUT
-  // =====================================================
-
+  /*
+   * CHECKOUT
+   */
   const handleCheckout = async () => {
-    if (
-      selectedCartItems.length === 0
-    ) {
-      setError(
-        "Please select at least one item to checkout."
-      );
-
-      return;
-    }
-
-    const customer = user;
-
-    if (!customer) {
-      setError(
-        "Customer information is missing. Please log in again."
-      );
-
-      return;
-    }
-
-    if (!userId) {
-      setError(
-        "User not found. Please log in again."
-      );
-
-      return;
-    }
-
-    setCheckoutLoading(true);
     setError("");
 
-    try {
-      // =========================
-      // Build Order Items
-      // =========================
+    /*
+     * User must be logged in.
+     * Works for customer and admin.
+     */
+    if (!userId) {
+      setError(
+        "Please login before placing an order."
+      );
+      return;
+    }
 
+    /*
+     * Product selection
+     */
+    if (selectedCartItems.length === 0) {
+      setError(
+        "Please select a product before checkout."
+      );
+      return;
+    }
+
+    /*
+     * Only one product per checkout
+     */
+    if (selectedCartItems.length !== 1) {
+      setError(
+        "Please select exactly one product to continue checkout."
+      );
+      return;
+    }
+
+    /*
+     * Validate shipping information
+     */
+    if (!shippingData.phone.trim()) {
+      setError(
+        "Please enter your phone number."
+      );
+      return;
+    }
+
+    if (!shippingData.address.trim()) {
+      setError(
+        "Please enter your shipping address."
+      );
+      return;
+    }
+
+    if (!shippingData.city.trim()) {
+      setError(
+        "Please enter your city."
+      );
+      return;
+    }
+
+    if (!shippingData.country.trim()) {
+      setError(
+        "Please enter your country."
+      );
+      return;
+    }
+
+    try {
+      setCheckoutLoading(true);
+
+      /*
+       * Prepare order items
+       */
       const orderItems = {};
 
-      selectedCartItems.forEach(
-        (item) => {
-          orderItems[
-            String(item.product_id)
-          ] = {
-            product_id:
-              item.product_id,
+      selectedCartItems.forEach((item) => {
+        orderItems[item.product_id] = {
+          product_id: item.product_id,
+          title: item.title,
+          price: Number(item.price),
+          quantity: Number(item.quantity),
+          subtotal:
+            Number(item.price) *
+            Number(item.quantity),
+        };
+      });
 
-            title: item.title,
-
-            price: Number(
-              item.price
-            ),
-
-            quantity: Number(
-              item.quantity
-            ),
-
-            category:
-              item.category,
-
-            image_url:
-              item.image_url || null,
-          };
-        }
-      );
-
-      // =========================
-      // Create Order
-      // =========================
-
-      const response = await fetch(
+      /*
+       * Create order
+       */
+      const orderResponse = await fetch(
         "http://localhost:8000/orders",
         {
           method: "POST",
           headers: {
-            "Content-Type":
-              "application/json",
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             customer_name:
-              user.name,
+              user?.name ||
+              user?.username ||
+              "Customer",
 
             customer_email:
-              user.email,
+              user?.email || "",
 
             items: orderItems,
 
-            total_amount:
-              selectedTotal,
+            total_amount: grandTotal,
 
             status: "successful",
           }),
         }
       );
 
-      const data =
-        await response.json();
+      if (!orderResponse.ok) {
+        const orderError =
+          await orderResponse.text();
 
-      if (!response.ok) {
+        console.error(
+          "Order error:",
+          orderError
+        );
+
         throw new Error(
-          data.detail ||
-          "Failed to create order"
+          "Failed to create order."
         );
       }
 
-      // =========================
-      // Delete Purchased Cart Items
-      // =========================
+      const orderData =
+        await orderResponse.json();
 
-      await Promise.all(
-        selectedCartItems.map(
-          async (item) => {
-            const deleteResponse =
-              await fetch(
-                `http://localhost:8000/cart/${item.cart_id}?user_id=${userId}`,
-                {
-                  method: "DELETE",
-                }
-              );
-
-            if (
-              !deleteResponse.ok
-            ) {
-              throw new Error(
-                "Order created but failed to remove cart item."
-              );
-            }
-          }
-        )
+      console.log(
+        "Order created:",
+        orderData
       );
 
-      // =========================
-      // Save Successful Order
-      // =========================
+      /*
+       * Get order ID
+       */
+      const newOrderId =
+        orderData.order?.id ||
+        orderData.id ||
+        orderData.order_id;
+
+      if (!newOrderId) {
+        console.error(
+          "Order response:",
+          orderData
+        );
+
+        throw new Error(
+          "Order was created but order ID was not returned."
+        );
+      }
+
+      /*
+       * Create shipping information
+       */
+      const shippingResponse =
+        await fetch(
+          `http://localhost:8000/shipping/${newOrderId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify({
+              phone:
+                shippingData.phone.trim(),
+
+              address:
+                shippingData.address.trim(),
+
+              city:
+                shippingData.city.trim(),
+
+              postal_code:
+                shippingData.postal_code.trim() ||
+                null,
+
+              country:
+                shippingData.country.trim(),
+            }),
+          }
+        );
+
+      if (!shippingResponse.ok) {
+        const shippingError =
+          await shippingResponse.text();
+
+        console.error(
+          "Shipping error:",
+          shippingError
+        );
+
+        throw new Error(
+          "Order was created, but shipping information could not be saved."
+        );
+      }
+
+      /*
+       * Delete purchased cart item
+       */
+      for (const item of selectedCartItems) {
+        const deleteResponse =
+          await fetch(
+            `http://localhost:8000/cart/${item.cart_id}?user_id=${userId}`,
+            {
+              method: "DELETE",
+            }
+          );
+
+        if (!deleteResponse.ok) {
+          console.warn(
+            `Could not delete cart item ${item.cart_id}`
+          );
+        }
+      }
+
+      /*
+       * Save order information BEFORE
+       * changing the cart.
+       */
+      setOrderId(newOrderId);
 
       setSuccessfulOrder({
-        items: selectedCartItems,
-        total: selectedTotal,
+        subtotal: selectedTotal,
+        delivery: deliveryCharge,
+        total: grandTotal,
+        quantity: selectedQuantity,
       });
 
-      // =========================
-      // Update Local Cart
-      // =========================
-
-      setCart((prevCart) =>
-        prevCart.filter(
+      /*
+       * Remove purchased item from
+       * frontend cart.
+       */
+      setCart((prev) =>
+        prev.filter(
           (item) =>
             !selectedItems.includes(
               item.cart_id
@@ -406,616 +487,693 @@ const Cart = () => {
 
       setSelectedItems([]);
 
-      // =========================
-      // Show Popup
-      // =========================
-
-      setOrderId(data.order_id);
+      /*
+       * IMPORTANT:
+       * Show popup AFTER successful checkout.
+       *
+       * The popup is rendered outside the
+       * empty-cart condition below.
+       */
       setShowOrderPopup(true);
-      console.log("ORDER SUCCESS");
-      console.log("Order ID:", data.order_id);
-      console.log("Successful Order:", selectedCartItems);
 
-    } catch (error) {
+    } catch (err) {
       console.error(
         "Checkout error:",
-        error
+        err
       );
 
       setError(
-        error.message ||
-        "Failed to place order."
+        err.message ||
+          "Something went wrong while placing your order."
       );
-
     } finally {
       setCheckoutLoading(false);
     }
   };
 
-  // =====================================================
-  // EMPTY CART
-  // =====================================================
-
-  if (cart.length === 0 && !showOrderPopup) {
-    return (
-      <div className="flex min-h-[70vh] items-center justify-center px-4">
-
-        <div className="w-full max-w-xl text-center">
-
-          <div className="mb-6 flex justify-center text-gray-300">
-            <ShoppingBag size={70} />
-          </div>
-
-          <h1 className="text-2xl font-semibold text-gray-900 sm:text-3xl lg:text-4xl">
-            Your Cart is Empty
-          </h1>
-
-          <p className="mt-3 text-sm text-gray-500 sm:text-base lg:text-lg">
-            There are no items in your
-            cart yet.
-          </p>
-
-          <button
-            onClick={() =>
-              navigate("/shop")
-            }
-            className="mt-7 w-full rounded-lg bg-black px-7 py-3 text-sm font-medium text-white transition hover:bg-gray-800 active:scale-95 sm:w-auto sm:text-base"
-          >
-            Continue Shopping
-          </button>
-
-        </div>
-
-      </div>
-    );
-  }
-
-  // =====================================================
-  // MAIN
-  // =====================================================
-
   return (
-    <div className="px-4 py-6 sm:px-6 lg:px-8">
-
-      <div className="mx-auto max-w-7xl">
-
-        {/* Header */}
-
-        <div className="mb-6">
-
-          <h1 className="text-2xl font-semibold text-gray-900 sm:text-3xl">
-            Shopping Cart
-          </h1>
-
-          <p className="mt-1 text-sm text-gray-500">
-            {cart.length} item
-            {cart.length !== 1
-              ? "s"
-              : ""}{" "}
-            in your cart
-          </p>
-
-        </div>
-
-        {/* Main Layout */}
-
-        <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-
-          {/* =====================================================
-              CART
-          ===================================================== */}
-
-          <div className="overflow-hidden rounded-lg border border-gray-200">
-
-            {/* Store Header */}
-
-            <div className="flex flex-col gap-3 border-b border-gray-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-
-              <div className="flex min-w-0 items-center gap-3">
-
-                <input
-                  type="checkbox"
-                  checked={
-                    cart.length > 0 &&
-                    selectedItems.length ===
-                    cart.length
-                  }
-                  onChange={toggleAll}
-                  className="h-5 w-5 cursor-pointer rounded border-gray-300"
-                />
-
-                <div className="flex h-7 w-7 items-center justify-center rounded bg-purple-700 text-xs font-bold text-white">
-                  E
-                </div>
-
-                <span className="min-w-0 truncate text-base font-medium text-gray-800 sm:text-lg">
-                  Electra Store
-                </span>
-
-              </div>
-
-              <button
-                onClick={
-                  deleteSelected
-                }
-                title="Delete selected items"
-                className="flex h-9 w-9 items-center justify-center self-end rounded-md text-gray-400 transition hover:bg-red-50 hover:text-red-500 sm:self-auto"
-              >
-                <Trash2 size={18} />
-              </button>
-
-            </div>
-
-            {/* Error */}
-
-            {error && (
-              <div className="border-b border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600 sm:px-6">
-                {error}
-              </div>
-            )}
-
-            {/* Products */}
-
-            {cart.map((item) => (
-              <div
-                key={item.cart_id}
-                className="flex flex-col gap-5 border-b border-gray-200 p-4 last:border-b-0 sm:p-6 lg:flex-row lg:items-center"
-              >
-
-                {/* Checkbox */}
-
-                <div>
-
-                  <input
-                    type="checkbox"
-                    checked={selectedItems.includes(
-                      item.cart_id
-                    )}
-                    onChange={() =>
-                      toggleItem(
-                        item.cart_id
-                      )
-                    }
-                    className="h-5 w-5 cursor-pointer rounded border-gray-300"
-                  />
-
-                </div>
-
-                {/* Product */}
-
-                <div className="flex flex-1 gap-4">
-
-                  <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden sm:h-32 sm:w-32">
-
-                    <img
-                      src={item.image_url}
-                      alt={item.title}
-                      className="h-full w-full object-contain"
-                    />
-
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-
-                    <h2 className="text-base font-medium text-gray-900 sm:text-lg">
-                      {item.title}
-                    </h2>
-
-                    <p className="mt-2 text-sm text-gray-500">
-                      Category:{" "}
-                      <span className="text-gray-700">
-                        {item.category}
-                      </span>
-                    </p>
-
-                    <div className="mt-3 lg:hidden">
-
-                      <p className="text-xl font-medium text-gray-900">
-                        {Number(
-                          item.price
-                        ).toLocaleString()}
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-                {/* Unit Price */}
-
-                <div className="hidden w-36 lg:block">
-
-                  <p className="text-sm text-gray-500">
-                    Unit Price
-                  </p>
-
-                  <p className="mt-1 text-xl font-medium text-gray-900">
-                    {Number(
-                      item.price
-                    ).toLocaleString()}
-                  </p>
-
-                </div>
-
-                {/* Quantity */}
-
-                <div className="flex items-center justify-start sm:justify-end">
-
-                  <button
-                    onClick={() =>
-                      updateQuantity(
-                        item.cart_id,
-                        item.quantity - 1
-                      )
-                    }
-                    disabled={
-                      item.quantity <= 1
-                    }
-                    className="flex h-12 w-12 items-center justify-center bg-gray-100 text-xl text-gray-500 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-40"
-                  >
-                    −
-                  </button>
-
-                  <span className="flex h-12 w-12 items-center justify-center text-base">
-                    {item.quantity}
-                  </span>
-
-                  <button
-                    onClick={() =>
-                      updateQuantity(
-                        item.cart_id,
-                        item.quantity + 1
-                      )
-                    }
-                    className="flex h-12 w-12 items-center justify-center bg-gray-100 text-xl text-gray-500 hover:bg-gray-200"
-                  >
-                    +
-                  </button>
-
-                </div>
-
-              </div>
-            ))}
-
-          </div>
-
-          {/* =====================================================
-              CHECKOUT PANEL
-          ===================================================== */}
-
-          <aside className="h-fit rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:sticky lg:top-6">
-
-            <h2 className="text-xl font-bold text-gray-900">
-              Checkout
-            </h2>
-
-            <p className="mt-1 text-sm text-gray-500">
-              Review your selected items
-              before placing your order.
-            </p>
-
-            <div className="my-5 border-t border-gray-100" />
-
-            {/* Selected Items */}
-
-            <div className="space-y-4">
-
-              {selectedCartItems.length ===
-                0 ? (
-                <div className="rounded-xl bg-gray-50 p-5 text-center">
-
-                  <ShoppingBag
-                    size={28}
-                    className="mx-auto text-gray-300"
-                  />
-
-                  <p className="mt-2 text-sm font-medium text-gray-600">
-                    No items selected
-                  </p>
-
-                  <p className="mt-1 text-xs text-gray-400">
-                    Select products from your
-                    cart to checkout.
-                  </p>
-
-                </div>
-              ) : (
-                selectedCartItems.map(
-                  (item) => (
-                    <div
-                      key={
-                        item.cart_id
-                      }
-                      className="flex gap-3"
-                    >
-
-                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-50">
-
-                        <img
-                          src={
-                            item.image_url
-                          }
-                          alt={
-                            item.title
-                          }
-                          className="h-full w-full object-contain"
-                        />
-
-                      </div>
-
-                      <div className="min-w-0 flex-1">
-
-                        <p className="truncate text-sm font-semibold text-gray-900">
-                          {item.title}
-                        </p>
-
-                        <p className="mt-1 text-xs text-gray-500">
-                          {item.quantity} ×{" "}
-                          {Number(
-                            item.price
-                          ).toLocaleString()}
-                        </p>
-
-                      </div>
-
-                      <p className="text-sm font-semibold text-gray-900">
-                        {(
-                          Number(
-                            item.price
-                          ) *
-                          Number(
-                            item.quantity
-                          )
-                        ).toLocaleString()}
-                      </p>
-
-                    </div>
-                  )
-                )
-              )}
-
-            </div>
-
-            <div className="my-5 border-t border-gray-100" />
-
-            {/* Summary */}
-
-            <div className="space-y-3">
-
-              <div className="flex justify-between text-sm">
-
-                <span className="text-gray-500">
-                  Selected items
-                </span>
-
-                <span className="font-medium text-gray-900">
-                  {
-                    selectedCartItems.length
-                  }
-                </span>
-
-              </div>
-
-              <div className="flex justify-between text-sm">
-
-                <span className="text-gray-500">
-                  Total quantity
-                </span>
-
-                <span className="font-medium text-gray-900">
-                  {selectedQuantity}
-                </span>
-
-              </div>
-
-              <div className="flex justify-between text-sm">
-
-                <span className="text-gray-500">
-                  Delivery
-                </span>
-
-                <span className="font-medium text-green-600">
-                  Calculated later
-                </span>
-
-              </div>
-
-            </div>
-
-            <div className="my-5 border-t border-gray-100" />
-
-            <div className="flex items-end justify-between">
-
-              <div>
-
-                <p className="text-sm text-gray-500">
-                  Total
-                </p>
-
-                <p className="mt-1 text-2xl font-bold text-gray-900">
-                  {selectedTotal.toLocaleString()}
-                </p>
-
-              </div>
-
-              <span className="text-xs text-gray-400">
-                PKR
-              </span>
-
-            </div>
-
-            {/* Checkout Button */}
-
-            <button
-              type="button"
-              onClick={
-                handleCheckout
-              }
-              disabled={
-                selectedItems.length ===
-                0 ||
-                checkoutLoading
-              }
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-[#255DD0] px-5 py-3.5 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
-            >
-
-              {checkoutLoading ? (
-                "Processing..."
-              ) : (
-                <>
-                  <ShoppingBag
-                    size={18}
-                  />
-                  Checkout
-                </>
-              )}
-
-            </button>
-
-            <p className="mt-3 text-center text-xs leading-5 text-gray-400">
-              By placing this order, you
-              confirm the selected products
-              and quantity.
-            </p>
-
-          </aside>
-
-        </div>
-
-      </div>
-
+    <>
       {/* =====================================================
-          ORDER RECEIVED POPUP
-      ===================================================== */}
+          CART CONTENT
+          ===================================================== */}
 
-      {showOrderPopup && successfulOrder && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4">
+      {!cart || cart.length === 0 ? (
+        /*
+         * EMPTY CART
+         *
+         * This is now NOT a return statement.
+         * Therefore the success popup can still
+         * render when the last cart item was purchased.
+         */
+        <main className="min-h-screen bg-white px-4 py-16">
 
-          <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+          <div className="mx-auto flex max-w-3xl flex-col items-center justify-center text-center">
 
-            {/* Close Button */}
-            <button
-              type="button"
-              onClick={() => setShowOrderPopup(false)}
-              className="absolute right-4 top-4 rounded-full p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
-            >
-              <X size={20} />
-            </button>
-
-            {/* Success Icon */}
-            <div className="flex justify-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                <Check
-                  size={34}
-                  className="text-green-600"
-                />
-              </div>
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-blue-50 text-[#255DD0]">
+              <ShoppingBag size={42} />
             </div>
 
-            {/* Title */}
-            <h2 className="mt-5 text-center text-2xl font-bold text-gray-900">
-              Order Successful!
-            </h2>
+            <h1 className="mt-6 text-3xl font-extrabold text-gray-950">
+              Your Cart Is Empty
+            </h1>
 
-            <p className="mt-2 text-center text-sm text-gray-500">
-              Your order has been successfully placed.
+            <p className="mt-3 max-w-md text-gray-500">
+              Looks like you haven't added anything
+              to your cart yet.
             </p>
 
-            {/* Products */}
-            <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-4">
-
-              {successfulOrder.items.map((item) => (
-                <div
-                  key={item.cart_id}
-                  className="border-b border-gray-200 py-4 first:pt-0 last:border-b-0 last:pb-0"
-                >
-
-                  {/* Product Name */}
-                  <div className="flex justify-between gap-4">
-                    <span className="text-sm text-gray-500">
-                      Product Name
-                    </span>
-
-                    <span className="text-right text-sm font-semibold text-gray-900">
-                      {item.title}
-                    </span>
-                  </div>
-
-                  {/* Product Quantity */}
-                  <div className="mt-3 flex justify-between">
-                    <span className="text-sm text-gray-500">
-                      Product Quantity
-                    </span>
-
-                    <span className="text-sm font-semibold text-gray-900">
-                      {item.quantity}
-                    </span>
-                  </div>
-
-                  {/* Product Price */}
-                  <div className="mt-3 flex justify-between">
-                    <span className="text-sm text-gray-500">
-                      Product Price
-                    </span>
-
-                    <span className="text-sm font-semibold text-gray-900">
-                      {Number(item.price).toLocaleString()} PKR
-                    </span>
-                  </div>
-
-                </div>
-              ))}
-
-              {/* Total */}
-              <div className="mt-4 flex justify-between border-t border-gray-200 pt-4">
-                <span className="text-sm font-medium text-gray-700">
-                  Total
-                </span>
-
-                <span className="text-base font-bold text-gray-900">
-                  {Number(successfulOrder.total).toLocaleString()} PKR
-                </span>
-              </div>
-
-              {/* Status */}
-              <div className="mt-4 flex justify-between">
-                <span className="text-sm text-gray-500">
-                  Status
-                </span>
-
-                <span className="text-sm font-bold text-green-600">
-                  Successful
-                </span>
-              </div>
-
-            </div>
-
-            {/* Order ID */}
-            {orderId && (
-              <p className="mt-4 text-center text-sm font-semibold text-gray-800">
-                Order #{orderId}
-              </p>
-            )}
-
-            {/* Continue Shopping */}
             <button
-              type="button"
-              onClick={() => {
-                setShowOrderPopup(false);
-                navigate("/shop");
-              }}
-              className="mt-6 w-full rounded-xl bg-[#255DD0] px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
+              onClick={() =>
+                navigate("/shop")
+              }
+              className="mt-8 rounded-xl bg-[#255DD0] px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
             >
               Continue Shopping
             </button>
 
           </div>
 
-        </div>
+        </main>
+      ) : (
+        /*
+         * NORMAL CART
+         */
+        <main className="min-h-screen bg-[#F7F8FA] px-4 py-8 sm:px-6 lg:px-8">
+
+          <div className="mx-auto max-w-7xl">
+
+            {/* HEADER */}
+            <div className="mb-8">
+
+              <h1 className="text-3xl font-extrabold tracking-tight text-gray-950 sm:text-4xl">
+                Shopping Cart
+              </h1>
+
+              <p className="mt-2 text-gray-500">
+                Review your selected products before
+                checkout.
+              </p>
+
+            </div>
+
+            {/* ERROR */}
+            {error && (
+              <div className="mb-6 flex items-center justify-between rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+
+                <span>{error}</span>
+
+                <button
+                  onClick={() =>
+                    setError("")
+                  }
+                  className="ml-4"
+                >
+                  <X size={18} />
+                </button>
+
+              </div>
+            )}
+
+            <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+
+              {/* LEFT SIDE */}
+              <section>
+
+                {/* SELECT ALL */}
+                <div className="mb-4 flex items-center justify-between rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm">
+
+                  <label className="flex cursor-pointer items-center gap-3">
+
+                    <input
+                      type="checkbox"
+                      checked={
+                        cart.length > 0 &&
+                        selectedItems.length ===
+                          cart.length
+                      }
+                      onChange={toggleAll}
+                      className="h-5 w-5 accent-[#255DD0]"
+                    />
+
+                    <span className="text-sm font-semibold text-gray-800">
+                      Select All
+                    </span>
+
+                  </label>
+
+                  {selectedItems.length > 0 && (
+                    <button
+                      onClick={deleteSelected}
+                      className="flex items-center gap-2 text-sm font-semibold text-red-500 transition hover:text-red-700"
+                    >
+                      <Trash2 size={17} />
+                      Delete Selected
+                    </button>
+                  )}
+
+                </div>
+
+                {/* PRODUCTS */}
+                <div className="space-y-4">
+
+                  {cart.map((item) => {
+
+                    const isSelected =
+                      selectedItems.includes(
+                        item.cart_id
+                      );
+
+                    const itemSubtotal =
+                      Number(item.price || 0) *
+                      Number(item.quantity || 0);
+
+                    return (
+                      <div
+                        key={item.cart_id}
+                        className={`rounded-2xl border bg-white p-4 shadow-sm transition sm:p-5 ${
+                          isSelected
+                            ? "border-[#255DD0] ring-2 ring-[#255DD0]/10"
+                            : "border-gray-100"
+                        }`}
+                      >
+
+                        <div className="flex gap-4">
+
+                          {/* CHECKBOX */}
+                          <div className="pt-2">
+
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={() =>
+                                toggleItem(
+                                  item.cart_id
+                                )
+                              }
+                              className="h-5 w-5 accent-[#255DD0]"
+                            />
+
+                          </div>
+
+                          {/* IMAGE */}
+                          <div className="h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-[#F7F8FA] sm:h-36 sm:w-36">
+
+                            <img
+                              src={
+                                item.image_url ||
+                                item.image ||
+                                ""
+                              }
+                              alt={item.title}
+                              className="h-full w-full object-cover"
+                            />
+
+                          </div>
+
+                          {/* PRODUCT INFORMATION */}
+                          <div className="min-w-0 flex-1">
+
+                            <p className="text-xs font-semibold uppercase tracking-wide text-[#255DD0]">
+                              {item.category ||
+                                "Product"}
+                            </p>
+
+                            <h2 className="mt-1 line-clamp-2 text-lg font-bold text-gray-950">
+                              {item.title}
+                            </h2>
+
+                            <p className="mt-2 text-sm text-gray-500">
+                              PKR{" "}
+                              {Number(
+                                item.price || 0
+                              ).toLocaleString()}
+                            </p>
+
+                            <div className="mt-4 flex flex-wrap items-center gap-4">
+
+                              {/* QUANTITY */}
+                              <div className="flex items-center overflow-hidden rounded-lg border border-gray-200">
+
+                                <button
+                                  onClick={() =>
+                                    updateQuantity(
+                                      item.cart_id,
+                                      Number(
+                                        item.quantity
+                                      ) - 1
+                                    )
+                                  }
+                                  disabled={
+                                    Number(
+                                      item.quantity
+                                    ) <= 1
+                                  }
+                                  className="px-3 py-2 text-gray-600 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+                                >
+                                  -
+                                </button>
+
+                                <span className="min-w-10 text-center text-sm font-semibold text-gray-800">
+                                  {item.quantity}
+                                </span>
+
+                                <button
+                                  onClick={() =>
+                                    updateQuantity(
+                                      item.cart_id,
+                                      Number(
+                                        item.quantity
+                                      ) + 1
+                                    )
+                                  }
+                                  className="px-3 py-2 text-gray-600 transition hover:bg-gray-50"
+                                >
+                                  +
+                                </button>
+
+                              </div>
+
+                              {/* ITEM TOTAL */}
+                              <p className="text-sm font-bold text-[#255DD0]">
+                                PKR{" "}
+                                {itemSubtotal.toLocaleString()}
+                              </p>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+                    );
+                  })}
+
+                </div>
+
+                {/* SHIPPING FORM */}
+                {selectedCartItems.length === 1 && (
+                  <div className="mt-6 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6">
+
+                    <div className="flex items-start gap-4">
+
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[#255DD0]">
+                        <Truck size={21} />
+                      </div>
+
+                      <div>
+
+                        <h2 className="text-xl font-bold text-gray-950">
+                          Shipping Information
+                        </h2>
+
+                        <p className="mt-1 text-sm text-gray-500">
+                          Enter the address where you
+                          want your order delivered.
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                    <div className="mt-6 grid gap-4 sm:grid-cols-2">
+
+                      {/* PHONE */}
+                      <div>
+
+                        <label className="mb-2 block text-sm font-semibold text-gray-700">
+                          Phone Number
+                        </label>
+
+                        <input
+                          type="tel"
+                          name="phone"
+                          id="shipping-phone"
+                          value={
+                            shippingData.phone
+                          }
+                          onChange={
+                            handleShippingChange
+                          }
+                          autoComplete="tel"
+                          placeholder="+92 300 1234567"
+                          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#255DD0] focus:ring-2 focus:ring-[#255DD0]/10"
+                        />
+
+                      </div>
+
+                      {/* CITY */}
+                      <div>
+
+                        <label className="mb-2 block text-sm font-semibold text-gray-700">
+                          City
+                        </label>
+
+                        <input
+                          type="text"
+                          name="city"
+                          id="shipping-city"
+                          value={
+                            shippingData.city
+                          }
+                          onChange={
+                            handleShippingChange
+                          }
+                          autoComplete="address-level2"
+                          placeholder="Lahore"
+                          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#255DD0] focus:ring-2 focus:ring-[#255DD0]/10"
+                        />
+
+                      </div>
+
+                      {/* ADDRESS */}
+                      <div className="sm:col-span-2">
+
+                        <label className="mb-2 block text-sm font-semibold text-gray-700">
+                          Address
+                        </label>
+
+                        <input
+                          type="text"
+                          name="address"
+                          id="shipping-address"
+                          value={
+                            shippingData.address
+                          }
+                          onChange={
+                            handleShippingChange
+                          }
+                          autoComplete="street-address"
+                          placeholder="House no, street, area"
+                          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#255DD0] focus:ring-2 focus:ring-[#255DD0]/10"
+                        />
+
+                      </div>
+
+                      {/* POSTAL CODE */}
+                      <div>
+
+                        <label className="mb-2 block text-sm font-semibold text-gray-700">
+                          Postal Code
+                        </label>
+
+                        <input
+                          type="text"
+                          name="postal_code"
+                          id="shipping-postal-code"
+                          value={
+                            shippingData.postal_code
+                          }
+                          onChange={
+                            handleShippingChange
+                          }
+                          autoComplete="postal-code"
+                          placeholder="54000"
+                          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#255DD0] focus:ring-2 focus:ring-[#255DD0]/10"
+                        />
+
+                      </div>
+
+                      {/* COUNTRY */}
+                      <div>
+
+                        <label className="mb-2 block text-sm font-semibold text-gray-700">
+                          Country
+                        </label>
+
+                        <input
+                          type="text"
+                          name="country"
+                          id="shipping-country"
+                          value={
+                            shippingData.country
+                          }
+                          onChange={
+                            handleShippingChange
+                          }
+                          autoComplete="country-name"
+                          placeholder="Pakistan"
+                          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#255DD0] focus:ring-2 focus:ring-[#255DD0]/10"
+                        />
+
+                      </div>
+
+                    </div>
+
+                  </div>
+                )}
+
+                {/* MULTIPLE SELECTION NOTICE */}
+                {selectedCartItems.length > 1 && (
+                  <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5">
+
+                    <p className="text-sm font-semibold text-[#255DD0]">
+                      Please select only one product
+                      at a time for checkout.
+                    </p>
+
+                    <p className="mt-1 text-sm text-blue-700">
+                      Shipping information is currently
+                      collected for a single selected
+                      product.
+                    </p>
+
+                  </div>
+                )}
+
+              </section>
+
+              {/* CHECKOUT */}
+              <aside className="h-fit">
+
+                <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+
+                  <h2 className="text-xl font-bold text-gray-950">
+                    Checkout Summary
+                  </h2>
+
+                  <div className="mt-6 space-y-4">
+
+                    {/* PRODUCTS */}
+                    <div className="flex items-center justify-between text-sm">
+
+                      <span className="text-gray-500">
+                        Products
+                      </span>
+
+                      <span className="font-semibold text-gray-900">
+                        {selectedQuantity}
+                      </span>
+
+                    </div>
+
+                    {/* SUBTOTAL */}
+                    <div className="flex items-center justify-between text-sm">
+
+                      <span className="text-gray-500">
+                        Subtotal
+                      </span>
+
+                      <span className="font-semibold text-gray-900">
+                        PKR{" "}
+                        {selectedTotal.toLocaleString()}
+                      </span>
+
+                    </div>
+
+                    {/* DELIVERY */}
+                    <div className="flex items-center justify-between text-sm">
+
+                      <span className="text-gray-500">
+                        Delivery Charges
+                      </span>
+
+                      <span className="font-semibold text-gray-900">
+                        {deliveryCharge === 0
+                          ? "FREE"
+                          : `PKR ${deliveryCharge.toLocaleString()}`}
+                      </span>
+
+                    </div>
+
+                    {/* TOTAL */}
+                    <div className="border-t border-gray-100 pt-4">
+
+                      <div className="flex items-center justify-between">
+
+                        <span className="text-base font-bold text-gray-900">
+                          Total
+                        </span>
+
+                        <span className="text-2xl font-extrabold text-[#255DD0]">
+                          PKR{" "}
+                          {grandTotal.toLocaleString()}
+                        </span>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  {/* DELIVERY INFO */}
+                  <div className="mt-5 rounded-xl bg-[#F7F8FA] p-4">
+
+                    <p className="text-xs leading-5 text-gray-500">
+                      Delivery is automatically
+                      calculated based on your order
+                      subtotal.
+                    </p>
+
+                  </div>
+
+                  {/* PLACE ORDER */}
+                  <button
+                    onClick={handleCheckout}
+                    disabled={
+                      checkoutLoading ||
+                      selectedCartItems.length !== 1
+                    }
+                    className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-[#255DD0] px-5 py-3.5 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+                  >
+
+                    {checkoutLoading ? (
+                      "Processing..."
+                    ) : (
+                      <>
+                        <Check size={18} />
+                        Place Order
+                      </>
+                    )}
+
+                  </button>
+
+                  {/* CONTINUE SHOPPING */}
+                  <button
+                    onClick={() =>
+                      navigate("/shop")
+                    }
+                    className="mt-3 w-full rounded-xl border border-gray-200 px-5 py-3.5 text-sm font-semibold text-gray-700 transition hover:border-[#255DD0] hover:text-[#255DD0]"
+                  >
+                    Continue Shopping
+                  </button>
+
+                </div>
+
+              </aside>
+
+            </div>
+          </div>
+        </main>
       )}
 
-    </div>
+      {/* =====================================================
+          ORDER SUCCESS POPUP
+          ===================================================== */}
+
+      {showOrderPopup &&
+        successfulOrder && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4">
+
+            <div className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl">
+
+              {/* SUCCESS ICON */}
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-50 text-green-600">
+                <Check size={32} />
+              </div>
+
+              {/* TITLE */}
+              <h2 className="mt-5 text-center text-2xl font-extrabold text-gray-950">
+                Order Placed Successfully!
+              </h2>
+
+              <p className="mt-2 text-center text-sm text-gray-500">
+                Thank you for shopping with ELECTRA.
+              </p>
+
+              {/* ORDER DETAILS */}
+              <div className="mt-6 rounded-2xl bg-[#F7F8FA] p-5">
+
+                {/* ORDER ID */}
+                <div className="flex justify-between text-sm">
+
+                  <span className="text-gray-500">
+                    Order ID
+                  </span>
+
+                  <span className="font-bold text-gray-900">
+                    #{orderId}
+                  </span>
+
+                </div>
+
+                {/* SUBTOTAL */}
+                <div className="mt-3 flex justify-between text-sm">
+
+                  <span className="text-gray-500">
+                    Subtotal
+                  </span>
+
+                  <span className="font-semibold text-gray-900">
+                    PKR{" "}
+                    {successfulOrder.subtotal.toLocaleString()}
+                  </span>
+
+                </div>
+
+                {/* DELIVERY */}
+                <div className="mt-3 flex justify-between text-sm">
+
+                  <span className="text-gray-500">
+                    Delivery
+                  </span>
+
+                  <span className="font-semibold text-gray-900">
+                    {successfulOrder.delivery ===
+                    0
+                      ? "FREE"
+                      : `PKR ${successfulOrder.delivery.toLocaleString()}`}
+                  </span>
+
+                </div>
+
+                {/* TOTAL */}
+                <div className="mt-4 border-t border-gray-200 pt-4">
+
+                  <div className="flex items-center justify-between">
+
+                    <span className="font-bold text-gray-900">
+                      Total
+                    </span>
+
+                    <span className="text-xl font-extrabold text-[#255DD0]">
+                      PKR{" "}
+                      {successfulOrder.total.toLocaleString()}
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* CONTINUE SHOPPING */}
+              <button
+                onClick={() => {
+                  setShowOrderPopup(false);
+                  navigate("/shop");
+                }}
+                className="mt-6 w-full rounded-xl bg-[#255DD0] px-5 py-3.5 text-sm font-bold text-white transition hover:bg-blue-700"
+              >
+                Continue Shopping
+              </button>
+
+            </div>
+
+          </div>
+        )}
+
+    </>
   );
 };
 
