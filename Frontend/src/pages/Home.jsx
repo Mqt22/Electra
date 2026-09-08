@@ -57,7 +57,6 @@ const slides = [
     title: "Your Life, Tracked with Precision",
     description:
       "Monitor your health, stay connected, and enjoy premium performance with our latest smartwatch collection.",
-    button: "Shop Now",
   },
   {
     image: apple,
@@ -65,7 +64,6 @@ const slides = [
     title: "Enjoy the Future of Smart Technology",
     description:
       "Monitor your health, stay connected, and enjoy premium performance with our latest smartwatch collection.",
-    button: "Shop Now",
   },
   {
     image: iphone,
@@ -73,7 +71,6 @@ const slides = [
     title: "Technology That Fits Your Lifestyle",
     description:
       "Discover stylish wearables with advanced features and long battery life.",
-    button: "Shop Now",
   },
   {
     image: smartwatch,
@@ -81,7 +78,6 @@ const slides = [
     title: "Upgrade Your Everyday Experience",
     description:
       "Premium gadgets crafted for speed, comfort and reliability.",
-    button: "Shop Now",
   },
 ];
 
@@ -165,10 +161,6 @@ const Home = () => {
                 <p className="mt-3 line-clamp-3 text-xs leading-6 text-gray-200 sm:mt-4 sm:text-sm sm:leading-7 sm:line-clamp-none md:mt-5 md:text-base lg:text-lg">
                   {slide.description}
                 </p>
-
-                <button className="mt-5 rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold transition hover:bg-blue-700 sm:mt-6 sm:px-6 sm:py-2.5 sm:text-base md:mt-8 md:px-8 md:py-3">
-                  {slide.button}
-                </button>
               </div>
             </div>
           </div>

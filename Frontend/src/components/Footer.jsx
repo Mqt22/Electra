@@ -1,10 +1,28 @@
-import {React,useState,useEffect} from "react";
+import { React, useState, useEffect } from "react";
 import { Globe, AtSign, Share2 } from "lucide-react";
+import { Link } from "react-router-dom"
 
 const footerLinks = {
-  "Company Info": ["About Us", "Careers", "Press", "Contact"],
-  "Quick Links": ["New Arrivals", "Best Sellers", "Store Locator", "Gift Cards"],
-  "Customer Service": ["Shipping Info", "Returns", "Support Center", "FAQ"],
+  "Company Info": [
+    { name: "About Us", path: "/about" },
+    { name: "Careers", path: "/comming" },
+    { name: "Press", path: "/comming" },
+    { name: "Contact", path: "/contact" },
+  ],
+
+  "Quick Links": [
+    { name: "New Arrivals", path: "/comming" },
+    { name: "Best Sellers", path: "/comming" },
+    { name: "Store Locator", path: "/comming" },
+    { name: "Gift Cards", path: "/comming" },
+  ],
+
+  "Customer Service": [
+    { name: "Shipping Info", path: "/comming" },
+    { name: "Returns", path: "/comming" },
+    { name: "Support Center", path: "/comming" },
+    { name: "FAQ", path: "/comming" },
+  ],
 };
 
 const Footer = () => {
@@ -81,44 +99,24 @@ const Footer = () => {
                 Precision electronics for the modern professional. Elevate
                 your workflow with cutting-edge technology.
               </p>
-
-              <div className="flex items-center gap-3 mt-4">
-                <button
-                  aria-label="Website"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
-                >
-                  <Globe size={16} />
-                </button>
-                <button
-                  aria-label="Email"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
-                >
-                  <AtSign size={16} />
-                </button>
-                <button
-                  aria-label="Share"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
-                >
-                  <Share2 size={16} />
-                </button>
-              </div>
             </div>
 
             {/* Link Columns */}
             {Object.entries(footerLinks).map(([heading, links]) => (
               <div key={heading}>
-                <h4 className="text-sm font-semibold text-gray-900 mb-3 sm:mb-4">
+                <h4 className="mb-3 text-sm font-semibold text-gray-900 sm:mb-4">
                   {heading}
                 </h4>
+
                 <ul className="flex flex-col gap-2 sm:gap-3">
                   {links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-sm text-gray-500 hover:text-[#255DD0] transition"
+                    <li key={link.name}>
+                      <Link
+                        to={link.path}
+                        className="text-sm text-gray-500 transition hover:text-[#255DD0]"
                       >
-                        {link}
-                      </a>
+                        {link.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>

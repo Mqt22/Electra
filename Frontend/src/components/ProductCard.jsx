@@ -16,7 +16,7 @@ const ProductCard = ({ product, highlighted }) => {
 
   return (
     <div
-      className={`group overflow-hidden rounded-2xl bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg ${highlighted
+      className={`group flex h-130 flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg ${highlighted
         ? "border-2 border-[#255DD0] ring-4 ring-[#255DD0]/10"
         : "border border-gray-100"
         }`}
@@ -56,7 +56,7 @@ const ProductCard = ({ product, highlighted }) => {
       </Link>
 
       {/* Product Information */}
-      <div className="p-5">
+      <div className="flex flex-1 flex-col p-5">
         {/* Brand */}
         {product.brand && (
           <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[#255DD0]">
@@ -100,24 +100,27 @@ const ProductCard = ({ product, highlighted }) => {
         )}
 
         {/* Price + Cart */}
-        <div className="mt-5 flex items-center justify-between gap-3">
-          <div>
-            <p className="text-2xl font-bold text-[#255DD0]">
+        <div className="mt-auto flex h-14 items-center justify-between gap-3 pt-4">
+
+          {/* Price */}
+          <div className="min-w-0 flex-1">
+            <p className="whitespace-nowrap text-xl font-bold leading-none text-[#255DD0]">
               PKR {Number(product.price).toLocaleString()}
             </p>
 
             {product.sku && (
-              <p className="mt-1 text-xs text-gray-400">
+              <p className="mt-1 truncate text-xs text-gray-400">
                 SKU: {product.sku}
               </p>
             )}
           </div>
 
+          {/* CTA */}
           <Link
             to={`/products/${product.id}`}
-            className={`flex h-11 items-center gap-2 rounded-xl px-4 text-sm font-semibold transition ${isOutOfStock
-              ? "cursor-not-allowed bg-gray-200 text-gray-400"
-              : "bg-[#255DD0] text-white hover:bg-blue-700"
+            className={`flex h-10 shrink-0 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition ${isOutOfStock
+                ? "cursor-not-allowed bg-gray-200 text-gray-400"
+                : "bg-[#255DD0] text-white hover:bg-blue-700"
               }`}
             onClick={(e) => {
               if (isOutOfStock) {
@@ -125,9 +128,12 @@ const ProductCard = ({ product, highlighted }) => {
               }
             }}
           >
-            <ShoppingCart size={17} />
-            {isOutOfStock ? "Unavailable" : "View Product"}
+            <ShoppingCart size={15} />
+            <span>
+              {isOutOfStock ? "Unavailable" : "View Product"}
+            </span>
           </Link>
+
         </div>
       </div>
     </div>

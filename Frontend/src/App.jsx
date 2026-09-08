@@ -12,6 +12,9 @@ import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import Profile from "./components/Profile.jsx";
 import ChatWindow from "./components/ChatWindow.jsx";
+import About from "../src/pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
+import Comming from "./pages/Comming.jsx";
 
 import AdminLogin from "./pages/Adminlogin.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
@@ -49,6 +52,21 @@ const App = () => {
         <Route
           path="/"
           element={<Home />}
+        />
+
+        <Route
+          path="/about"
+          element={<About />}
+        />
+
+        <Route
+          path="/contact"
+          element={<Contact />}
+        />
+
+        <Route
+          path="/comming"
+          element={<Comming />}
         />
 
         <Route
