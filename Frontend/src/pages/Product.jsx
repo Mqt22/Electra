@@ -217,6 +217,22 @@ const Product = () => {
     setActiveImage(0);
   }, [product?.id]);
 
+  // Keep quantity within the available stock
+  useEffect(() => {
+    const availableStock = Number(product?.stock ?? 0);
+
+    setQuantity((currentQuantity) => {
+      if (availableStock <= 0) {
+        return 1;
+      }
+
+      return Math.min(
+        Math.max(currentQuantity, 1),
+        availableStock
+      );
+    });
+  }, [product?.id, product?.stock]);
+
   // =========================
   // Reviews
   // =========================
@@ -313,6 +329,21 @@ const Product = () => {
       return;
     }
 
+    if (!product) {
+      return;
+    }
+
+    if (stockValue <= 0) {
+      alert("This product is out of stock.");
+      return;
+    }
+
+    if (quantity > stockValue) {
+      alert(`Only ${stockValue} item(s) are available.`);
+      setQuantity(stockValue);
+      return;
+    }
+
     try {
       const response = await fetch(
         "http://localhost:8000/cart",
@@ -376,6 +407,17 @@ const Product = () => {
     }
 
     if (!product) {
+      return;
+    }
+
+    if (stockValue <= 0) {
+      alert("This product is out of stock.");
+      return;
+    }
+
+    if (quantity > stockValue) {
+      alert(`Only ${stockValue} item(s) are available.`);
+      setQuantity(stockValue);
       return;
     }
 
@@ -520,7 +562,7 @@ const Product = () => {
 
           <div className="mt-8 grid gap-10 lg:grid-cols-2">
 
-            <div className="h-[560px] rounded-2xl bg-gray-200" />
+            <div className="h-140 rounded-2xl bg-gray-200" />
 
             <div>
               <div className="h-5 w-24 rounded bg-gray-200" />
@@ -565,20 +607,11 @@ const Product = () => {
   // Product Information
   // =========================
 
-  const stockValue =
-    product.stock ??
-    product.quantity ??
-    product.inventory;
+  const stockValue = Number(product.stock ?? 0);
 
-  const hasStockInfo =
-    stockValue !== undefined &&
-    stockValue !== null;
+  const hasStockInfo = true;
 
-  const isOutOfStock =
-    product.in_stock === false ||
-    product.available === false ||
-    (hasStockInfo &&
-      Number(stockValue) <= 0);
+  const isOutOfStock = stockValue <= 0;
 
   const brand =
     product.brand ||
@@ -946,23 +979,24 @@ const Product = () => {
                   Quantity
                 </p>
 
-                {hasStockInfo &&
-                  !isOutOfStock && (
-                    <span className="text-xs text-gray-500">
-                      {stockValue} available
-                    </span>
-                  )}
+                {!isOutOfStock && (
+                  <span className="text-xs text-gray-500">
+                    {stockValue} available
+                  </span>
+                )}
 
               </div>
 
               <div className="mt-2 flex w-fit items-center overflow-hidden rounded-xl border border-gray-200">
 
+                {/* Decrease quantity */}
+
                 <button
                   type="button"
-                  disabled={isOutOfStock}
+                  disabled={isOutOfStock || quantity <= 1}
                   onClick={() =>
-                    setQuantity((q) =>
-                      Math.max(1, q - 1)
+                    setQuantity((currentQuantity) =>
+                      Math.max(1, currentQuantity - 1)
                     )
                   }
                   className="flex h-11 w-11 items-center justify-center text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
@@ -970,15 +1004,24 @@ const Product = () => {
                   <Minus size={16} />
                 </button>
 
+                {/* Current quantity */}
+
                 <span className="flex h-11 min-w-12 items-center justify-center border-x border-gray-200 px-4 text-sm font-semibold">
                   {quantity}
                 </span>
 
+                {/* Increase quantity */}
+
                 <button
                   type="button"
-                  disabled={isOutOfStock}
+                  disabled={isOutOfStock || quantity >= stockValue}
                   onClick={() =>
-                    setQuantity((q) => q + 1)
+                    setQuantity((currentQuantity) =>
+                      Math.min(
+                        currentQuantity + 1,
+                        stockValue
+                      )
+                    )
                   }
                   className="flex h-11 w-11 items-center justify-center text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
                 >
@@ -987,8 +1030,13 @@ const Product = () => {
 
               </div>
 
-            </div>
+              {!isOutOfStock && quantity >= stockValue && (
+                <p className="mt-2 text-xs text-orange-600">
+                  You have selected the maximum available quantity.
+                </p>
+              )}
 
+            </div>
             {/* Error */}
 
             {orderError && (

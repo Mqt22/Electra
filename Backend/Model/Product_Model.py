@@ -1,5 +1,7 @@
-from sqlalchemy import JSON, Column, Integer, String, Text,JSON, Float
+
+from sqlalchemy import JSON, Column, Integer, String, Float
 from Database import base
+
 
 class product(base):
     __tablename__ = "products"
@@ -14,5 +16,8 @@ class product(base):
     images = Column(JSON, nullable=False)
     brand = Column(String(255), nullable=False)
     sku = Column(String(255), nullable=False)
-    stock = Column(Integer, nullable=False)
+
+    # Current stock quantity
+    stock = Column(Integer, nullable=False, default=0)
+
     specifications = Column(JSON, nullable=False)

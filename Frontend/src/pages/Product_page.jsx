@@ -7,15 +7,19 @@ import {
   Package,
   Star,
   Plus,
+  Image as ImageIcon,
 } from "lucide-react";
 
 import Product_bar from "../components/Product_bar.jsx";
 import { useSearchParams } from "react-router-dom";
 
+const MAX_IMAGE_SIZE = 100 * 1024; // 100 KB
+
 const Product_Page = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const highlightId = searchParams.get("highlight");
+
   const [highlightedProduct, setHighlightedProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -27,7 +31,6 @@ const Product_Page = () => {
   const [showAddPopup, setShowAddPopup] = useState(false);
 
   const [editingProduct, setEditingProduct] = useState(null);
-
   const [saving, setSaving] = useState(false);
 
   const [newProduct, setNewProduct] = useState({
@@ -36,13 +39,15 @@ const Product_Page = () => {
     price: "",
     rating: 0,
     description: "",
-    image_url: "",
-    images: [],
     brand: "",
     sku: "",
     stock: 0,
-    specifications: {},
+    mainImage: null,
+    childImages: [],
   });
+
+  const [mainImagePreview, setMainImagePreview] = useState("");
+  const [childImagePreviews, setChildImagePreviews] = useState([]);
 
   // =====================================================
   // FETCH PRODUCTS
@@ -63,12 +68,9 @@ const Product_Page = () => {
 
       const data = await response.json();
 
-      setProducts(
-        Array.isArray(data) ? data : []
-      );
+      setProducts(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Fetch products error:", err);
-
       setError("Failed to load products.");
     } finally {
       setLoading(false);
@@ -91,14 +93,9 @@ const Product_Page = () => {
 
       const data = await response.json();
 
-      setCategories(
-        Array.isArray(data) ? data : []
-      );
+      setCategories(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error(
-        "Fetch categories error:",
-        err
-      );
+      console.error("Fetch categories error:", err);
     }
   };
 
@@ -106,6 +103,10 @@ const Product_Page = () => {
     fetchProducts();
     fetchCategories();
   }, []);
+
+  // =====================================================
+  // HIGHLIGHT PRODUCT
+  // =====================================================
 
   useEffect(() => {
     if (!highlightId || products.length === 0) {
@@ -116,8 +117,8 @@ const Product_Page = () => {
       (product) =>
         String(
           product.Product_ID ??
-          product.product_id ??
-          product.id
+            product.product_id ??
+            product.id
         ) === String(highlightId)
     );
 
@@ -127,7 +128,6 @@ const Product_Page = () => {
 
     setHighlightedProduct(Number(highlightId));
 
-    // Wait for DOM rendering
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const element = document.getElementById(
@@ -149,11 +149,7 @@ const Product_Page = () => {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [
-    highlightId,
-    products,
-    setSearchParams,
-  ]);
+  }, [highlightId, products, setSearchParams]);
 
   // =====================================================
   // OPEN EDIT POPUP
@@ -167,6 +163,7 @@ const Product_Page = () => {
       price: product.price ?? "",
       rating: product.rating ?? "",
       description: product.description || "",
+      stock: product.stock ?? 0,
     });
 
     setShowEditPopup(true);
@@ -184,6 +181,28 @@ const Product_Page = () => {
   };
 
   // =====================================================
+  // RESET NEW PRODUCT FORM
+  // =====================================================
+
+  const resetNewProduct = () => {
+    setNewProduct({
+      category: "",
+      title: "",
+      price: "",
+      rating: 0,
+      description: "",
+      brand: "",
+      sku: "",
+      stock: 0,
+      mainImage: null,
+      childImages: [],
+    });
+
+    setMainImagePreview("");
+    setChildImagePreviews([]);
+  };
+
+  // =====================================================
   // CLOSE ADD POPUP
   // =====================================================
 
@@ -191,20 +210,7 @@ const Product_Page = () => {
     if (saving) return;
 
     setShowAddPopup(false);
-
-    setNewProduct({
-      category: "",
-      title: "",
-      price: "",
-      rating: 0,
-      description: "",
-      image_url: "",
-      images: [],
-      brand: "",
-      sku: "",
-      stock: 0,
-      specifications: {},
-    });
+    resetNewProduct();
   };
 
   // =====================================================
@@ -234,40 +240,174 @@ const Product_Page = () => {
   };
 
   // =====================================================
+  // VALIDATE IMAGE
+  // =====================================================
+
+  const validateImage = (file) => {
+    if (!file) {
+      return "Please select an image.";
+    }
+
+    if (!file.type.startsWith("image/")) {
+      return `${file.name} is not a valid image file.`;
+    }
+
+    if (file.size > MAX_IMAGE_SIZE) {
+      return `${file.name} is larger than 100 KB. Please choose an image of 100 KB or less.`;
+    }
+
+    return null;
+  };
+
+  // =====================================================
+  // MAIN IMAGE CHANGE
+  // =====================================================
+
+  const handleMainImageChange = (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    const validationError = validateImage(file);
+
+    if (validationError) {
+      setError(validationError);
+      e.target.value = "";
+      return;
+    }
+
+    setError("");
+
+    setNewProduct((prev) => ({
+      ...prev,
+      mainImage: file,
+    }));
+
+    const previewUrl = URL.createObjectURL(file);
+    setMainImagePreview(previewUrl);
+  };
+
+  // =====================================================
+  // CHILD IMAGES CHANGE
+  // =====================================================
+
+  const handleChildImagesChange = (e) => {
+    const selectedFiles = Array.from(e.target.files || []);
+
+    if (selectedFiles.length === 0) {
+      return;
+    }
+
+    for (const file of selectedFiles) {
+      const validationError = validateImage(file);
+
+      if (validationError) {
+        setError(validationError);
+        e.target.value = "";
+        return;
+      }
+    }
+
+    setError("");
+
+    setNewProduct((prev) => ({
+      ...prev,
+      childImages: [
+        ...prev.childImages,
+        ...selectedFiles,
+      ],
+    }));
+
+    const previewUrls = selectedFiles.map((file) =>
+      URL.createObjectURL(file)
+    );
+
+    setChildImagePreviews((prev) => [
+      ...prev,
+      ...previewUrls,
+    ]);
+
+    e.target.value = "";
+  };
+
+  // =====================================================
+  // REMOVE CHILD IMAGE
+  // =====================================================
+
+  const removeChildImage = (index) => {
+    setNewProduct((prev) => ({
+      ...prev,
+      childImages: prev.childImages.filter(
+        (_, imageIndex) => imageIndex !== index
+      ),
+    }));
+
+    setChildImagePreviews((prev) =>
+      prev.filter((_, imageIndex) => imageIndex !== index)
+    );
+  };
+
+  // =====================================================
   // CREATE PRODUCT
   // =====================================================
 
   const handleCreateProduct = async (e) => {
     e.preventDefault();
 
+    if (!newProduct.mainImage) {
+      setError("Please select a main product image.");
+      return;
+    }
+
+    if (newProduct.childImages.length === 0) {
+      setError("Please select at least one child image.");
+      return;
+    }
+
+    const mainImageError = validateImage(
+      newProduct.mainImage
+    );
+
+    if (mainImageError) {
+      setError(mainImageError);
+      return;
+    }
+
+    for (const image of newProduct.childImages) {
+      const imageError = validateImage(image);
+
+      if (imageError) {
+        setError(imageError);
+        return;
+      }
+    }
+
     try {
       setSaving(true);
       setError("");
+
+      const formData = new FormData();
+
+      formData.append("category", newProduct.category);
+      formData.append("title", newProduct.title);
+      formData.append("price", String(Number(newProduct.price)));
+      formData.append("rating", String(Number(newProduct.rating)));
+      formData.append("description", newProduct.description);
+      formData.append("brand", newProduct.brand);
+      formData.append("sku", newProduct.sku);
+      formData.append("stock", String(Number(newProduct.stock)));
+
+      formData.append("main_image", newProduct.mainImage);
+
+      newProduct.childImages.forEach((image) => {
+        formData.append("child_images", image);
+      });
 
       const response = await fetch(
         "http://localhost:8000/products",
         {
           method: "POST",
-
-          headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify({
-            category: newProduct.category,
-            title: newProduct.title,
-            price: Number(newProduct.price),
-            rating: Number(newProduct.rating),
-            description: newProduct.description,
-            image_url: newProduct.image_url,
-            images: newProduct.image_url
-              ? [newProduct.image_url]
-              : [],
-            brand: newProduct.brand,
-            sku: newProduct.sku,
-            stock: Number(newProduct.stock),
-            specifications: {},
-          }),
+          body: formData,
         }
       );
 
@@ -275,24 +415,17 @@ const Product_Page = () => {
 
       if (!response.ok) {
         throw new Error(
-          data.detail ||
-          "Failed to create product"
+          data.detail || "Failed to create product"
         );
       }
 
-      // Refresh product table
       await fetchProducts();
-
       closeAddPopup();
     } catch (err) {
-      console.error(
-        "Create product error:",
-        err
-      );
+      console.error("Create product error:", err);
 
       setError(
-        err.message ||
-        "Failed to create product."
+        err.message || "Failed to create product."
       );
     } finally {
       setSaving(false);
@@ -316,38 +449,25 @@ const Product_Page = () => {
         `http://localhost:8000/products/${editingProduct.id}`,
         {
           method: "PUT",
-
           headers: {
-            "Content-Type":
-              "application/json",
+            "Content-Type": "application/json",
           },
-
           body: JSON.stringify({
-            category:
-              editingProduct.category,
-
-            title:
-              editingProduct.title,
-
-            price:
-              Number(editingProduct.price),
-
-            rating:
-              Number(editingProduct.rating),
-
-            description:
-              editingProduct.description,
+            category: editingProduct.category,
+            title: editingProduct.title,
+            price: Number(editingProduct.price),
+            rating: Number(editingProduct.rating),
+            stock: Number(editingProduct.stock),
+            description: editingProduct.description,
           }),
         }
       );
 
-      const data =
-        await response.json();
+      const data = await response.json();
 
       if (!response.ok) {
         throw new Error(
-          data.detail ||
-          "Failed to update product"
+          data.detail || "Failed to update product"
         );
       }
 
@@ -355,36 +475,24 @@ const Product_Page = () => {
         prevProducts.map((product) =>
           product.id === editingProduct.id
             ? {
-              ...product,
-              category:
-                editingProduct.category,
-              title:
-                editingProduct.title,
-              price:
-                Number(
-                  editingProduct.price
-                ),
-              rating:
-                Number(
-                  editingProduct.rating
-                ),
-              description:
-                editingProduct.description,
-            }
+                ...product,
+                category: editingProduct.category,
+                title: editingProduct.title,
+                price: Number(editingProduct.price),
+                rating: Number(editingProduct.rating),
+                stock: Number(editingProduct.stock),
+                description: editingProduct.description,
+              }
             : product
         )
       );
 
       closeEditPopup();
     } catch (err) {
-      console.error(
-        "Update product error:",
-        err
-      );
+      console.error("Update product error:", err);
 
       setError(
-        err.message ||
-        "Failed to update product."
+        err.message || "Failed to update product."
       );
     } finally {
       setSaving(false);
@@ -412,31 +520,24 @@ const Product_Page = () => {
         }
       );
 
-      const data =
-        await response.json();
+      const data = await response.json();
 
       if (!response.ok) {
         throw new Error(
-          data.detail ||
-          "Failed to delete product"
+          data.detail || "Failed to delete product"
         );
       }
 
       setProducts((prevProducts) =>
         prevProducts.filter(
-          (product) =>
-            product.id !== productId
+          (product) => product.id !== productId
         )
       );
     } catch (err) {
-      console.error(
-        "Delete product error:",
-        err
-      );
+      console.error("Delete product error:", err);
 
       setError(
-        err.message ||
-        "Failed to delete product."
+        err.message || "Failed to delete product."
       );
     }
   };
@@ -466,11 +567,9 @@ const Product_Page = () => {
   return (
     <>
       <div className="mt-10 p-4 sm:p-6 lg:p-8">
-
         {/* HEADER */}
 
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
           <div>
             <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
               Products
@@ -482,7 +581,6 @@ const Product_Page = () => {
           </div>
 
           <div className="flex items-center gap-3">
-
             <div className="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2">
               <Package
                 size={18}
@@ -496,17 +594,13 @@ const Product_Page = () => {
 
             <button
               type="button"
-              onClick={() =>
-                setShowAddPopup(true)
-              }
+              onClick={() => setShowAddPopup(true)}
               className="flex items-center gap-2 rounded-lg bg-[#255DD0] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
             >
               <Plus size={18} />
               Add Product
             </button>
-
           </div>
-
         </div>
 
         {/* ERROR */}
@@ -520,14 +614,10 @@ const Product_Page = () => {
         {/* TABLE */}
 
         <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-
           <div className="overflow-x-auto">
-
-            <table className="min-w-275 w-full">
-
+            <table className="min-w-[1100px] w-full">
               <thead>
                 <tr className="border-b border-slate-100">
-
                   <th className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                     Product ID
                   </th>
@@ -549,22 +639,24 @@ const Product_Page = () => {
                   </th>
 
                   <th className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    Stock
+                  </th>
+
+                  <th className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                     Description
                   </th>
 
                   <th className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                     Action
                   </th>
-
                 </tr>
               </thead>
 
               <tbody>
-
                 {products.length === 0 ? (
                   <tr>
                     <td
-                      colSpan="7"
+                      colSpan="8"
                       className="px-5 py-16 text-center"
                     >
                       <Package
@@ -583,19 +675,16 @@ const Product_Page = () => {
                       key={product.id}
                       id={`product-${product.id}`}
                       className={`
-                        border-b
-                      border-gray-100
+                        border-b border-gray-100
                         last:border-b-0
-                        transition-all
-                        duration-500
-                        ease-in-out
-                        ${highlightedProduct === product.id
-                          ? "bg-blue-100 ring-2 ring-blue-500 ring-inset"
-                          : "hover:bg-gray-50"
+                        transition-all duration-500 ease-in-out
+                        ${
+                          highlightedProduct === product.id
+                            ? "bg-blue-100 ring-2 ring-blue-500 ring-inset"
+                            : "hover:bg-gray-50"
                         }
                       `}
                     >
-
                       {/* ID */}
 
                       <td className="px-5 py-4 text-sm font-semibold text-gray-900">
@@ -634,7 +723,6 @@ const Product_Page = () => {
 
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-1">
-
                           <Star
                             size={15}
                             className="fill-yellow-400 text-yellow-400"
@@ -645,38 +733,46 @@ const Product_Page = () => {
                               product.rating || 0
                             ).toFixed(1)}
                           </span>
-
                         </div>
+                      </td>
+
+                      {/* STOCK */}
+
+                      <td className="px-5 py-4">
+                        <span
+                          className={`
+                            inline-flex rounded-full px-3 py-1 text-xs font-semibold
+                            ${
+                              product.stock > 0
+                                ? "bg-green-50 text-green-600"
+                                : "bg-red-50 text-red-600"
+                            }
+                          `}
+                        >
+                          {product.stock > 0
+                            ? `${product.stock} Available`
+                            : "Out of Stock"}
+                        </span>
                       </td>
 
                       {/* DESCRIPTION */}
 
                       <td className="max-w-[300px] px-5 py-4">
-
                         <div
                           className="truncate text-sm text-gray-600"
-                          title={
-                            product.description
-                          }
+                          title={product.description}
                         >
                           {product.description}
                         </div>
-
                       </td>
 
                       {/* ACTION */}
 
                       <td className="px-5 py-4">
-
                         <div className="flex items-center gap-2">
-
                           <button
                             type="button"
-                            onClick={() =>
-                              handleEdit(
-                                product
-                              )
-                            }
+                            onClick={() => handleEdit(product)}
                             title="Edit Product"
                             className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition hover:bg-blue-50 hover:text-[#255DD0]"
                           >
@@ -686,32 +782,22 @@ const Product_Page = () => {
                           <button
                             type="button"
                             onClick={() =>
-                              handleDelete(
-                                product.id
-                              )
+                              handleDelete(product.id)
                             }
                             title="Delete Product"
                             className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition hover:bg-red-50 hover:text-red-500"
                           >
                             <Trash2 size={17} />
                           </button>
-
                         </div>
-
                       </td>
-
                     </tr>
                   ))
                 )}
-
               </tbody>
-
             </table>
-
           </div>
-
         </div>
-
       </div>
 
       {/* =====================================================
@@ -720,9 +806,7 @@ const Product_Page = () => {
 
       {showAddPopup && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
-
           <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
-
             {/* CLOSE */}
 
             <button
@@ -737,7 +821,6 @@ const Product_Page = () => {
             {/* HEADER */}
 
             <div className="mb-6 pr-10">
-
               <h2 className="text-2xl font-bold text-gray-900">
                 Add Product
               </h2>
@@ -745,14 +828,12 @@ const Product_Page = () => {
               <p className="mt-1 text-sm text-gray-500">
                 Add a new product to your store.
               </p>
-
             </div>
 
             <form
               onSubmit={handleCreateProduct}
               className="space-y-5"
             >
-
               {/* CATEGORY */}
 
               <div>
@@ -763,9 +844,7 @@ const Product_Page = () => {
                 <select
                   name="category"
                   value={newProduct.category}
-                  onChange={
-                    handleNewProductChange
-                  }
+                  onChange={handleNewProductChange}
                   required
                   className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#255DD0] focus:ring-2 focus:ring-blue-100"
                 >
@@ -773,23 +852,20 @@ const Product_Page = () => {
                     Select a category
                   </option>
 
-                  {categories.map(
-                    (category) => (
-                      <option
-                        key={category.id}
-                        value={category.name}
-                      >
-                        {category.name}
-                      </option>
-                    )
-                  )}
-
+                  {categories.map((category) => (
+                    <option
+                      key={category.id}
+                      value={category.name}
+                    >
+                      {category.name}
+                    </option>
+                  ))}
                 </select>
 
                 {categories.length === 0 && (
                   <p className="mt-2 text-xs text-red-500">
-                    No categories available.
-                    Create a category first.
+                    No categories available. Create a
+                    category first.
                   </p>
                 )}
               </div>
@@ -805,9 +881,7 @@ const Product_Page = () => {
                   type="text"
                   name="title"
                   value={newProduct.title}
-                  onChange={
-                    handleNewProductChange
-                  }
+                  onChange={handleNewProductChange}
                   placeholder="Enter product title"
                   required
                   className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0] focus:ring-2 focus:ring-blue-100"
@@ -817,7 +891,6 @@ const Product_Page = () => {
               {/* PRICE + STOCK */}
 
               <div className="grid gap-5 sm:grid-cols-2">
-
                 <div>
                   <label className="mb-2 block text-sm font-medium text-gray-700">
                     Price
@@ -827,9 +900,7 @@ const Product_Page = () => {
                     type="number"
                     name="price"
                     value={newProduct.price}
-                    onChange={
-                      handleNewProductChange
-                    }
+                    onChange={handleNewProductChange}
                     min="0"
                     step="0.01"
                     placeholder="0"
@@ -847,16 +918,13 @@ const Product_Page = () => {
                     type="number"
                     name="stock"
                     value={newProduct.stock}
-                    onChange={
-                      handleNewProductChange
-                    }
+                    onChange={handleNewProductChange}
                     min="0"
                     placeholder="0"
                     required
                     className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0] focus:ring-2 focus:ring-blue-100"
                   />
                 </div>
-
               </div>
 
               {/* RATING */}
@@ -870,9 +938,7 @@ const Product_Page = () => {
                   type="number"
                   name="rating"
                   value={newProduct.rating}
-                  onChange={
-                    handleNewProductChange
-                  }
+                  onChange={handleNewProductChange}
                   min="0"
                   max="5"
                   step="0.1"
@@ -891,9 +957,7 @@ const Product_Page = () => {
                   type="text"
                   name="brand"
                   value={newProduct.brand}
-                  onChange={
-                    handleNewProductChange
-                  }
+                  onChange={handleNewProductChange}
                   placeholder="e.g. Samsung"
                   required
                   className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0] focus:ring-2 focus:ring-blue-100"
@@ -911,35 +975,92 @@ const Product_Page = () => {
                   type="text"
                   name="sku"
                   value={newProduct.sku}
-                  onChange={
-                    handleNewProductChange
-                  }
+                  onChange={handleNewProductChange}
                   placeholder="e.g. SAM-S24-001"
                   required
                   className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0] focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
-              {/* IMAGE */}
+              {/* MAIN IMAGE */}
 
               <div>
                 <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Product Image URL
+                  Main Product Image
                 </label>
 
+                <p className="mb-2 text-xs text-gray-500">
+                  Required. Image must be 100 KB or smaller.
+                </p>
+
                 <input
-                  type="url"
-                  name="image_url"
-                  value={
-                    newProduct.image_url
-                  }
-                  onChange={
-                    handleNewProductChange
-                  }
-                  placeholder="https://example.com/product.jpg"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleMainImageChange}
                   required
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0] focus:ring-2 focus:ring-blue-100"
+                  className="block w-full cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm"
                 />
+
+                {mainImagePreview && (
+                  <div className="mt-3">
+                    <p className="mb-2 text-xs font-medium text-gray-600">
+                      Main image preview
+                    </p>
+
+                    <img
+                      src={mainImagePreview}
+                      alt="Main product preview"
+                      className="h-32 w-32 rounded-xl border border-gray-200 object-cover"
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* CHILD IMAGES */}
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Child/Gallery Images
+                </label>
+
+                <p className="mb-2 text-xs text-gray-500">
+                  Required. Select at least one image. Each
+                  image must be 100 KB or smaller.
+                </p>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleChildImagesChange}
+                  className="block w-full cursor-pointer rounded-xl border border-gray-200 px-4 py-3 text-sm"
+                />
+
+                {childImagePreviews.length > 0 && (
+                  <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    {childImagePreviews.map((preview, index) => (
+                      <div
+                        key={`${preview}-${index}`}
+                        className="relative"
+                      >
+                        <img
+                          src={preview}
+                          alt={`Child product preview ${index + 1}`}
+                          className="h-32 w-full rounded-xl border border-gray-200 object-cover"
+                        />
+
+                        <button
+                          type="button"
+                          onClick={() => removeChildImage(index)}
+                          className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white transition hover:bg-red-600"
+                          title="Remove image"
+                        >
+                          <X size={15} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* DESCRIPTION */}
@@ -951,12 +1072,8 @@ const Product_Page = () => {
 
                 <textarea
                   name="description"
-                  value={
-                    newProduct.description
-                  }
-                  onChange={
-                    handleNewProductChange
-                  }
+                  value={newProduct.description}
+                  onChange={handleNewProductChange}
                   rows={5}
                   placeholder="Enter product description..."
                   required
@@ -967,7 +1084,6 @@ const Product_Page = () => {
               {/* BUTTONS */}
 
               <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-5 sm:flex-row sm:justify-end">
-
                 <button
                   type="button"
                   onClick={closeAddPopup}
@@ -991,13 +1107,9 @@ const Product_Page = () => {
                     </>
                   )}
                 </button>
-
               </div>
-
             </form>
-
           </div>
-
         </div>
       )}
 
@@ -1005,190 +1117,183 @@ const Product_Page = () => {
           EDIT PRODUCT POPUP
       ===================================================== */}
 
-      {showEditPopup &&
-        editingProduct && (
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
+      {showEditPopup && editingProduct && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
+            <button
+              type="button"
+              onClick={closeEditPopup}
+              disabled={saving}
+              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100"
+            >
+              <X size={20} />
+            </button>
 
-            <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
+            <div className="mb-6 pr-10">
+              <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
+                Edit Product
+              </h2>
 
-              <button
-                type="button"
-                onClick={closeEditPopup}
-                disabled={saving}
-                className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="mb-6 pr-10">
-
-                <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
-                  Edit Product
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-500">
-                  Update Product #
-                  {editingProduct.id}
-                </p>
-
-              </div>
-
-              <form
-                onSubmit={handleUpdate}
-                className="space-y-5"
-              >
-
-                {/* CATEGORY */}
-
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Product Category
-                  </label>
-
-                  <select
-                    name="category"
-                    value={
-                      editingProduct.category
-                    }
-                    onChange={handleChange}
-                    required
-                    className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
-                  >
-                    <option value="">
-                      Select category
-                    </option>
-
-                    {categories.map(
-                      (category) => (
-                        <option
-                          key={category.id}
-                          value={category.name}
-                        >
-                          {category.name}
-                        </option>
-                      )
-                    )}
-
-                  </select>
-                </div>
-
-                {/* TITLE */}
-
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Product Title
-                  </label>
-
-                  <input
-                    type="text"
-                    name="title"
-                    value={
-                      editingProduct.title
-                    }
-                    onChange={handleChange}
-                    required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
-                  />
-                </div>
-
-                {/* PRICE */}
-
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Product Price
-                  </label>
-
-                  <input
-                    type="number"
-                    name="price"
-                    value={
-                      editingProduct.price
-                    }
-                    onChange={handleChange}
-                    min="0"
-                    step="0.01"
-                    required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
-                  />
-                </div>
-
-                {/* RATING */}
-
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Product Rating
-                  </label>
-
-                  <input
-                    type="number"
-                    name="rating"
-                    value={
-                      editingProduct.rating
-                    }
-                    onChange={handleChange}
-                    min="0"
-                    max="5"
-                    step="0.1"
-                    required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
-                  />
-                </div>
-
-                {/* DESCRIPTION */}
-
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Product Description
-                  </label>
-
-                  <textarea
-                    name="description"
-                    value={
-                      editingProduct.description
-                    }
-                    onChange={handleChange}
-                    rows={5}
-                    required
-                    className="w-full resize-y rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
-                  />
-                </div>
-
-                {/* BUTTONS */}
-
-                <div className="flex justify-end gap-3 border-t border-gray-100 pt-5">
-
-                  <button
-                    type="button"
-                    onClick={closeEditPopup}
-                    disabled={saving}
-                    className="rounded-xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50"
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="submit"
-                    disabled={saving}
-                    className="flex items-center gap-2 rounded-xl bg-[#255DD0] px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:bg-gray-300"
-                  >
-                    {saving ? (
-                      "Saving..."
-                    ) : (
-                      <>
-                        <Save size={17} />
-                        Save Changes
-                      </>
-                    )}
-                  </button>
-
-                </div>
-
-              </form>
-
+              <p className="mt-1 text-sm text-gray-500">
+                Update Product #{editingProduct.id}
+              </p>
             </div>
 
+            <form
+              onSubmit={handleUpdate}
+              className="space-y-5"
+            >
+              {/* CATEGORY */}
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Product Category
+                </label>
+
+                <select
+                  name="category"
+                  value={editingProduct.category}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
+                >
+                  <option value="">
+                    Select category
+                  </option>
+
+                  {categories.map((category) => (
+                    <option
+                      key={category.id}
+                      value={category.name}
+                    >
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* TITLE */}
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Product Title
+                </label>
+
+                <input
+                  type="text"
+                  name="title"
+                  value={editingProduct.title}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
+                />
+              </div>
+
+              {/* PRICE */}
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Product Price
+                </label>
+
+                <input
+                  type="number"
+                  name="price"
+                  value={editingProduct.price}
+                  onChange={handleChange}
+                  min="0"
+                  step="0.01"
+                  required
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
+                />
+              </div>
+
+              {/* RATING */}
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Product Rating
+                </label>
+
+                <input
+                  type="number"
+                  name="rating"
+                  value={editingProduct.rating}
+                  onChange={handleChange}
+                  min="0"
+                  max="5"
+                  step="0.1"
+                  required
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
+                />
+              </div>
+
+              {/* STOCK */}
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Product Stock
+                </label>
+
+                <input
+                  type="number"
+                  name="stock"
+                  value={editingProduct.stock}
+                  onChange={handleChange}
+                  min="0"
+                  required
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
+                />
+              </div>
+
+              {/* DESCRIPTION */}
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Product Description
+                </label>
+
+                <textarea
+                  name="description"
+                  value={editingProduct.description}
+                  onChange={handleChange}
+                  rows={5}
+                  required
+                  className="w-full resize-y rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#255DD0]"
+                />
+              </div>
+
+              {/* BUTTONS */}
+
+              <div className="flex justify-end gap-3 border-t border-gray-100 pt-5">
+                <button
+                  type="button"
+                  onClick={closeEditPopup}
+                  disabled={saving}
+                  className="rounded-xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="flex items-center gap-2 rounded-xl bg-[#255DD0] px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:bg-gray-300"
+                >
+                  {saving ? (
+                    "Saving..."
+                  ) : (
+                    <>
+                      <Save size={17} />
+                      Save Changes
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
-        )}
+        </div>
+      )}
 
       {/* PRODUCT CHART */}
 

@@ -23,6 +23,25 @@ const Topbar = ({
   const [categories, setCategories] = React.useState([]);
   const [orders, setOrders] = React.useState([]);
 
+  // Notifications
+  const [showNotifications, setShowNotifications] =
+    React.useState(false);
+
+  const [readNotifications, setReadNotifications] =
+    React.useState(() => {
+      try {
+        return (
+          JSON.parse(
+            localStorage.getItem(
+              "electra_read_notifications"
+            )
+          ) || []
+        );
+      } catch {
+        return [];
+      }
+    });
+
   // Search
   const [searchQuery, setSearchQuery] = React.useState("");
   const [showSearchResults, setShowSearchResults] =
@@ -31,6 +50,106 @@ const Topbar = ({
   const searchRef = React.useRef(null);
 
   const navigate = useNavigate();
+
+  /*
+   * ============================
+   * STOCK NOTIFICATIONS
+   * ============================
+   */
+
+  const LOW_STOCK_LIMIT = 10;
+
+  // Stock 1-10
+  const lowStockProducts = React.useMemo(() => {
+    return products.filter((product) => {
+      const stock = Number(product.stock ?? 0);
+
+      return stock > 0 && stock <= LOW_STOCK_LIMIT;
+    });
+  }, [products]);
+
+  // Stock 0
+  const outOfStockProducts = React.useMemo(() => {
+    return products.filter((product) => {
+      const stock = Number(product.stock ?? 0);
+
+      return stock <= 0;
+    });
+  }, [products]);
+
+  // Combine both types
+  const allStockNotifications = React.useMemo(() => {
+    return [
+      ...outOfStockProducts.map((product) => ({
+        ...product,
+        notificationType: "out_of_stock",
+      })),
+
+      ...lowStockProducts.map((product) => ({
+        ...product,
+        notificationType: "low_stock",
+      })),
+    ];
+  }, [lowStockProducts, outOfStockProducts]);
+
+  // Only unread notifications
+  const unreadNotifications = React.useMemo(() => {
+    return allStockNotifications.filter((product) => {
+      const notificationId =
+        `${product.notificationType}-${product.id}`;
+
+      return !readNotifications.includes(notificationId);
+    });
+  }, [
+    allStockNotifications,
+    readNotifications,
+  ]);
+
+  /*
+   * ============================
+   * MARK NOTIFICATION AS READ
+   * ============================
+   */
+
+  const markAsRead = (product) => {
+    const notificationId =
+      `${product.notificationType}-${product.id}`;
+
+    setReadNotifications((prev) => {
+      if (prev.includes(notificationId)) {
+        return prev;
+      }
+
+      const updated = [...prev, notificationId];
+
+      localStorage.setItem(
+        "electra_read_notifications",
+        JSON.stringify(updated)
+      );
+
+      return updated;
+    });
+  };
+
+  /*
+   * ============================
+   * MARK ALL AS READ
+   * ============================
+   */
+
+  const markAllAsRead = () => {
+    const allIds = allStockNotifications.map(
+      (product) =>
+        `${product.notificationType}-${product.id}`
+    );
+
+    setReadNotifications(allIds);
+
+    localStorage.setItem(
+      "electra_read_notifications",
+      JSON.stringify(allIds)
+    );
+  };
 
   /*
    * ============================
@@ -130,24 +249,11 @@ const Topbar = ({
       /*
        * PRODUCTS
        */
+
       if (productsResponse.ok) {
         const productsData =
           await productsResponse.json();
 
-        /*
-         * Handles both:
-         *
-         * [
-         *   {...},
-         *   {...}
-         * ]
-         *
-         * and:
-         *
-         * {
-         *   products: [...]
-         * }
-         */
         setProducts(
           Array.isArray(productsData)
             ? productsData
@@ -158,6 +264,7 @@ const Topbar = ({
       /*
        * CATEGORIES
        */
+
       if (categoriesResponse.ok) {
         const categoriesData =
           await categoriesResponse.json();
@@ -172,6 +279,7 @@ const Topbar = ({
       /*
        * ORDERS
        */
+
       if (ordersResponse.ok) {
         const ordersData =
           await ordersResponse.json();
@@ -255,6 +363,37 @@ const Topbar = ({
 
   /*
    * ============================
+   * CLOSE NOTIFICATIONS WHEN
+   * CLICKING OUTSIDE
+   * ============================
+   */
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        !event.target.closest(
+          ".notification-container"
+        )
+      ) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
+  }, []);
+
+  /*
+   * ============================
    * SIDEBAR
    * ============================
    */
@@ -278,13 +417,14 @@ const Topbar = ({
       return [];
     }
 
-    const query = searchQuery.trim().toLowerCase();
+    const query =
+      searchQuery.trim().toLowerCase();
 
     const results = [];
 
-    // ============================
-    // PRODUCTS
-    // ============================
+    /*
+     * PRODUCTS
+     */
 
     products.forEach((product) => {
       const title =
@@ -310,29 +450,37 @@ const Topbar = ({
         product.id;
 
       if (
-        title.toString().toLowerCase().includes(query) ||
-        category.toString().toLowerCase().includes(query) ||
-        description.toString().toLowerCase().includes(query)
+        title
+          .toString()
+          .toLowerCase()
+          .includes(query) ||
+        category
+          .toString()
+          .toLowerCase()
+          .includes(query) ||
+        description
+          .toString()
+          .toLowerCase()
+          .includes(query)
       ) {
         results.push({
           id: `product-${productId}`,
           type: "Product",
-          title: title || `Product #${productId}`,
+          title:
+            title ||
+            `Product #${productId}`,
           description: category
             ? `Product • ${category}`
             : "Product",
           icon: Package,
-
-          // Highlight the selected product
           path: `/admin/products?highlight=${productId}`,
         });
       }
     });
 
-
-    // ============================
-    // CATEGORIES
-    // ============================
+    /*
+     * CATEGORIES
+     */
 
     categories.forEach((category) => {
       const categoryName =
@@ -358,17 +506,14 @@ const Topbar = ({
           title: categoryName,
           description: "Product Category",
           icon: BiCategory,
-
-          // Highlight the selected category
           path: `/admin/categories?highlight=${categoryId}`,
         });
       }
     });
 
-
-    // ============================
-    // ORDERS
-    // ============================
+    /*
+     * ORDERS
+     */
 
     orders.forEach((order) => {
       const orderId =
@@ -389,10 +534,10 @@ const Topbar = ({
         "";
 
       const searchableText = `
-    ${orderId ?? ""}
-    ${customerName}
-    ${status}
-  `.toLowerCase();
+        ${orderId ?? ""}
+        ${customerName}
+        ${status}
+      `.toLowerCase();
 
       if (searchableText.includes(query)) {
         results.push({
@@ -400,11 +545,11 @@ const Topbar = ({
           type: "Order",
           title: `Order #${orderId}`,
           description: customerName
-            ? `${customerName}${status ? ` • ${status}` : ""}`
+            ? `${customerName}${
+                status ? ` • ${status}` : ""
+              }`
             : status || "Customer Order",
           icon: ShoppingCart,
-
-          // Highlight the selected order
           path: `/admin/orders?highlight=${orderId}`,
         });
       }
@@ -457,9 +602,10 @@ const Topbar = ({
         transition-all
         duration-300
         ease-in-out
-        ${sidebarCollapsed
-          ? "lg:left-20"
-          : "lg:left-64"
+        ${
+          sidebarCollapsed
+            ? "lg:left-20"
+            : "lg:left-64"
         }
       `}
     >
@@ -472,6 +618,7 @@ const Topbar = ({
         <div className="flex items-center gap-3">
 
           {/* Hamburger */}
+
           <button
             onClick={handleMenuClick}
             className="
@@ -558,6 +705,7 @@ const Topbar = ({
             />
 
             {/* Clear */}
+
             {searchQuery && (
               <button
                 onClick={clearSearch}
@@ -594,19 +742,20 @@ const Topbar = ({
                   z-50
                 "
               >
-
                 {searchResults.length > 0 ? (
                   <div className="py-2">
 
-                    <div className="
-                      px-4
-                      py-2
-                      text-xs
-                      font-semibold
-                      text-gray-400
-                      uppercase
-                      tracking-wide
-                    ">
+                    <div
+                      className="
+                        px-4
+                        py-2
+                        text-xs
+                        font-semibold
+                        text-gray-400
+                        uppercase
+                        tracking-wide
+                      "
+                    >
                       Search Results
                     </div>
 
@@ -633,8 +782,6 @@ const Topbar = ({
                             transition
                           "
                         >
-
-                          {/* Icon */}
                           <div
                             className="
                               w-9
@@ -651,56 +798,63 @@ const Topbar = ({
                             <Icon size={18} />
                           </div>
 
-                          {/* Result Information */}
                           <div className="min-w-0 flex-1">
 
-                            <div className="
-                              flex
-                              items-center
-                              justify-between
-                              gap-2
-                            ">
-                              <p className="
-                                text-sm
-                                font-semibold
-                                text-gray-800
-                                truncate
-                              ">
+                            <div
+                              className="
+                                flex
+                                items-center
+                                justify-between
+                                gap-2
+                              "
+                            >
+                              <p
+                                className="
+                                  text-sm
+                                  font-semibold
+                                  text-gray-800
+                                  truncate
+                                "
+                              >
                                 {result.title}
                               </p>
 
-                              <span className="
-                                text-[10px]
-                                font-medium
-                                text-gray-400
-                                shrink-0
-                              ">
+                              <span
+                                className="
+                                  text-[10px]
+                                  font-medium
+                                  text-gray-400
+                                  shrink-0
+                                "
+                              >
                                 {result.type}
                               </span>
                             </div>
 
-                            <p className="
-                              text-xs
-                              text-gray-400
-                              truncate
-                              mt-0.5
-                            ">
+                            <p
+                              className="
+                                text-xs
+                                text-gray-400
+                                truncate
+                                mt-0.5
+                              "
+                            >
                               {result.description}
                             </p>
 
                           </div>
-
                         </button>
                       );
                     })}
-
                   </div>
                 ) : (
-                  <div className="
-                    px-4
-                    py-7
-                    text-center
-                  ">
+                  <div
+                    className="
+                      px-4
+                      py-7
+                      text-center
+                    "
+                  >
                     <Search
                       size={22}
                       className="
@@ -710,24 +864,27 @@ const Topbar = ({
                       "
                     />
 
-                    <p className="
-                      text-sm
-                      font-medium
-                      text-gray-600
-                    ">
+                    <p
+                      className="
+                        text-sm
+                        font-medium
+                        text-gray-600
+                      "
+                    >
                       No results found
                     </p>
 
-                    <p className="
-                      text-xs
-                      text-gray-400
-                      mt-1
-                    ">
+                    <p
+                      className="
+                        text-xs
+                        text-gray-400
+                        mt-1
+                      "
+                    >
                       Try another search
                     </p>
                   </div>
                 )}
-
               </div>
             )}
           </div>
@@ -740,6 +897,7 @@ const Topbar = ({
         <div className="flex items-center gap-2 sm:gap-4">
 
           {/* Mobile Search */}
+
           <button
             className="
               sm:hidden
@@ -755,6 +913,7 @@ const Topbar = ({
           </button>
 
           {/* Go Back */}
+
           <button
             className="
               hidden
@@ -775,45 +934,393 @@ const Topbar = ({
             </Link>
           </button>
 
-          {/* Notifications */}
-          <button
-            className="
-              relative
-              p-2
-              rounded-lg
-              text-gray-600
-              hover:bg-blue-50
-              hover:text-[#2563eb]
-              transition
-            "
-          >
-            <Bell size={21} />
+          {/* ========================= */}
+          {/* NOTIFICATIONS */}
+          {/* ========================= */}
 
-            <span
+          <div className="notification-container relative">
+
+            <button
+              onClick={() =>
+                setShowNotifications(
+                  (prev) => !prev
+                )
+              }
               className="
-                absolute
-                top-1
-                right-1
-                w-2
-                h-2
-                rounded-full
-                bg-[#2563eb]
-                border-2
-                border-white
+                relative
+                p-2
+                rounded-lg
+                text-gray-600
+                hover:bg-blue-50
+                hover:text-[#2563eb]
+                transition
               "
-            ></span>
-          </button>
+            >
+              <Bell size={21} />
+
+              {/* Unread Badge */}
+
+              {unreadNotifications.length > 0 && (
+                <span
+                  className="
+                    absolute
+                    -top-0.5
+                    -right-0.5
+                    min-w-5
+                    h-5
+                    px-1
+                    rounded-full
+                    bg-red-500
+                    text-white
+                    text-[10px]
+                    font-bold
+                    flex
+                    items-center
+                    justify-center
+                    border-2
+                    border-white
+                  "
+                >
+                  {unreadNotifications.length > 99
+                    ? "99+"
+                    : unreadNotifications.length}
+                </span>
+              )}
+            </button>
+
+            {/* ========================= */}
+            {/* NOTIFICATION DROPDOWN */}
+            {/* ========================= */}
+
+            {showNotifications && (
+              <div
+                className="
+                  absolute
+                  right-0
+                  top-12
+                  w-96
+                  max-w-[calc(100vw-2rem)]
+                  rounded-xl
+                  border
+                  border-gray-200
+                  bg-white
+                  shadow-xl
+                  overflow-hidden
+                  z-50
+                "
+              >
+
+                {/* Header */}
+
+                <div
+                  className="
+                    flex
+                    items-center
+                    justify-between
+                    border-b
+                    border-gray-100
+                    px-4
+                    py-3
+                  "
+                >
+                  <div>
+                    <p
+                      className="
+                        text-sm
+                        font-semibold
+                        text-gray-800
+                      "
+                    >
+                      Notifications
+                    </p>
+
+                    <p
+                      className="
+                        mt-0.5
+                        text-xs
+                        text-gray-400
+                      "
+                    >
+                      {unreadNotifications.length > 0
+                        ? `${unreadNotifications.length} unread`
+                        : "All notifications are read"}
+                    </p>
+                  </div>
+
+                  {unreadNotifications.length > 0 && (
+                    <button
+                      onClick={markAllAsRead}
+                      className="
+                        text-xs
+                        font-semibold
+                        text-[#2563eb]
+                        hover:text-blue-700
+                        transition
+                      "
+                    >
+                      Mark all as read
+                    </button>
+                  )}
+                </div>
+
+                {/* ========================= */}
+                {/* NOTIFICATION LIST */}
+                {/* ========================= */}
+
+                {allStockNotifications.length > 0 ? (
+                  <div className="max-h-96 overflow-y-auto">
+
+                    {allStockNotifications.map(
+                      (product) => {
+                        const stock = Number(
+                          product.stock ?? 0
+                        );
+
+                        const notificationId =
+                          `${product.notificationType}-${product.id}`;
+
+                        const isRead =
+                          readNotifications.includes(
+                            notificationId
+                          );
+
+                        const isOutOfStock =
+                          stock <= 0;
+
+                        return (
+                          <div
+                            key={notificationId}
+                            className={`
+                              border-b
+                              border-gray-50
+                              px-4
+                              py-3
+                              transition
+                              ${
+                                isRead
+                                  ? "bg-white opacity-60"
+                                  : "bg-red-50/20"
+                              }
+                            `}
+                          >
+                            <div
+                              className="
+                                flex
+                                items-center
+                                gap-3
+                              "
+                            >
+
+                              {/* Product Image */}
+
+                              <button
+                                onClick={() => {
+                                  setShowNotifications(
+                                    false
+                                  );
+
+                                  navigate(
+                                    `/admin/products?highlight=${product.id}`
+                                  );
+                                }}
+                                className="
+                                  h-11
+                                  w-11
+                                  shrink-0
+                                  overflow-hidden
+                                  rounded-lg
+                                  bg-gray-100
+                                "
+                              >
+                                {product.image_url ? (
+                                  <img
+                                    src={
+                                      product.image_url
+                                    }
+                                    alt={
+                                      product.title
+                                    }
+                                    className="
+                                      h-full
+                                      w-full
+                                      object-cover
+                                    "
+                                  />
+                                ) : (
+                                  <Package
+                                    size={19}
+                                    className="
+                                      mx-auto
+                                      mt-3
+                                      text-gray-400
+                                    "
+                                  />
+                                )}
+                              </button>
+
+                              {/* Product Information */}
+
+                              <div
+                                className="
+                                  min-w-0
+                                  flex-1
+                                "
+                              >
+                                <button
+                                  onClick={() => {
+                                    setShowNotifications(
+                                      false
+                                    );
+
+                                    navigate(
+                                      `/admin/products?highlight=${product.id}`
+                                    );
+                                  }}
+                                  className="
+                                    block
+                                    max-w-full
+                                    text-left
+                                  "
+                                >
+                                  <p
+                                    className="
+                                      truncate
+                                      text-sm
+                                      font-semibold
+                                      text-gray-800
+                                      hover:text-[#2563eb]
+                                    "
+                                  >
+                                    {product.title}
+                                  </p>
+                                </button>
+
+                                {isOutOfStock ? (
+                                  <p
+                                    className="
+                                      mt-0.5
+                                      text-xs
+                                      font-semibold
+                                      text-red-600
+                                    "
+                                  >
+                                    Out of stock
+                                  </p>
+                                ) : (
+                                  <p
+                                    className="
+                                      mt-0.5
+                                      text-xs
+                                      font-semibold
+                                      text-orange-500
+                                    "
+                                  >
+                                    Only {stock} left
+                                    in stock
+                                  </p>
+                                )}
+                              </div>
+
+                              {/* Mark as Read */}
+
+                              {!isRead ? (
+                                <button
+                                  onClick={() =>
+                                    markAsRead(
+                                      product
+                                    )
+                                  }
+                                  className="
+                                    shrink-0
+                                    rounded-lg
+                                    px-2.5
+                                    py-1.5
+                                    text-[11px]
+                                    font-semibold
+                                    text-gray-500
+                                    hover:bg-gray-100
+                                    hover:text-gray-700
+                                    transition
+                                  "
+                                >
+                                  Mark as read
+                                </button>
+                              ) : (
+                                <span
+                                  className="
+                                    shrink-0
+                                    text-[11px]
+                                    font-medium
+                                    text-gray-400
+                                  "
+                                >
+                                  Read
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
+                ) : (
+                  <div
+                    className="
+                      px-4
+                      py-10
+                      text-center
+                    "
+                  >
+                    <Bell
+                      size={25}
+                      className="
+                        mx-auto
+                        mb-2
+                        text-gray-300
+                      "
+                    />
+
+                    <p
+                      className="
+                        text-sm
+                        font-medium
+                        text-gray-600
+                      "
+                    >
+                      No stock alerts
+                    </p>
+
+                    <p
+                      className="
+                        mt-1
+                        text-xs
+                        text-gray-400
+                      "
+                    >
+                      Your products have enough stock.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
 
           {/* Divider */}
-          <div className="
-            hidden
-            sm:block
-            h-8
-            w-px
-            bg-gray-200
-          "></div>
 
-          {/* Profile */}
+          <div
+            className="
+              hidden
+              sm:block
+              h-8
+              w-px
+              bg-gray-200
+            "
+          ></div>
+
+          {/* ========================= */}
+          {/* PROFILE */}
+          {/* ========================= */}
+
           <button
             className="
               flex
@@ -829,6 +1336,7 @@ const Topbar = ({
           >
 
             {/* Profile Picture */}
+
             <div
               className="
                 w-9
@@ -846,7 +1354,9 @@ const Topbar = ({
               {admin?.picture ? (
                 <img
                   src={admin.picture}
-                  alt={admin.name || "Admin"}
+                  alt={
+                    admin.name || "Admin"
+                  }
                   className="
                     h-full
                     w-full
@@ -862,29 +1372,35 @@ const Topbar = ({
             </div>
 
             {/* Profile Name */}
-            <div className="
-              hidden
-              md:block
-              text-left
-            ">
-              <p className="
-                text-sm
-                font-medium
-                text-gray-800
-              ">
+
+            <div
+              className="
+                hidden
+                md:block
+                text-left
+              "
+            >
+              <p
+                className="
+                  text-sm
+                  font-medium
+                  text-gray-800
+                "
+              >
                 {admin?.name || "Admin"}
               </p>
 
-              <p className="
-                text-xs
-                text-gray-400
-              ">
+              <p
+                className="
+                  text-xs
+                  text-gray-400
+                "
+              >
                 Administrator
               </p>
             </div>
 
           </button>
-
         </div>
       </div>
     </header>

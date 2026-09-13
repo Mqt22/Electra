@@ -42,7 +42,7 @@ const Cart = () => {
     (total, item) =>
       total +
       Number(item.price || 0) *
-        Number(item.quantity || 0),
+      Number(item.quantity || 0),
     0
   );
 
@@ -100,48 +100,58 @@ const Cart = () => {
     setError("");
   };
 
-  const updateQuantity = async (
-    cartId,
-    newQuantity
-  ) => {
-    if (newQuantity < 1) return;
+  const updateQuantity = async (cartId, newQuantity, availableStock) => {
+    const stock = Number(availableStock ?? 0);
+    const quantity = Number(newQuantity);
+
+    if (quantity < 1) return;
+
+    if (stock <= 0) {
+      setError("This product is currently out of stock.");
+      return;
+    }
+
+    if (quantity > stock) {
+      setError(`Only ${stock} item${stock === 1 ? "" : "s"} available in stock.`);
+      return;
+    }
 
     try {
       if (!userId) {
-        setError(
-          "Please login to update your cart."
-        );
+        setError("Please login to update your cart.");
         return;
       }
 
       const response = await fetch(
-        `http://localhost:8000/cart/${cartId}?user_id=${userId}&quantity=${newQuantity}`,
+        `http://localhost:8000/cart/${cartId}?user_id=${userId}&quantity=${quantity}`,
         {
           method: "PATCH",
         }
       );
 
       if (!response.ok) {
-        throw new Error(
-          "Failed to update quantity"
-        );
+        const responseError = await response.text();
+
+        console.error("Quantity update error:", responseError);
+
+        throw new Error("Failed to update quantity");
       }
 
       setCart((prev) =>
         prev.map((item) =>
           item.cart_id === cartId
             ? {
-                ...item,
-                quantity: newQuantity,
-              }
+              ...item,
+              quantity,
+            }
             : item
         )
       );
+
+      setError("");
     } catch (err) {
       console.error(err);
-      setError(
-        "Unable to update quantity."
-      );
+      setError("Unable to update quantity.");
     }
   };
 
@@ -210,14 +220,7 @@ const Cart = () => {
       );
       return;
     }
-
-    if (selectedCartItems.length !== 1) {
-      setError(
-        "Please select exactly one product to continue checkout."
-      );
-      return;
-    }
-
+    
     if (!shippingData.phone.trim()) {
       setError(
         "Please enter your phone number."
@@ -401,14 +404,12 @@ const Cart = () => {
 
         `Order ID: #${newOrderId}\n\n` +
 
-        `👤 Customer: ${
-          user?.name ||
-          user?.username ||
-          "Customer"
+        `👤 Customer: ${user?.name ||
+        user?.username ||
+        "Customer"
         }\n` +
 
-        `📧 Email: ${
-          user?.email || "N/A"
+        `📧 Email: ${user?.email || "N/A"
         }\n\n` +
 
         `📦 PRODUCTS\n\n` +
@@ -416,10 +417,9 @@ const Cart = () => {
 
         `💰 Subtotal: Rs.${selectedTotal.toLocaleString()}\n` +
 
-        `🚚 Delivery: ${
-          deliveryCharge === 0
-            ? "FREE"
-            : `Rs.${deliveryCharge.toLocaleString()}`
+        `🚚 Delivery: ${deliveryCharge === 0
+          ? "FREE"
+          : `Rs.${deliveryCharge.toLocaleString()}`
         }\n` +
 
         `💵 Total: Rs.${grandTotal.toLocaleString()}\n\n` +
@@ -428,25 +428,20 @@ const Cart = () => {
         `📍 SHIPPING INFORMATION\n` +
         `━━━━━━━━━━━━━━━━━━\n\n` +
 
-        `📱 Phone: ${
-          shippingData.phone.trim()
+        `📱 Phone: ${shippingData.phone.trim()
         }\n` +
 
-        `🏠 Address: ${
-          shippingData.address.trim()
+        `🏠 Address: ${shippingData.address.trim()
         }\n` +
 
-        `🏙️ City: ${
-          shippingData.city.trim()
+        `🏙️ City: ${shippingData.city.trim()
         }\n` +
 
-        `📮 Postal Code: ${
-          shippingData.postal_code.trim() ||
-          "N/A"
+        `📮 Postal Code: ${shippingData.postal_code.trim() ||
+        "N/A"
         }\n` +
 
-        `🌍 Country: ${
-          shippingData.country.trim()
+        `🌍 Country: ${shippingData.country.trim()
         }\n\n` +
 
         `Please process this order.`;
@@ -525,7 +520,7 @@ const Cart = () => {
 
       setError(
         err.message ||
-          "Something went wrong while placing your order."
+        "Something went wrong while placing your order."
       );
     } finally {
       setCheckoutLoading(false);
@@ -610,7 +605,7 @@ const Cart = () => {
                       checked={
                         cart.length > 0 &&
                         selectedItems.length ===
-                          cart.length
+                        cart.length
                       }
                       onChange={toggleAll}
                       className="h-5 w-5 accent-[#255DD0]"
@@ -638,6 +633,8 @@ const Cart = () => {
 
                   {cart.map((item) => {
 
+                    console.log("Cart Item:", item);
+
                     const isSelected =
                       selectedItems.includes(
                         item.cart_id
@@ -650,11 +647,10 @@ const Cart = () => {
                     return (
                       <div
                         key={item.cart_id}
-                        className={`rounded-2xl border bg-white p-4 shadow-sm transition sm:p-5 ${
-                          isSelected
-                            ? "border-[#255DD0] ring-2 ring-[#255DD0]/10"
-                            : "border-gray-100"
-                        }`}
+                        className={`rounded-2xl border bg-white p-4 shadow-sm transition sm:p-5 ${isSelected
+                          ? "border-[#255DD0] ring-2 ring-[#255DD0]/10"
+                          : "border-gray-100"
+                          }`}
                       >
 
                         <div className="flex gap-4">
@@ -707,53 +703,53 @@ const Cart = () => {
                             </p>
 
                             <div className="mt-4 flex flex-wrap items-center gap-4">
+                              <div>
+                                <div className="flex items-center overflow-hidden rounded-lg border border-gray-200">
+                                  <button
+                                    onClick={() =>
+                                      updateQuantity(
+                                        item.cart_id,
+                                        Number(item.quantity) - 1,
+                                        item.stock
+                                      )
+                                    }
+                                    disabled={Number(item.quantity) <= 1}
+                                    className="px-3 py-2 text-gray-600 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+                                  >
+                                    -
+                                  </button>
 
-                              <div className="flex items-center overflow-hidden rounded-lg border border-gray-200">
+                                  <span className="min-w-10 text-center text-sm font-semibold text-gray-800">
+                                    {item.quantity}
+                                  </span>
 
-                                <button
-                                  onClick={() =>
-                                    updateQuantity(
-                                      item.cart_id,
-                                      Number(
-                                        item.quantity
-                                      ) - 1
-                                    )
-                                  }
-                                  disabled={
-                                    Number(
-                                      item.quantity
-                                    ) <= 1
-                                  }
-                                  className="px-3 py-2 text-gray-600 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
-                                >
-                                  -
-                                </button>
+                                  <button
+                                    onClick={() =>
+                                      updateQuantity(
+                                        item.cart_id,
+                                        Number(item.quantity) + 1,
+                                        item.stock
+                                      )
+                                    }
+                                    disabled={
+                                      Number(item.quantity) >= Number(item.stock ?? 0)
+                                    }
+                                    className="px-3 py-2 text-gray-600 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+                                  >
+                                    +
+                                  </button>
+                                </div>
 
-                                <span className="min-w-10 text-center text-sm font-semibold text-gray-800">
-                                  {item.quantity}
-                                </span>
-
-                                <button
-                                  onClick={() =>
-                                    updateQuantity(
-                                      item.cart_id,
-                                      Number(
-                                        item.quantity
-                                      ) + 1
-                                    )
-                                  }
-                                  className="px-3 py-2 text-gray-600 transition hover:bg-gray-50"
-                                >
-                                  +
-                                </button>
-
+                                <p className="mt-1 text-xs text-gray-500">
+                                  {Number(item.stock ?? 0) > 0
+                                    ? `${item.stock} available`
+                                    : "Out of stock"}
+                                </p>
                               </div>
 
                               <p className="text-sm font-bold text-[#255DD0]">
-                                PKR{" "}
-                                {itemSubtotal.toLocaleString()}
+                                PKR {itemSubtotal.toLocaleString()}
                               </p>
-
                             </div>
 
                           </div>
@@ -766,7 +762,7 @@ const Cart = () => {
 
                 </div>
 
-                {selectedCartItems.length === 1 && (
+                {selectedCartItems.length > 0 && (
                   <div className="mt-6 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6">
 
                     <div className="flex items-start gap-4">
@@ -912,23 +908,6 @@ const Cart = () => {
                   </div>
                 )}
 
-                {selectedCartItems.length > 1 && (
-                  <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5">
-
-                    <p className="text-sm font-semibold text-[#255DD0]">
-                      Please select only one product
-                      at a time for checkout.
-                    </p>
-
-                    <p className="mt-1 text-sm text-blue-700">
-                      Shipping information is currently
-                      collected for a single selected
-                      product.
-                    </p>
-
-                  </div>
-                )}
-
               </section>
 
               <aside className="h-fit">
@@ -1013,7 +992,7 @@ const Cart = () => {
                     onClick={handleCheckout}
                     disabled={
                       checkoutLoading ||
-                      selectedCartItems.length !== 1
+                      selectedCartItems.length === 0
                     }
                     className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-[#255DD0] px-5 py-3.5 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
                   >
@@ -1100,7 +1079,7 @@ const Cart = () => {
 
                   <span className="font-semibold text-gray-900">
                     {successfulOrder.delivery ===
-                    0
+                      0
                       ? "FREE"
                       : `PKR ${successfulOrder.delivery.toLocaleString()}`}
                   </span>

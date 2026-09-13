@@ -100,7 +100,7 @@ const ProductCard = ({ product, highlighted }) => {
         )}
 
         {/* Price + Cart */}
-        <div className="mt-auto flex h-14 items-center justify-between gap-3 pt-4">
+        <div className="mt-auto flex min-h-14 items-center justify-between gap-4 pt-4">
 
           {/* Price */}
           <div className="min-w-0 flex-1">

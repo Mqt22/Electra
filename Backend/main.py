@@ -13,6 +13,7 @@ from Endpoint.Dashboard_endpoint import router as dashboard_router
 from fastapi.middleware.cors import CORSMiddleware
 from Endpoint.Category_endpoint import router as category_router
 from Endpoint.Shipping_endpoint import router as shipping_router
+from Endpoint.Stock_endpoint import router as stock_router
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -40,9 +41,9 @@ app.add_middleware(
 # ---------------------------------------------------------
 
 app.mount(
-    "/profile-images",
-    StaticFiles(directory=PROFILE_IMAGES_DIR),
-    name="profile-images"
+    "/uploads",
+    StaticFiles(directory="uploads"),
+    name="uploads"
 )
 
 app.include_router(products_router)
@@ -58,6 +59,7 @@ app.include_router(order_router)
 app.include_router(dashboard_router)
 app.include_router(category_router)
 app.include_router(shipping_router)
+app.include_router(stock_router)
 
 if __name__ == "__main__":
     uvicorn.run(

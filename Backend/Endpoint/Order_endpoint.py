@@ -9,6 +9,8 @@ import urllib.parse
 from Model import Order_Model
 from Database import get_db
 
+from Model import Product_Model
+
 
 router = APIRouter()
 
@@ -85,6 +87,69 @@ async def create_order(
 ):
     try:
 
+        # -------------------------------------------------
+        # CHECK STOCK FOR ALL PRODUCTS FIRST
+        # -------------------------------------------------
+
+        for product_id, item in order.items.items():
+
+            product = (
+                db.query(Product_Model.product)
+                .filter(
+                    Product_Model.product.id == int(product_id)
+                )
+                .first()
+            )
+
+            if not product:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"Product with ID {product_id} not found."
+                )
+
+            requested_quantity = int(
+                item.get("quantity", 0)
+            )
+
+            if requested_quantity < 1:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Invalid quantity for {product.title}."
+                )
+
+            if product.stock < requested_quantity:
+                raise HTTPException(
+                    status_code=400,
+                    detail=(
+                        f"Not enough stock for {product.title}. "
+                        f"Only {product.stock} available."
+                    )
+                )
+
+        # -------------------------------------------------
+        # REDUCE STOCK
+        # -------------------------------------------------
+
+        for product_id, item in order.items.items():
+
+            product = (
+                db.query(Product_Model.product)
+                .filter(
+                    Product_Model.product.id == int(product_id)
+                )
+                .first()
+            )
+
+            requested_quantity = int(
+                item.get("quantity", 0)
+            )
+
+            product.stock -= requested_quantity
+
+        # -------------------------------------------------
+        # CREATE ORDER
+        # -------------------------------------------------
+
         now = datetime.now().isoformat()
 
         new_order = Order_Model.Order(
@@ -99,11 +164,15 @@ async def create_order(
 
         db.add(new_order)
 
+        # Commit order + stock changes together
         db.commit()
 
         db.refresh(new_order)
 
-        # Generate WhatsApp order link
+        # -------------------------------------------------
+        # WHATSAPP ORDER LINK
+        # -------------------------------------------------
+
         whatsapp_link = get_whatsapp_order_link(
             new_order
         )
@@ -113,6 +182,10 @@ async def create_order(
             "order_id": new_order.id,
             "whatsapp_link": whatsapp_link,
         }
+
+    except HTTPException:
+        db.rollback()
+        raise
 
     except SQLAlchemyError as e:
 
@@ -128,6 +201,19 @@ async def create_order(
             detail="Failed to create order"
         )
 
+    except Exception as e:
+
+        db.rollback()
+
+        print(
+            "Unexpected order creation error:",
+            e
+        )
+
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to create order"
+        )
 
 # =========================================================
 # GET SINGLE ORDER
